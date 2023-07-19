@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomNumber.Homework.Conso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvenOrOdd.Homework.ConsoleApp", "EvenOrOdd.Homework.ConsoleApp\EvenOrOdd.Homework.ConsoleApp.csproj", "{0BD31662-5CDA-455D-9523-F7D92685A0FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.Homework.ConsoleApp", "FizzBuzz.Homework.ConsoleApp\FizzBuzz.Homework.ConsoleApp.csproj", "{4E73B596-73D1-403A-9122-1C459F1F420E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E73B596-73D1-403A-9122-1C459F1F420E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E73B596-73D1-403A-9122-1C459F1F420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E73B596-73D1-403A-9122-1C459F1F420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E73B596-73D1-403A-9122-1C459F1F420E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
