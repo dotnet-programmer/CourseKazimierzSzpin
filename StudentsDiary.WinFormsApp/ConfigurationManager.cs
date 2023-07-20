@@ -1,17 +1,20 @@
-﻿using StudentsDiary.WinFormsApp.Helpers;
+﻿using StudentsDiary.WinFormsApp.FileSerialization;
 using StudentsDiary.WinFormsApp.Models;
 using StudentsDiary.WinFormsApp.Properties;
+//using StudentsDiary.WinFormsApp.Helpers;
 
 namespace StudentsDiary.WinFormsApp;
 
 internal class ConfigurationManager
 {
-	private readonly FileHelper<Configuration> _configFile;
+	//private readonly FileHelper<Configuration> _configFile;
+	private readonly SerializeToFile<Configuration> _configFile;
 	private readonly Form _form;
 
 	public ConfigurationManager(Form form)
 	{
-		_configFile = new(Program.DataFilePath, form.Name);
+		//_configFile = new(Program.DataFilePath, form.Name);
+		_configFile = new SerializeToJson<Configuration>(Program.DataFilePath, form.Name);
 		_form = form;
 	}
 
@@ -23,7 +26,8 @@ internal class ConfigurationManager
 		}
 		else
 		{
-			Configuration config = _configFile.DeserializeFromJSON();
+			//Configuration config = _configFile.DeserializeFromJSON();
+			Configuration config = _configFile.Deserialize();
 			SetWindowState(config.IsMaximized, config.WindowPosition);
 		}
 	}
@@ -42,17 +46,22 @@ internal class ConfigurationManager
 
 	private void SetWindowState(bool isMaximized, Rectangle windowPosition)
 	{
-		_form.WindowState = isMaximized ? FormWindowState.Maximized : FormWindowState.Normal;
-
-		if (Screen.AllScreens.Any(screen => screen.WorkingArea.IntersectsWith(windowPosition)))
+		if (isMaximized)
 		{
-			_form.StartPosition = FormStartPosition.Manual;
-			_form.WindowState = FormWindowState.Normal;
-			_form.DesktopBounds = windowPosition;
+			_form.WindowState = FormWindowState.Maximized;
 		}
 		else
 		{
-			_form.StartPosition = FormStartPosition.CenterScreen;
+			if (Screen.AllScreens.Any(screen => screen.WorkingArea.IntersectsWith(windowPosition)))
+			{
+				_form.StartPosition = FormStartPosition.Manual;
+				_form.WindowState = FormWindowState.Normal;
+				_form.DesktopBounds = windowPosition;
+			}
+			else
+			{
+				_form.StartPosition = FormStartPosition.CenterScreen;
+			}
 		}
 	}
 
@@ -64,7 +73,12 @@ internal class ConfigurationManager
 		Settings.Default.Save();
 	}
 
-	private void SaveWindowStateUsingConfigFile() => _configFile.SerializeToJSON(new Configuration()
+	//private void SaveWindowStateUsingConfigFile() => _configFile.SerializeToJSON(new Configuration()
+	//{
+	//	IsMaximized = _form.WindowState == FormWindowState.Maximized,
+	//	WindowPosition = _form.DesktopBounds
+	//});
+	private void SaveWindowStateUsingConfigFile() => _configFile.Serialize(new Configuration()
 	{
 		IsMaximized = _form.WindowState == FormWindowState.Maximized,
 		WindowPosition = _form.DesktopBounds
