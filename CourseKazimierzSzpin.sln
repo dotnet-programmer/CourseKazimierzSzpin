@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WelcomeApp.Homework.Console
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomNumber.Homework.ConsoleApp", "RandomNumber.Homework.ConsoleApp\RandomNumber.Homework.ConsoleApp.csproj", "{43627555-E534-4B48-A830-AA664ACF81C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvenOrOdd.Homework.ConsoleApp", "EvenOrOdd.Homework.ConsoleApp\EvenOrOdd.Homework.ConsoleApp.csproj", "{0BD31662-5CDA-455D-9523-F7D92685A0FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvenOrOdd.Homework.ConsoleApp", "EvenOrOdd.Homework.ConsoleApp\EvenOrOdd.Homework.ConsoleApp.csproj", "{0BD31662-5CDA-455D-9523-F7D92685A0FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.Homework.ConsoleApp", "FizzBuzz.Homework.ConsoleApp\FizzBuzz.Homework.ConsoleApp.csproj", "{4E73B596-73D1-403A-9122-1C459F1F420E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FizzBuzz.Homework.ConsoleApp", "FizzBuzz.Homework.ConsoleApp\FizzBuzz.Homework.ConsoleApp.csproj", "{4E73B596-73D1-403A-9122-1C459F1F420E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsDiary.WinFormsApp", "StudentsDiary.WinFormsApp\StudentsDiary.WinFormsApp.csproj", "{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4E73B596-73D1-403A-9122-1C459F1F420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E73B596-73D1-403A-9122-1C459F1F420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E73B596-73D1-403A-9122-1C459F1F420E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
