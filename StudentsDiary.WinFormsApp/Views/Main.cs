@@ -20,6 +20,7 @@ public partial class Main : Form
 		FillGroups();
 		RefreshDiary();
 		SetColumnHeaders();
+		HideColumns();
 	}
 
 	private void BtnAdd_Click(object sender, EventArgs e)
@@ -76,8 +77,8 @@ public partial class Main : Form
 		CbGroups.SelectedIndexChanged -= CbGroups_SelectedIndexChanged;
 		CbGroups.DataSource = _groups;
 		CbGroups.SelectedIndexChanged += CbGroups_SelectedIndexChanged;
-		CbGroups.DisplayMember = "Name";
-		CbGroups.ValueMember = "Id";
+		CbGroups.DisplayMember = nameof(Group.Name);
+		CbGroups.ValueMember = nameof(Group.Id);
 	}
 
 	private void RefreshDiary()
@@ -102,6 +103,12 @@ public partial class Main : Form
 		DgvDiary.Columns[nameof(Student.Comments)].HeaderText = "Uwagi";
 		DgvDiary.Columns[nameof(Student.Activities)].HeaderText = "Zaj. dodatkowe";
 		DgvDiary.Columns[nameof(Student.GroupId)].HeaderText = "Grupa";
+	}
+
+	private void HideColumns()
+	{
+		DgvDiary.Columns[nameof(Student.Id)].Visible = false;
+		DgvDiary.Columns[nameof(Student.GroupId)].Visible = false;
 	}
 
 	private void EditStudent()
