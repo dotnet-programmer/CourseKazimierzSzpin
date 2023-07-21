@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvenOrOdd.Homework.ConsoleA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FizzBuzz.Homework.ConsoleApp", "FizzBuzz.Homework.ConsoleApp\FizzBuzz.Homework.ConsoleApp.csproj", "{4E73B596-73D1-403A-9122-1C459F1F420E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsDiary.WinFormsApp", "StudentsDiary.WinFormsApp\StudentsDiary.WinFormsApp.csproj", "{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDiary.WinFormsApp", "StudentsDiary.WinFormsApp\StudentsDiary.WinFormsApp.csproj", "{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureViewer.Homework.WinFormsApp", "PictureViewer.Homework.WinFormsApp\PictureViewer.Homework.WinFormsApp.csproj", "{F149AF7D-5CD2-4F58-94C7-A501DC900E75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F149AF7D-5CD2-4F58-94C7-A501DC900E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F149AF7D-5CD2-4F58-94C7-A501DC900E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F149AF7D-5CD2-4F58-94C7-A501DC900E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F149AF7D-5CD2-4F58-94C7-A501DC900E75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
