@@ -6,7 +6,6 @@ namespace StudentsDiary.WinFormsApp.Forms;
 
 public partial class AddEditStudent : Form
 {
-	//private readonly FileHelper<List<Student>> _dataFile = new(Program.DataFilePath, Program.DataFileName);
 	private readonly SerializeToFile<List<Student>> _dataFile = new SerializeToXml<List<Student>>(Program.DataFilePath, Program.DataFileName);
 	private ConfigurationManager _configurationManager;
 	private List<Group> _groups;
@@ -38,7 +37,6 @@ public partial class AddEditStudent : Form
 			return;
 		}
 
-		//var students = _dataFile.DeserializeFromXML();
 		var students = _dataFile.Deserialize();
 		DeleteEditedStudentFromList(students);
 		AddNewUserToList(students);
@@ -129,6 +127,5 @@ public partial class AddEditStudent : Form
 		static int GetStudentId(List<Student> students) => students.Any() ? students.Max(x => x.Id) + 1 : 1;
 	}
 
-	//private void SaveDiaryToFile(List<Student> students) => _dataFile.SerializeToXML(students);
 	private void SaveDiaryToFile(List<Student> students) => _dataFile.Serialize(students);
 }

@@ -7,12 +7,10 @@ namespace StudentsDiary.WinFormsApp;
 
 public partial class Main : Form
 {
-	//private readonly FileHelper<List<Student>> _dataFile = new(Program.DataFilePath, Program.DataFileName);
 	private readonly SerializeToFile<List<Student>> _dataFile = new SerializeToXml<List<Student>>(Program.DataFilePath, Program.DataFileName);
 	private ConfigurationManager _configurationManager;
 	private List<Student> _students;
 	private List<Group> _groups;
-
 	public Main()
 	{
 		InitializeComponent();
@@ -84,7 +82,6 @@ public partial class Main : Form
 	private void RefreshDiary()
 	{
 		int groupId = (CbGroups.SelectedItem as Group).Id;
-		//_students = groupId != 0 ? _students.Where(x => x.GroupId == groupId).ToList() : _dataFile.DeserializeFromXML();
 		_students = groupId != 0 ? _students.Where(x => x.GroupId == groupId).ToList() : _dataFile.Deserialize();
 		_students.Sort();
 		DgvDiary.DataSource = _students;
@@ -129,7 +126,6 @@ public partial class Main : Form
 		}
 	}
 
-	//private void SaveDiaryToFile() => _dataFile.SerializeToXML(_students);
 	private void SaveDiaryToFile() => _dataFile.Serialize(_students);
 
 	private bool IsRowSelected() => DgvDiary.SelectedRows.Count != 0;
