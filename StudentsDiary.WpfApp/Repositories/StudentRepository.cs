@@ -12,7 +12,7 @@ internal class StudentRepository
 {
 	public List<StudentWrapper> GetStudents(int groupId)
 	{
-		using (var context = new AppDbContext())
+		using (AppDbContext context = new())
 		{
 			var students = context.Students
 				.Include(x => x.Group)
@@ -33,7 +33,7 @@ internal class StudentRepository
 		var student = studentWrapper.ToDao();
 		var ratings = studentWrapper.ToRatingDao();
 
-		using (var context = new AppDbContext())
+		using (AppDbContext context = new())
 		{
 			var dbStudent = context.Students.Add(student);
 
@@ -51,7 +51,7 @@ internal class StudentRepository
 
 	public void DeleteStudent(int id)
 	{
-		using (var context = new AppDbContext())
+		using (AppDbContext context = new())
 		{
 			var studentToDelete = context.Students.Find(id);
 			context.Students.Remove(studentToDelete);
@@ -64,7 +64,7 @@ internal class StudentRepository
 		var student = studentWrapper.ToDao();
 		var ratings = studentWrapper.ToRatingDao();
 
-		using (var context = new AppDbContext())
+		using (AppDbContext context = new())
 		{
 			UpdateStudentProperties(student, context);
 			context.SaveChanges();
@@ -116,8 +116,8 @@ internal class StudentRepository
 
 	private static List<int> GetSubjectRatingsToDelete(IEnumerable<int> oldSubRatings, IEnumerable<int> newSubRatings)
 	{
-		var subRatingsToDelete = new List<int>();
-		var newListCopy = new List<int>(newSubRatings);
+		List<int> subRatingsToDelete = new();
+		List<int> newListCopy = new(newSubRatings);
 		foreach (var item in oldSubRatings)
 		{
 			var itemInNewList = newListCopy.FirstOrDefault(x => x == item);
@@ -135,8 +135,8 @@ internal class StudentRepository
 
 	private static List<int> GetSubjectRatingsToAdd(IEnumerable<int> oldSubRatings, IEnumerable<int> newSubRatings)
 	{
-		var subRatingsToAdd = new List<int>();
-		var oldListCopy = new List<int>(oldSubRatings);
+		List<int> subRatingsToAdd = new();
+		List<int> oldListCopy = new(oldSubRatings);
 		foreach (var item in newSubRatings)
 		{
 			var itemInOldList = oldListCopy.FirstOrDefault(x => x == item);

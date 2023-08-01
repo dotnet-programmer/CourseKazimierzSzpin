@@ -8,9 +8,6 @@ namespace StudentsDiary.WpfApp.ViewModels;
 
 internal class SettingsViewModel : BaseViewModel
 {
-	private UserSettings _userSettings;
-
-	private string _serverName;
 	private readonly bool _canCloseWindow;
 
 	public SettingsViewModel(bool canCloseWindow)
@@ -20,21 +17,15 @@ internal class SettingsViewModel : BaseViewModel
 		_canCloseWindow = canCloseWindow;
 	}
 
+	private UserSettings _userSettings;
 	public UserSettings UserSettings
 	{
 		get => _userSettings;
 		set { _userSettings = value; OnPropertyChanged(); }
 	}
 
-	public string ServerName
-	{
-		get => _serverName;
-		set { _serverName = value; OnPropertyChanged(); }
-	}
-
-	public ICommand ConfirmCommand { get; set; }
-
-	public ICommand CloseCommand { get; set; }
+	public ICommand ConfirmCommand { get; private set; }
+	public ICommand CloseCommand { get; private set; }
 
 	private void SetCommands()
 	{
@@ -42,19 +33,19 @@ internal class SettingsViewModel : BaseViewModel
 		CloseCommand = new RelayCommand(Close);
 	}
 
-	private void Confirm(object obj)
+	private void Confirm(object commandParameter)
 	{
 		UserSettings.Save();
 		RestartApplication();
 	}
 
-	private bool CanConfirm(object obj) => UserSettings.IsValid;
+	private bool CanConfirm(object commandParameter) => UserSettings.IsValid;
 
-	private void Close(object obj)
+	private void Close(object commandParameter)
 	{
 		if (_canCloseWindow)
 		{
-			(obj as Window).Close();
+			(commandParameter as Window).Close();
 		}
 		else
 		{
