@@ -64,7 +64,8 @@ internal class SettingsViewModel : BaseViewModel
 
 	private void RestartApplication()
 	{
-		Process.Start(Application.ResourceAssembly.Location);
+		var appLocation = Application.ResourceAssembly.Location;
+		Process.Start(appLocation.EndsWith(".dll") ? appLocation.Replace(".dll", ".exe") : appLocation);
 		Application.Current.Shutdown();
 	}
 }

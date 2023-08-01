@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.EntityFrameworkCore;
 using StudentsDiary.WpfApp.Commands;
 using StudentsDiary.WpfApp.Models.Domains;
 using StudentsDiary.WpfApp.Models.Wrappers;
@@ -23,10 +25,9 @@ internal class MainViewModel : BaseViewModel
 	public MainViewModel(IDialogCoordinator instance)
 	{
 		// INFO - MahApps 6 - dodanie okien dialogowych zgodnych z MVVM
-		_dialogCoordinator = instance;
+		LoadedWindow(null);
 		SetCommands();
-		SetGroups();
-		RefreshDiary();
+		_dialogCoordinator = instance;
 	}
 
 	#region Property binding
@@ -71,6 +72,8 @@ internal class MainViewModel : BaseViewModel
 	public ICommand EditStudentCommand { get; private set; }
 	public ICommand DeleteStudentCommand { get; private set; }
 	public ICommand RefreshStudentsCommand { get; private set; }
+	public ICommand ShowSettingsCommand { get; private set; }
+	public ICommand LoadedWindowCommand { get; private set; }
 	public ICommand SetColumnsWidthCommand { get; private set; }
 	public ICommand GridDoubleClickCommand { get; private set; }
 
@@ -81,6 +84,8 @@ internal class MainViewModel : BaseViewModel
 		EditStudentCommand = new RelayCommand(AddEditStudent, CanEditDeleteStudent);
 		DeleteStudentCommand = new RelayCommandAsync(DeleteStudentAsync, CanEditDeleteStudent);
 		RefreshStudentsCommand = new RelayCommand(RefreshStudents);
+		ShowSettingsCommand = new RelayCommand(ShowSettings);
+		LoadedWindowCommand = new RelayCommand(LoadedWindow);
 		SetColumnsWidthCommand = new RelayCommand(SetColumnsWidth);
 		GridDoubleClickCommand = new RelayCommand(GridDoubleClick, CanEditDeleteStudent);
 	}
@@ -102,7 +107,7 @@ internal class MainViewModel : BaseViewModel
 	{
 		// INFO - MahApps 7 - dodanie okien dialogowych
 		//var metroWindow = Application.Current.MainWindow as MetroWindow;
-		//var dialog = await metroWindow.ShowMessageAsync(
+		//var dialogResult = await metroWindow.ShowMessageAsync(
 		//	"Usuwanie ucznia",
 		//	$"Czy na pewno chcesz usunąć ucznia {SelectedStudent.FirstName} {SelectedStudent.LastName}?",
 		//	MessageDialogStyle.AffirmativeAndNegative);
@@ -122,6 +127,58 @@ internal class MainViewModel : BaseViewModel
 	private bool CanEditDeleteStudent(object commandParameter) => SelectedStudent != null;
 
 	private void RefreshStudents(object commandParameter) => RefreshDiary();
+
+	private void ShowSettings(object obj)
+	{
+		var settingsView = new SettingsView(true);
+		settingsView.ShowDialog();
+	}
+
+	private async void LoadedWindow(object commandParameter)
+	{
+		if (!IsValidConnectionToDataBase())
+		{
+			//var metroWindow = Application.Current.MainWindow as MetroWindow;
+			//var dialogResult = await metroWindow.ShowMessageAsync("Błąd połączenia", $"Nie można połączyć się z bazą danych.{Environment.NewLine}Czy chcesz zmienić ustawienia?", MessageDialogStyle.AffirmativeAndNegative);
+
+			var dialogResult = await ShowMessage(
+				"Błąd połączenia",
+				$"Nie można połączyć się z bazą danych.{Environment.NewLine}Czy chcesz zmienić ustawienia?",
+				MessageDialogStyle.AffirmativeAndNegative);
+
+			if (dialogResult == MessageDialogResult.Negative)
+			{
+				Application.Current.Shutdown();
+			}
+			else
+			{
+				var settingsWindow = new SettingsView(false);
+				settingsWindow.ShowDialog();
+			}
+		}
+		else
+		{
+			RefreshDiary();
+			SetGroups();
+		}
+	}
+
+	private bool IsValidConnectionToDataBase()
+	{
+		try
+		{
+			using (AppDbContext context = new())
+			{
+				context.Database.OpenConnection();
+				context.Database.CloseConnection();
+			}
+			return true;
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
 
 	private void SetColumnsWidth(object commandParameter)
 	{

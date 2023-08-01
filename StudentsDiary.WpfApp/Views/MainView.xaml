@@ -20,11 +20,11 @@
 				 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 				 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 				 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-				 xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+				 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 				 xmlns:viewmodels="clr-namespace:StudentsDiary.WpfApp.ViewModels"
+				 xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
 				 Dialog:DialogParticipation.Register="{Binding}"
 				 d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
 				 mc:Ignorable="d"
@@ -35,6 +35,12 @@
 				 MinWidth="570"
 				 WindowStartupLocation="CenterScreen"
 				 TitleCharacterCasing="Normal">
+
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Loaded">
+			<i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
 
 	<!--
 		INFO - MahApps 2 - ustawienie Template dla ikony okna
@@ -180,6 +186,12 @@
 					</StackPanel>
 				</Button.Content>
 			</Button>
+
+			<Button Content="Ustawienia"
+					Height="25"
+					Width="100"
+					Margin="5"
+					Command="{Binding ShowSettingsCommand}" />
 		</StackPanel>
 
 		<DataGrid Grid.Row="1"
@@ -218,8 +230,8 @@
 
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Loaded">
-					<i:InvokeCommandAction Command="{Binding SetColumnsWidthCommand}" 
-										   CommandParameter="{Binding ElementName=MainDataGrid}"/>
+					<i:InvokeCommandAction Command="{Binding SetColumnsWidthCommand}"
+										   CommandParameter="{Binding ElementName=MainDataGrid}" />
 				</i:EventTrigger>
 				<i:EventTrigger EventName="MouseDoubleClick">
 					<i:InvokeCommandAction Command="{Binding GridDoubleClickCommand}"
