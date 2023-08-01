@@ -1,0 +1,160 @@
+﻿<!--
+	INFO - MVVM Zamykanie okna 2 - użycie NuGet Microsoft.Xaml.Behaviours.Wpf
+	dodać: xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+-->
+<mah:MetroWindow x:Class="StudentsDiary.WpfApp.Views.AddEditStudentView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:viewmodels="clr-namespace:StudentsDiary.WpfApp.ViewModels"
+                 d:DataContext="{d:DesignInstance Type=viewmodels:AddEditStudentViewModel}"
+				 mc:Ignorable="d"
+				 Title="Dane ucznia"
+				 Height="500"
+				 Width="400"
+				 Name="AddEditStudentWindow"
+				 WindowStartupLocation="CenterScreen">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<Label Grid.Row="0"
+			   Grid.Column="0"
+			   Content="Id:"
+			   Visibility="{Binding IsUpdate, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+		<TextBox Grid.Row="0"
+				 Grid.Column="1"
+				 IsReadOnly="True"
+				 Text="{Binding Student.Id}"
+				 Visibility="{Binding IsUpdate, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+		<Label Grid.Row="1"
+			   Grid.Column="0"
+			   Content="Imię:" />
+
+		<TextBox Grid.Row="1"
+				 Grid.Column="1"
+				 Text="{Binding Student.FirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label Grid.Row="2"
+			   Grid.Column="0"
+			   Content="Nazwisko:" />
+
+		<TextBox Grid.Row="2"
+				 Grid.Column="1"
+				 Text="{Binding Student.LastName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label Grid.Row="3"
+			   Grid.Column="0"
+			   Content="Matematyka:" />
+
+		<TextBox Grid.Row="3"
+				 Grid.Column="1"
+				 Text="{Binding Student.Math}" />
+
+		<Label Grid.Row="4"
+			   Grid.Column="0"
+			   Content="Technologia:" />
+
+		<TextBox Grid.Row="4"
+				 Grid.Column="1"
+				 Text="{Binding Student.Technology}" />
+
+		<Label Grid.Row="5"
+			   Grid.Column="0"
+			   Content="Fizyka:" />
+
+		<TextBox Grid.Row="5"
+				 Grid.Column="1"
+				 Text="{Binding Student.Physics}" />
+
+		<Label Grid.Row="6"
+			   Grid.Column="0"
+			   Content="J. pol.:" />
+
+		<TextBox Grid.Row="6"
+				 Grid.Column="1"
+				 Text="{Binding Student.PolishLang}" />
+
+		<Label Grid.Row="7"
+			   Grid.Column="0"
+			   Content="J. obcy:" />
+
+		<TextBox Grid.Row="7"
+				 Grid.Column="1"
+				 Text="{Binding Student.ForeignLang}" />
+
+		<Label Grid.Row="8"
+			   Grid.Column="0"
+			   Content="Grupa:" />
+
+		<ComboBox Grid.Row="8"
+				  Grid.Column="1"
+				  SelectedValuePath="Id"
+				  DisplayMemberPath="Name"
+				  ItemsSource="{Binding Groups}"
+				  SelectedValue="{Binding Student.Group.Id, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<CheckBox Grid.Row="9"
+				  Grid.Column="1"
+				  Content="Zajęcia dodatkowe"
+				  IsChecked="{Binding Student.Activities}" />
+
+		<Label Grid.Row="10"
+			   Grid.Column="0"
+			   Content="Uwagi:" />
+
+		<TextBox Grid.Row="10"
+				 Grid.Column="1"
+				 TextWrapping="Wrap"
+				 AcceptsReturn="True"
+				 Text="{Binding Student.Comments}" />
+
+		<StackPanel Grid.Row="11"
+					Grid.Column="1"
+					Orientation="Horizontal"
+					HorizontalAlignment="Right">
+
+			<!--
+				INFO - MVVM Zamykanie okna 2 - użycie NuGet Microsoft.Xaml.Behaviours.Wpf
+			-->
+			<Button Content="Zatwierdź"
+					Command="{Binding ConfirmCommand}"
+					CommandParameter="{Binding ElementName=AddEditStudentWindow}">
+				<!--<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<i:CallMethodAction MethodName="Close"
+											TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>-->
+			</Button>
+
+			<!--
+				INFO - MVVM Zamykanie okna 1 - przekazanie całego okna jako parametr
+			-->
+			<Button Content="Anuluj"
+					Command="{Binding CloseWindowCommand}"
+					CommandParameter="{Binding ElementName=AddEditStudentWindow}" />
+		</StackPanel>
+	</Grid>
+</mah:MetroWindow>
