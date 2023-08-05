@@ -96,7 +96,7 @@
 	</mah:MetroWindow.RightWindowCommands>
 
 	<!--
-		INFO - Wiązanie DataContext 1 - bezpośrednio w oknie
+		INFO - MVVM Wiązanie DataContext 1 - bezpośrednio w oknie
 	-->
 	<!--<mah:MetroWindow.DataContext>
 		<viewmodels:MainViewModel />

@@ -155,6 +155,12 @@
 			<Button Content="Anuluj"
 					Command="{Binding CloseWindowCommand}"
 					CommandParameter="{Binding ElementName=AddEditStudentWindow}" />
+
+			<!--
+				INFO - MVVM Zamykanie okna 5 - użycie właściwości IsCancel="True"
+			-->
+			<!--<Button Content="Anuluj"
+					IsCancel="True" />-->
 		</StackPanel>
 	</Grid>
 </mah:MetroWindow>

@@ -11,6 +11,8 @@ internal class StudentConfiguration : IEntityTypeConfiguration<Student>
 		builder
 			.Property(x => x.FirstName)
 			.HasMaxLength(100)
+			// INFO - EF Konfiguracja 4 - dodaje opis tabeli w polu "Description"
+			//.HasComment("Imię") 
 			.IsRequired();
 
 		builder
