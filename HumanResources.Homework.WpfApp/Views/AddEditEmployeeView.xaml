@@ -1,0 +1,214 @@
+﻿<Window x:Class="HumanResources.Homework.WpfApp.Views.AddEditEmployeeView"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:viewmodels="clr-namespace:HumanResources.Homework.WpfApp.ViewModels"
+		xmlns:converters="clr-namespace:HumanResources.Homework.WpfApp.Views.Converters"
+		xmlns:attachedProp="clr-namespace:HumanResources.Homework.WpfApp.Views.AttachedProperties"
+		d:DataContext="{d:DesignInstance Type=viewmodels:AddEditEmployeeViewModel}"
+		mc:Ignorable="d"
+		Name="AddEditEmployeeWindow"
+		Title="Dane pracownika"
+		Height="550"
+		Width="400"
+		WindowStartupLocation="CenterScreen">
+
+	<Window.Resources>
+		<Style TargetType="{x:Type ComboBox}"
+			   BasedOn="{StaticResource CmbAddEditEmployeeViewStyle}">
+		</Style>
+	</Window.Resources>
+
+	<Grid x:Name="GridMain"
+		  FocusManager.FocusedElement="{Binding ElementName=TbFirstName}">
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<Label x:Name="LbFirstName"
+			   Grid.Row="0"
+			   Grid.Column="0"
+			   Content="Imię:" />
+
+		<TextBox x:Name="TbFirstName"
+				 Grid.Row="0"
+				 Grid.Column="1"
+				 TabIndex="0"
+				 Text="{Binding Employee.FirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbLastName"
+			   Grid.Row="1"
+			   Grid.Column="0"
+			   Content="Nazwisko:" />
+
+		<TextBox x:Name="TbLastName"
+				 Grid.Row="1"
+				 Grid.Column="1"
+				 TabIndex="1"
+				 Text="{Binding Employee.LastName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbPosition"
+			   Grid.Row="2"
+			   Grid.Column="0"
+			   Content="Stanowisko:" />
+
+		<TextBox x:Name="TbPosition"
+				 Grid.Row="2"
+				 Grid.Column="1"
+				 TabIndex="2"
+				 Text="{Binding Employee.Position}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbEmail"
+			   Grid.Row="3"
+			   Grid.Column="0"
+			   Content="Email:" />
+
+		<TextBox x:Name="TbEmail"
+				 Grid.Row="3"
+				 Grid.Column="1"
+				 TabIndex="3"
+				 Text="{Binding Employee.Email}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbPhone"
+			   Grid.Row="4"
+			   Grid.Column="0"
+			   Content="Telefon:" />
+
+		<TextBox x:Name="TbPhone"
+				 Grid.Row="4"
+				 Grid.Column="1"
+				 TabIndex="4"
+				 Text="{Binding Employee.Phone}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbSalary"
+			   Grid.Row="5"
+			   Grid.Column="0"
+			   Content="Wynagrodzenie:" />
+
+		<TextBox x:Name="TbSalary"
+				 Grid.Row="5"
+				 Grid.Column="1"
+				 TabIndex="5"
+				 Text="{Binding Employee.Salary, StringFormat=0.00}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbWorkTimes"
+			   Grid.Row="6"
+			   Grid.Column="0"
+			   Content="Wymiar pracy:" />
+
+		<ComboBox x:Name="CmbWorkTimes"
+				  Grid.Row="6"
+				  Grid.Column="1"
+				  TabIndex="6"
+				  DisplayMemberPath="WorkTimeName"
+				  SelectedValuePath="WorkTimeId"
+				  IsEnabled="{Binding IsFireTheEmployee}"
+				  ItemsSource="{Binding WorkTimes}"
+				  SelectedValue="{Binding Employee.WorkTime.WorkTimeId, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label x:Name="LbHireDate"
+			   Grid.Row="7"
+			   Grid.Column="0"
+			   Content="Zatrudniony:" />
+
+		<DatePicker x:Name="DpHireDate"
+					Grid.Row="7"
+					Grid.Column="1"
+					TabIndex="7"
+					Margin="5"
+					FirstDayOfWeek="Monday"
+					Focusable="False"
+					SelectedDate="{Binding Employee.HireDate, StringFormat=dd.MM.yyyy, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+					IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbFireDate"
+			   Grid.Row="8"
+			   Grid.Column="0"
+			   Content="Zwolniony:" 
+			   Visibility="{Binding IsFireDateVisible, Converter={converters:BoolToVisibilityConverter}}" />
+
+		<DatePicker x:Name="DpFireDate"
+					Grid.Row="8"
+					Grid.Column="1"
+					TabIndex="8"
+					Margin="5"
+					FirstDayOfWeek="Monday"
+					Focusable="False"
+					SelectedDate="{Binding Employee.FireDate, StringFormat=dd.MM.yyyy, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+					Visibility="{Binding IsFireDateVisible, Converter={converters:BoolToVisibilityConverter}}" />
+
+		<Label x:Name="LbAddress"
+			   Grid.Row="9"
+			   Grid.Column="0"
+			   Content="Adres:"
+			   VerticalContentAlignment="Top" />
+
+		<TextBox x:Name="TbAddress"
+				 Grid.Row="9"
+				 Grid.Column="1"
+				 TabIndex="9"
+				 TextWrapping="Wrap"
+				 AcceptsReturn="True"
+				 VerticalContentAlignment="Top"
+				 Text="{Binding Employee.Address}"
+				 IsEnabled="{Binding IsFireTheEmployee}" />
+
+		<Label x:Name="LbComments"
+			   Grid.Row="10"
+			   Grid.Column="0"
+			   Content="Uwagi:"
+			   VerticalContentAlignment="Top" />
+
+		<TextBox x:Name="TbComments"
+				 Grid.Row="10"
+				 Grid.Column="1"
+				 TabIndex="10"
+				 TextWrapping="Wrap"
+				 AcceptsReturn="True"
+				 VerticalContentAlignment="Top"
+				 Text="{Binding Employee.Comments}" />
+
+		<StackPanel x:Name="PanelBottomButtons"
+					Grid.Row="11"
+					Grid.Column="1"
+					Orientation="Horizontal"
+					HorizontalAlignment="Right">
+
+			<Button x:Name="BtnConfirm"
+					Content="Zatwierdź"
+					IsDefault="True"
+					TabIndex="11"
+					attachedProp:ButtonHelper.DialogResult="True"
+					Command="{Binding ConfirmCommand}" />
+
+			<Button x:Name="BtnClose"
+					Content="Anuluj"
+					IsCancel="True"
+					TabIndex="12" />
+		</StackPanel>
+	</Grid>
+</Window>

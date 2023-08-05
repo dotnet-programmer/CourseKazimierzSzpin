@@ -1,0 +1,110 @@
+﻿<Window x:Class="HumanResources.Homework.WpfApp.Views.SettingsView"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+		xmlns:viewmodels="clr-namespace:HumanResources.Homework.WpfApp.ViewModels"
+		xmlns:attachedProp="clr-namespace:HumanResources.Homework.WpfApp.Views.AttachedProperties"
+		d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
+		mc:Ignorable="d"
+		Name="SettingsWindow"
+		Title="Ustawienia"
+		Height="260"
+		Width="400"
+		WindowStartupLocation="CenterScreen">
+
+	<Grid x:Name="GridMain">
+		
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<Label x:Name="LbServerAddress" 
+			   Grid.Row="0"
+			   Grid.Column="0"
+			   Content="Adres serwera:" />
+
+		<TextBox x:Name="TbServerAddress"
+				 Grid.Row="0"
+				 Grid.Column="1"
+				 Text="{Binding Settings.ServerAddress, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label x:Name="LbServerName"
+			   Grid.Row="1"
+			   Grid.Column="0"
+			   Content="Nazwa serwera:" />
+
+		<TextBox x:Name="TbServerName"
+				 Grid.Row="1"
+				 Grid.Column="1"
+				 Text="{Binding Settings.ServerName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label x:Name="LbDatabase"
+			   Grid.Row="2"
+			   Grid.Column="0"
+			   Content="Baza danych:" />
+
+		<TextBox x:Name="TbDatabase"
+				 Grid.Row="2"
+				 Grid.Column="1"
+				 Text="{Binding Settings.Database, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label x:Name="LbUser"
+			   Grid.Row="3"
+			   Grid.Column="0"
+			   Content="Użytkownik:" />
+
+		<TextBox x:Name="TbUser"
+				 Grid.Row="3"
+				 Grid.Column="1"
+				 Text="{Binding Settings.User, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+		<Label x:Name="LbPassword"
+			   Grid.Row="4"
+			   Grid.Column="0"
+			   Content="Hasło:" />
+
+		<PasswordBox x:Name="PasswordBoxSetings" 
+					 Grid.Row="4"
+					 Grid.Column="1">
+			
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="PasswordChanged">
+					<i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</PasswordBox>
+
+		<StackPanel x:Name="PanelBottomButtons" 
+					Grid.Row="5"
+					Grid.Column="1"
+					Orientation="Horizontal"
+					HorizontalAlignment="Right">
+			
+			<!--
+				INFO - MVVM Attached properties 1 - przypisanie DialogResult do kliknięcia przycisku
+			-->
+			<Button x:Name="BtnConfirm"
+					Content="Zatwierdź"
+					IsDefault="True"
+					attachedProp:ButtonHelper.DialogResult="True"
+					Command="{Binding ConfirmCommand}" />
+
+			<Button x:Name="BtnCancel"
+					Content="Anuluj"
+					IsCancel="True" >
+			</Button>
+		</StackPanel>
+	</Grid>
+</Window>
