@@ -51,7 +51,6 @@
 				</i:Interaction.Triggers>
 			</ComboBox>
 
-			<!--TODO dodać to do bazy danych-->
 			<ComboBox x:Name="CmbEmployments"
 					  ItemsSource="{Binding Employments}"
 					  SelectedValue="{Binding SelectedEmployment}">
@@ -140,13 +139,6 @@
 										   CommandParameter="{Binding SelectedEmployee}" />
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
-
-			<!--<i:Interaction.Triggers>
-				<i:EventTrigger EventName="MouseDoubleClick">
-					<i:InvokeCommandAction Command="{Binding GridDoubleClickCommand}"
-										   CommandParameter="{Binding SelectedEmployee}" />
-				</i:EventTrigger>
-			</i:Interaction.Triggers>-->
 		</DataGrid>
 	</Grid>
 </Window>

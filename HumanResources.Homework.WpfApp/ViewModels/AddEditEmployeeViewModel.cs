@@ -8,15 +8,11 @@ namespace HumanResources.Homework.WpfApp.ViewModels;
 
 internal class AddEditEmployeeViewModel : BaseViewModel
 {
-	public AddEditEmployeeViewModel(EmployeeWrapper employeeWrapper = null, bool fireTheEmployee = false)
+	public AddEditEmployeeViewModel(EmployeeWrapper? employeeWrapper = null, bool fireTheEmployee = false)
 	{
 		if (employeeWrapper == null)
 		{
-			Employee = new EmployeeWrapper
-			{
-				HireDate = DateTime.Now.Date,
-				FireDate = null
-			};
+			Employee = new();
 		}
 		else
 		{
@@ -82,35 +78,19 @@ internal class AddEditEmployeeViewModel : BaseViewModel
 
 	public ICommand ConfirmCommand { get; private set; }
 
-	private void SetCommands()
-	{
-		ConfirmCommand = new RelayCommand(Confirm, CanConfirm);
-		//ConfirmCommand = new RelayCommandAsync(ConfirmAsync, CanConfirm);
-	}
+	private void SetCommands() => ConfirmCommand = new RelayCommand(Confirm, CanConfirm);
 
 	private void Confirm(object commandParameter)
 	{
-		if (!IsUpdate)
-		{
-			AddEmployee();
-		}
-		else
+		if (IsUpdate)
 		{
 			UpdateEmployee();
 		}
+		else
+		{
+			AddEmployee();
+		}
 	}
-
-	//private async Task ConfirmAsync(object commandParameter)
-	//{
-	//	if (!IsUpdate)
-	//	{
-	//		await AddEmployeeAsync();
-	//	}
-	//	else
-	//	{
-	//		await UpdateEmployeeAsync();
-	//	}
-	//}
 
 	private bool CanConfirm(object commandParameter) => Employee.IsValid;
 
@@ -118,16 +98,11 @@ internal class AddEditEmployeeViewModel : BaseViewModel
 	{
 		var workTimes = WorkTimeRepository.GetWorkTimes();
 		workTimes.Insert(0, new WorkTimeWrapper { WorkTimeId = 0, WorkTimeName = "-- brak --" });
-		WorkTimes = new ObservableCollection<WorkTimeWrapper>(workTimes);
+		WorkTimes = new(workTimes);
 		SelectedWorkTimeId = Employee.WorkTime.WorkTimeId;
 	}
 
 	private void AddEmployee() => EmployeeRepository.AddEmployee(Employee);
 
 	private void UpdateEmployee() => EmployeeRepository.UpdateEmployee(Employee);
-
-	//private async Task AddEmployeeAsync() => await EmployeeRepository.AddEmployeeAsync(Employee);
-
-	//private async Task UpdateEmployeeAsync() => await EmployeeRepository.UpdateEmployeeAsync(Employee);
-
 }

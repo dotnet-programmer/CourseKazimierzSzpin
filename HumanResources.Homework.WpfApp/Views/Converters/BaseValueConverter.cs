@@ -9,7 +9,7 @@ namespace HumanResources.Homework.WpfApp.Views.Converters;
 /// <summary>
 /// Base value converter to reduce rewriting a bunch of base code
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">Converter class</typeparam>
 internal abstract class BaseValueConverter<T> : MarkupExtension, IValueConverter where T : class, new()
 {
 	private static T? _converter;

@@ -11,12 +11,6 @@ public class UserSettings : IDataErrorInfo
 	private bool _isDatabaseValid;
 	private bool _isUserValid;
 
-	public string ServerAddress { get; set; }
-	public string ServerName { get; set; }
-	public string Database { get; set; }
-	public string User { get; set; }
-	public string Password { get; set; }
-
 	public UserSettings()
 	{
 		try
@@ -33,9 +27,32 @@ public class UserSettings : IDataErrorInfo
 		}
 	}
 
-	#region IDataErrorInfo Members
+	public string ServerAddress { get; set; }
+	public string ServerName { get; set; }
+	public string Database { get; set; }
+	public string User { get; set; }
+	public string Password { get; set; }
 
 	public bool IsValid => _isServerAddressValid && _isServerNameValid && _isDatabaseValid && _isUserValid && !string.IsNullOrWhiteSpace(Password);
+
+	private string GetRequiredFieldErrorMessage(bool isValid, string fieldName) => isValid ? string.Empty : $"Pole {fieldName} jest wymagane.";
+
+	public static string GetStringFromConfig(string key) => ConfigurationManager.AppSettings[key] ?? "Not Found";
+
+	public void Save()
+	{
+		var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+		var settings = configFile.AppSettings.Settings;
+		settings[nameof(ServerAddress)].Value = ServerAddress;
+		settings[nameof(ServerName)].Value = ServerName;
+		settings[nameof(Database)].Value = Database;
+		settings[nameof(User)].Value = User;
+		settings[nameof(Password)].Value = StringCipherHelper.EncryptString(Password);
+		configFile.Save();
+		ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+	}
+
+	#region IDataErrorInfo Members
 
 	public string Error { get; set; }
 
@@ -70,21 +87,4 @@ public class UserSettings : IDataErrorInfo
 	}
 
 	#endregion IDataErrorInfo Members
-
-	private string GetRequiredFieldErrorMessage(bool isValid, string fieldName) => isValid ? string.Empty : $"Pole {fieldName} jest wymagane.";
-
-	public static string GetStringFromConfig([CallerMemberName] string? key = null) => ConfigurationManager.AppSettings[key] ?? "Not Found";
-
-	public void Save()
-	{
-		var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-		var settings = configFile.AppSettings.Settings;
-		settings[nameof(ServerAddress)].Value = ServerAddress;
-		settings[nameof(ServerName)].Value = ServerName;
-		settings[nameof(Database)].Value = Database;
-		settings[nameof(User)].Value = User;
-		settings[nameof(Password)].Value = StringCipherHelper.EncryptString(Password);
-		configFile.Save();
-		ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-	}
 }

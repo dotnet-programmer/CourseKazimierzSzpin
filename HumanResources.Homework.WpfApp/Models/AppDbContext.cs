@@ -14,11 +14,12 @@ internal class AppDbContext : DbContext
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
+		UserSettings userSettings = new();
 		string connectionString = $@"
-			Server={UserSettings.GetStringFromConfig(nameof(UserSettings.ServerAddress))}\{UserSettings.GetStringFromConfig(nameof(UserSettings.ServerName))};
-			Database={UserSettings.GetStringFromConfig(nameof(UserSettings.Database))};
-			User Id={UserSettings.GetStringFromConfig(nameof(UserSettings.User))};
-			Password={StringCipherHelper.DecryptStringFromConfig(nameof(UserSettings.Password))};
+			Server={userSettings.ServerAddress}\{userSettings.ServerName};
+			Database={userSettings.Database};
+			User Id={userSettings.User};
+			Password={userSettings.Password};
 			TrustServerCertificate=True;
 		";
 

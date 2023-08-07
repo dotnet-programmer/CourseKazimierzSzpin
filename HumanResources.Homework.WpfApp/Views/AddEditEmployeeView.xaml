@@ -4,8 +4,8 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:viewmodels="clr-namespace:HumanResources.Homework.WpfApp.ViewModels"
-		xmlns:converters="clr-namespace:HumanResources.Homework.WpfApp.Views.Converters"
 		xmlns:attachedProp="clr-namespace:HumanResources.Homework.WpfApp.Views.AttachedProperties"
+		xmlns:converters="clr-namespace:HumanResources.Homework.WpfApp.Views.Converters"
 		d:DataContext="{d:DesignInstance Type=viewmodels:AddEditEmployeeViewModel}"
 		mc:Ignorable="d"
 		Name="AddEditEmployeeWindow"
@@ -52,7 +52,7 @@
 				 Grid.Row="0"
 				 Grid.Column="1"
 				 TabIndex="0"
-				 Text="{Binding Employee.FirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+				 Text="{Binding Employee.FirstName, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
 				 IsEnabled="{Binding IsFireTheEmployee}" />
 
 		<Label x:Name="LbLastName"
@@ -64,7 +64,7 @@
 				 Grid.Row="1"
 				 Grid.Column="1"
 				 TabIndex="1"
-				 Text="{Binding Employee.LastName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+				 Text="{Binding Employee.LastName, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
 				 IsEnabled="{Binding IsFireTheEmployee}" />
 
 		<Label x:Name="LbPosition"
@@ -142,13 +142,13 @@
 					Margin="5"
 					FirstDayOfWeek="Monday"
 					Focusable="False"
-					SelectedDate="{Binding Employee.HireDate, StringFormat=dd.MM.yyyy, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+					SelectedDate="{Binding Employee.HireDate, StringFormat=dd.MM.yyyy, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
 					IsEnabled="{Binding IsFireTheEmployee}" />
 
 		<Label x:Name="LbFireDate"
 			   Grid.Row="8"
 			   Grid.Column="0"
-			   Content="Zwolniony:" 
+			   Content="Zwolniony:"
 			   Visibility="{Binding IsFireDateVisible, Converter={converters:BoolToVisibilityConverter}}" />
 
 		<DatePicker x:Name="DpFireDate"
@@ -158,7 +158,7 @@
 					Margin="5"
 					FirstDayOfWeek="Monday"
 					Focusable="False"
-					SelectedDate="{Binding Employee.FireDate, StringFormat=dd.MM.yyyy, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+					SelectedDate="{Binding Employee.FireDate, StringFormat=dd.MM.yyyy, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
 					Visibility="{Binding IsFireDateVisible, Converter={converters:BoolToVisibilityConverter}}" />
 
 		<Label x:Name="LbAddress"

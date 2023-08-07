@@ -19,17 +19,11 @@ internal static class EmployeeRepository
 				employees = employees.Where(x => x.WorkTimeId == workTimeId);
 			}
 
-			switch (employment)
+			employees = employment switch
 			{
-				case Employment.Zatrudnieni:
-					employees = employees.Where(x => x.FireDate == null);
-					break;
-				case Employment.Zwolnieni:
-					employees = employees.Where(x => x.FireDate != null);
-					break;
-				default:
-					break;
-			}
+				Employment.Zatrudnieni => employees.Where(x => x.FireDate == null),
+				Employment.Zwolnieni => employees.Where(x => x.FireDate != null)
+			};
 
 			return employees.ToList().Select(x => x.ToWrapper()).ToList();
 		}

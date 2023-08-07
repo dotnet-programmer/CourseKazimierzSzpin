@@ -14,6 +14,17 @@
 
 		<Setter Property="HorizontalContentAlignment"
 				Value="Center" />
+
+		<Setter Property="ToolTipService.InitialShowDelay"
+				Value="50" />
+		
+		<Style.Triggers>
+			<Trigger Property="Validation.HasError"
+					 Value="true">
+				<Setter Property="ToolTip"
+						Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)/ErrorContent}" />
+			</Trigger>
+		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="CmbAddEditEmployeeViewStyle"

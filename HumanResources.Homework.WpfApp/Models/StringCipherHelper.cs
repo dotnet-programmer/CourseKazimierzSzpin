@@ -15,7 +15,6 @@ internal static class StringCipherHelper
 		if (stringToEncrypt.StartsWith(NotEncryptedPasswordPrefix))
 		{
 			stringToEncrypt = _stringCipher.Encrypt(stringToEncrypt.Replace(NotEncryptedPasswordPrefix, string.Empty));
-
 			var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 			configFile.AppSettings.Settings[appSettingName].Value = stringToEncrypt;
 			configFile.Save();
@@ -25,7 +24,7 @@ internal static class StringCipherHelper
 
 	public static string EncryptString(string stringToEncrypt) => _stringCipher.Encrypt(stringToEncrypt);
 
-	public static string DecryptString(string stringToEncrypt) => _stringCipher.Decrypt(stringToEncrypt);
+	public static string DecryptString(string stringToDecrypt) => _stringCipher.Decrypt(stringToDecrypt);
 
-	public static string DecryptStringFromConfig([CallerMemberName] string key = null) => _stringCipher.Decrypt(ConfigurationManager.AppSettings[key]);
+	public static string DecryptStringFromConfig(string key) => _stringCipher.Decrypt(ConfigurationManager.AppSettings[key]);
 }
