@@ -6,15 +6,15 @@ namespace HumanResources.Homework.WpfApp.Models;
 
 internal static class StringCipherHelper
 {
-	private const string NotEncryptedPasswordPrefix = "encrypt:";
+	private const string NOT_ENCRYPTED_PASSWORD_PREFIX = "encrypt:";
 	private static readonly StringCipher _stringCipher = new("4838731F-FC44-40B9-9952-EE5CCB6C198E");
 
 	public static void EncryptStringFromConfigAndSave(string appSettingName)
 	{
 		var stringToEncrypt = ConfigurationManager.AppSettings[appSettingName];
-		if (stringToEncrypt.StartsWith(NotEncryptedPasswordPrefix))
+		if (stringToEncrypt.StartsWith(NOT_ENCRYPTED_PASSWORD_PREFIX))
 		{
-			stringToEncrypt = _stringCipher.Encrypt(stringToEncrypt.Replace(NotEncryptedPasswordPrefix, string.Empty));
+			stringToEncrypt = _stringCipher.Encrypt(stringToEncrypt.Replace(NOT_ENCRYPTED_PASSWORD_PREFIX, string.Empty));
 			var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 			configFile.AppSettings.Settings[appSettingName].Value = stringToEncrypt;
 			configFile.Save();
