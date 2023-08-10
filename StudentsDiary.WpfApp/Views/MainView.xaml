@@ -23,6 +23,7 @@
 				 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
 				 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+				 xmlns:behaviors="clr-namespace:StudentsDiary.WpfApp.Models"
 				 xmlns:viewmodels="clr-namespace:StudentsDiary.WpfApp.ViewModels"
 				 xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
 				 Dialog:DialogParticipation.Register="{Binding}"
@@ -42,6 +43,13 @@
 		</i:EventTrigger>
 	</i:Interaction.Triggers>
 
+	<!--
+		INFO - MVVM Zamykanie okna 5 - użycie Keystroke Behavior
+	-->
+	<i:Interaction.Behaviors>
+		<behaviors:KeystrokeBehavior PressedKey="Esc" />
+	</i:Interaction.Behaviors>
+	
 	<!--
 		INFO - MahApps 2 - ustawienie Template dla ikony okna
 	-->
