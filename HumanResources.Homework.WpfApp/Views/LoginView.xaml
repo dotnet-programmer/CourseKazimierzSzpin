@@ -18,7 +18,7 @@
 		<Style TargetType="{x:Type Button}"
 			   BasedOn="{StaticResource BtnLoginViewStyle}">
 		</Style>
-		
+
 		<!--
 			INFO - MVVM Konwertery 1 - bezpośrednio w zasobach okna
 		-->
@@ -41,7 +41,7 @@
 			</i:InvokeCommandAction>
 		</i:KeyTrigger>
 	</i:Interaction.Triggers>-->
-	
+
 	<Grid x:Name="GridMain"
 		  FocusManager.FocusedElement="{Binding ElementName=TbLogin}">
 
@@ -186,7 +186,7 @@
 			<Button.CommandParameter>
 				<MultiBinding Converter="{converters:LoginParamsConverter}">
 					<Binding ElementName="LoginWindow" />
-					<Binding ElementName="PasswordBoxLogin" /> 
+					<Binding ElementName="PasswordBoxLogin" />
 				</MultiBinding>
 			</Button.CommandParameter>
 		</Button>

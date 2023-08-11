@@ -3,9 +3,9 @@
 	dodać: DispatcherUnhandledException="Application_DispatcherUnhandledException"
 -->
 <Application x:Class="StudentsDiary.WpfApp.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Views/MainView.xaml"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 StartupUri="Views/MainView.xaml"
 			 DispatcherUnhandledException="Application_DispatcherUnhandledException">
 	<Application.Resources>
 

@@ -11,6 +11,7 @@ public partial class Main : Form
 	private ConfigurationManager _configurationManager;
 	private List<Student> _students;
 	private List<Group> _groups;
+
 	public Main()
 	{
 		InitializeComponent();

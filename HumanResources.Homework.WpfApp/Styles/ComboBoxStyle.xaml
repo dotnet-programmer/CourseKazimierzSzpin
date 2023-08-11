@@ -17,7 +17,7 @@
 
 		<Setter Property="ToolTipService.InitialShowDelay"
 				Value="50" />
-		
+
 		<Style.Triggers>
 			<Trigger Property="Validation.HasError"
 					 Value="true">
@@ -37,5 +37,4 @@
 		<Setter Property="Height"
 				Value="Auto" />
 	</Style>
-	
 </ResourceDictionary>

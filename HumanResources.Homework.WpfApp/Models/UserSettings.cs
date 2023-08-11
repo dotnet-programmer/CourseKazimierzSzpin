@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Configuration;
-using System.Runtime.CompilerServices;
 
 namespace HumanResources.Homework.WpfApp.Models;
 

@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.Runtime.CompilerServices;
 using TextEncryption.Lib;
 
 namespace HumanResources.Homework.WpfApp.Models;

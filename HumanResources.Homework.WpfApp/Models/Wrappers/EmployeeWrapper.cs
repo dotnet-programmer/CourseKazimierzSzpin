@@ -36,11 +36,13 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 		get => _firstName;
 		set { _firstName = value; IsNameOrLastNameValid(value, "Imię"); }
 	}
+
 	public string LastName
 	{
 		get => _lastName;
 		set { _lastName = value; IsNameOrLastNameValid(value, "Nazwisko"); }
 	}
+
 	public string Position { get; set; }
 	public string Email { get; set; }
 	public string Phone { get; set; }
@@ -51,11 +53,13 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 		get => _hireDate;
 		set { _hireDate = value; IsHireDateValid(value); }
 	}
+
 	public DateTime? FireDate
 	{
 		get => _fireDate;
 		set { _fireDate = value; IsFireDateValid(value); }
 	}
+
 	public string Address { get; set; }
 	public string Comments { get; set; }
 

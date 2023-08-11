@@ -1,6 +1,7 @@
 ﻿using StudentsDiary.WinFormsApp.FileSerialization;
 using StudentsDiary.WinFormsApp.Models;
 using StudentsDiary.WinFormsApp.Properties;
+
 //using StudentsDiary.WinFormsApp.Helpers;
 
 namespace StudentsDiary.WinFormsApp;
@@ -9,6 +10,7 @@ internal class ConfigurationManager
 {
 	//private readonly FileHelper<Configuration> _configFile;
 	private readonly SerializeToFile<Configuration> _configFile;
+
 	private readonly Form _form;
 
 	public ConfigurationManager(Form form)

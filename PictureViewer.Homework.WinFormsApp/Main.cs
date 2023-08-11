@@ -89,7 +89,7 @@ public partial class Main : Form
 	private void SetPictureBoxSizeMode(Image image) => PbPicture.SizeMode = image.Height < PbPicture.Height ? PictureBoxSizeMode.CenterImage : PictureBoxSizeMode.Zoom;
 
 	private void SetButtonsEnabled(bool enabled) => BtnDeletePicture.Enabled = BtnRotateLeft.Enabled = BtnRotateRight.Enabled = BtnFlipHorizontal.Enabled = BtnFlipVertical.Enabled = enabled;
-	
+
 	private void SetSaveButtonsEnabled(bool enabled) => BtnSaveOrginal.Enabled = BtnSaveCopy.Enabled = enabled;
 
 	private void SetPicture(string filePath)
