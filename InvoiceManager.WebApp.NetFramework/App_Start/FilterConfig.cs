@@ -9,6 +9,16 @@ namespace InvoiceManager.WebApp.NetFramework
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new HandleErrorAttribute());
+			filters.Add(new CustomExceptionFilter());
+		}
+
+		public class CustomExceptionFilter : IExceptionFilter
+		{
+			public void OnException(ExceptionContext filterContext)
+			{
+				var exception = filterContext.Exception;
+				// logowanie do pliku
+			}
 		}
 	}
 }

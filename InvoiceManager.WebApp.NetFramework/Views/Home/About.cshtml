@@ -3,11 +3,22 @@
 @{
     ViewBag.Title = "About";
 }
+
 <main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
+	<h2 id="title">@ViewBag.Title.</h2>
+	<h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
+	<p>Use this area to provide additional information.</p>
 
-    <p>Mój tekst przekazany z kontrolera -> @Model</p>
+	<p>Mój tekst przekazany z kontrolera za pomocą pojedynczej zmiennej -> @Model</p>
+	<p>Mój tekst przekazany z kontrolera za pomocą ViewBag -> @ViewBag.MyNumber</p>
+
+	@*INFO - Sesja*@
+	<p>Wartość obecnej sesji: @ViewBag.SessionValue</p>
+
+	@*INFO - Cookie*@
+	<p>Wartość cookie: @ViewBag.CookieValue</p>
+
+	@*INFO - Cache*@
+	<p>Wartość cache: @ViewBag.CacheValue</p>
 </main>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using InvoiceManager.WebApp.NetFramework.Models.Domains;
 
 namespace InvoiceManager.WebApp.NetFramework.Models.ViewModels
 {
@@ -12,12 +13,17 @@ namespace InvoiceManager.WebApp.NetFramework.Models.ViewModels
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Potwierdź hasło")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+		[Display(Name = "Nazwa")]
+		public string Name { get; set; }
+
+        public Address Address { get; set; }
     }
 }

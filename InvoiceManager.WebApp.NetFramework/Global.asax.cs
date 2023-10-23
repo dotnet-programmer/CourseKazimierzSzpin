@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -17,5 +19,17 @@ namespace InvoiceManager.WebApp.NetFramework
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+		// INFO - Ustawienia regionalne - strona serwera
+		protected void Application_BeginRequest(object sender, EventArgs e)
+		{
+			CultureInfo cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+			cultureInfo.DateTimeFormat.DateSeparator = "-";
+			cultureInfo.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
+			cultureInfo.NumberFormat.NumberDecimalDigits = 2;
+			cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
+			cultureInfo.NumberFormat.NumberGroupSeparator = "";
+			Thread.CurrentThread.CurrentCulture = cultureInfo;
+		}
     }
 }

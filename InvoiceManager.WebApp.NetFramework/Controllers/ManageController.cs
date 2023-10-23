@@ -11,6 +11,7 @@ using InvoiceManager.WebApp.NetFramework.Models.ViewModels;
 
 namespace InvoiceManager.WebApp.NetFramework.Controllers
 {
+	// zarządzanie danymi użytkownika
     [Authorize]
     public class ManageController : Controller
     {

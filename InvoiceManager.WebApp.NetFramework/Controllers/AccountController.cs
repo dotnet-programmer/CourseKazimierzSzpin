@@ -8,13 +8,15 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using InvoiceManager.WebApp.NetFramework.Models;
 using InvoiceManager.WebApp.NetFramework.Models.ViewModels;
 using InvoiceManager.WebApp.NetFramework.Models.Domains;
 
 namespace InvoiceManager.WebApp.NetFramework.Controllers
 {
-    [Authorize]
+	// INFO - [Authorize] - ten atrybut oznacza, że żeby przejść do akcji tego kontrolera trzeba być zalogowanym, ale jest kilka wyjątków
+	// może przyjmować różne parametry, np. [Authorize(Roles = "Admin")], dzięki czemu można zdefiniować które role mają dostęp do kontrolera
+	// można też określić użytkowników majacych dostęp, np. [Authorize(Users = "Admin, Test123")]
+	[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -136,24 +138,35 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
+		// INFO - typ metody Get - domyślny sposób działania akcji w kontrolerach 
+		// Metody GET używamy jeśli chcemy otrzymać jakieś dane z określonego zasobu.
+		// Jeśli są jakieś dodatkowe parametry to przekazuje się je w adresie URL po znaku zapytania i oddzielone endami - &.
+		// GET: /Account/Register
+		// INFO - ten atrybut oznacza dostęp do tego widoku dla osób niezalogowanych
+		[AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
-        //
-        // POST: /Account/Register
-        [HttpPost]
+		// INFO - typ metody Post - musi być oznaczona atrybutem [HttpPost],
+		// Metody POST używamy gdy chcemy wysłać dane na serwer w bardziej bezpieczny sposób by utworzyć lub zaktualizować jakiś zasób.
+		// W metodzie POST dane przesyłamy w ciele żądania HTTP czyli nie są przesyłane jawnie i nie są widoczne w adresie URL.
+		// POST: /Account/Register
+		[HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser 
+				{ 
+					UserName = model.Email, 
+					Email = model.Email,
+					Name = model.Name,
+					Address = model.Address,
+				};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
