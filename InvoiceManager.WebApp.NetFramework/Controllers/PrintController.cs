@@ -60,6 +60,13 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 			return File(data, "application/pdf", fileName);
 		}
 
+		public ActionResult PrintInvoicePdf(int invoiceId)
+		{
+			var userId = User.Identity.GetUserId();
+			var invoice = _invoiceRepository.GetInvoice(invoiceId, userId);
+			return View("InvoiceTemplate", invoice);
+		}
+
 		private byte[] GetPdfContent(Invoice invoice)
 		{
 			// użycie Rotativa, na podstawie widoku generowany jest PDF, 

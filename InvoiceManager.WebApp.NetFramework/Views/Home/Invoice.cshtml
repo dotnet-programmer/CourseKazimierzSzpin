@@ -22,6 +22,11 @@
 				onclick="generatePdf()">
 			Generuj PDF
 		</button>
+
+		<button class="btn btn-secondary mb-3"
+				onclick="printPdf()">
+			Drukuj PDF
+		</button>
 	}
 
 	<div class="row">
@@ -123,7 +128,22 @@
 				dataType: 'json',
 				cache: false
 			});
-        }
+		}
+
+		function printPdf() {
+			//adres do akcji która zwróci cały widok faktury
+			var url = '@Url.Action("PrintInvoicePdf", "Print")' + '?invoiceId=' + '@Model.Invoice.Id';
+
+			// nowe okno za pomocą JavaScript
+			var myWindow = window.open(url, '', 'width=800,height=600');
+
+			myWindow.onload = function () {
+				myWindow.print();
+				myWindow.onafterprint = function () {
+					myWindow.close();
+				}
+			};
+		}
 
         function deleteInvoicePosition(positionId, invoiceId, btn) {
             if (!confirm("Czy na pewno chcesz usunąć pozycję?")) {
