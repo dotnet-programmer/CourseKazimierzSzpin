@@ -8,32 +8,19 @@
         public override void Up()
         {
             CreateTable(
-                "dbo.Emails",
+                "dbo.EmailSents",
                 c => new
                     {
-                        EmailId = c.Int(nullable: false, identity: true),
+                        EmailSentId = c.Int(nullable: false, identity: true),
                         SenderName = c.String(nullable: false),
                         SenderEmail = c.String(nullable: false),
                         RecipientEmail = c.String(nullable: false),
                         Subject = c.String(nullable: false),
                         Message = c.String(),
-                    })
-                .PrimaryKey(t => t.EmailId);
-            
-            CreateTable(
-                "dbo.EmailSettings",
-                c => new
-                    {
-                        EmailSettingsId = c.Int(nullable: false, identity: true),
-                        SenderName = c.String(nullable: false),
-                        SenderEmail = c.String(nullable: false),
-                        SenderEmailPassword = c.String(nullable: false),
-                        HostSmtp = c.String(nullable: false),
-                        EnableSsl = c.Boolean(nullable: false),
-                        Port = c.Int(nullable: false),
+                        DateSent = c.DateTime(nullable: false),
                         UserId = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.EmailSettingsId)
+                .PrimaryKey(t => t.EmailSentId)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
@@ -67,6 +54,23 @@
                         ClaimValue = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.EmailSettings",
+                c => new
+                    {
+                        EmailSettingsId = c.Int(nullable: false, identity: true),
+                        SenderName = c.String(nullable: false),
+                        SenderEmail = c.String(nullable: false),
+                        SenderEmailPassword = c.String(nullable: false),
+                        HostSmtp = c.String(nullable: false),
+                        EnableSsl = c.Boolean(nullable: false),
+                        Port = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.EmailSettingsId)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
@@ -110,24 +114,26 @@
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.EmailSettings", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.EmailSents", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.EmailSettings", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.EmailSettings", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.EmailSettings", new[] { "UserId" });
+            DropIndex("dbo.EmailSents", new[] { "UserId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.EmailSettings");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.EmailSettings");
-            DropTable("dbo.Emails");
+            DropTable("dbo.EmailSents");
         }
     }
 }

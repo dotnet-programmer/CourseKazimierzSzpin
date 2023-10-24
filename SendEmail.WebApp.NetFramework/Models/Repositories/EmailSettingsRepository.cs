@@ -4,11 +4,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using SendEmail.WebApp.NetFramework.Models.Domains;
+using TextEncryption.NetFramework.Lib;
 
 namespace SendEmail.WebApp.NetFramework.Models.Repositories
 {
 	public class EmailSettingsRepository
 	{
+		private readonly StringCipher _stringCipher = new StringCipher("4838731F-FC44-40B9-9952-EE5CCB6C198E");
+
 		//internal List<EmailSettings> GetEmailSettings(string userId)
 		//{
 		//	using (AppDbContext context = new AppDbContext())
@@ -21,7 +24,12 @@ namespace SendEmail.WebApp.NetFramework.Models.Repositories
 		{
 			using (AppDbContext context = new AppDbContext())
 			{
-				return context.EmailSettings.SingleOrDefault(x => x.UserId == userId);
+				EmailSettings emailSettings = context.EmailSettings.SingleOrDefault(x => x.UserId == userId);
+				if (emailSettings != null && !string.IsNullOrWhiteSpace(emailSettings.SenderEmailPassword))
+				{
+					emailSettings.SenderEmailPassword = _stringCipher.Decrypt(emailSettings.SenderEmailPassword);
+				}
+				return emailSettings;
 			}
 		}
 
@@ -29,6 +37,7 @@ namespace SendEmail.WebApp.NetFramework.Models.Repositories
 		{
 			using (AppDbContext context = new AppDbContext())
 			{
+				emailSettings.SenderEmailPassword = _stringCipher.Encrypt(emailSettings.SenderEmailPassword);
 				context.EmailSettings.Add(emailSettings);
 				context.SaveChanges();
 			}
@@ -43,8 +52,7 @@ namespace SendEmail.WebApp.NetFramework.Models.Repositories
 
 				emailSettingsToUpdate.SenderName = emailSettings.SenderName;
 				emailSettingsToUpdate.SenderEmail = emailSettings.SenderEmail;
-				// TODO - dodać szyfrowanie hasła
-				emailSettingsToUpdate.SenderEmailPassword = emailSettings.SenderEmailPassword;
+				emailSettingsToUpdate.SenderEmailPassword = _stringCipher.Encrypt(emailSettings.SenderEmailPassword);
 				emailSettingsToUpdate.HostSmtp = emailSettings.HostSmtp;
 				emailSettingsToUpdate.EnableSsl = emailSettings.EnableSsl;
 				emailSettingsToUpdate.Port = emailSettings.Port;

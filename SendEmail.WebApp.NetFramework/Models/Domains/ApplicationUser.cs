@@ -11,6 +11,7 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 	public class ApplicationUser : IdentityUser
     {
 		public ICollection<EmailSettings> EmailSettings { get; set; } = new Collection<EmailSettings>();
+		public ICollection<EmailSent> EmailSent { get; set; } = new Collection<EmailSent>();
 
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

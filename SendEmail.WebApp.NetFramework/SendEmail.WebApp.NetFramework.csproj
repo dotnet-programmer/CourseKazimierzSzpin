@@ -109,6 +109,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TextEncryption.NetFramework.Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\TextEncryption.NetFramework.Lib.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -177,13 +181,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202310231743203_Init.cs" />
-    <Compile Include="Migrations\202310231743203_Init.designer.cs">
-      <DependentUpon>202310231743203_Init.cs</DependentUpon>
+    <Compile Include="Migrations\202310241421087_Init.cs" />
+    <Compile Include="Migrations\202310241421087_Init.designer.cs">
+      <DependentUpon>202310241421087_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Domains\Email.cs" />
+    <Compile Include="Models\Domains\EmailSent.cs" />
     <Compile Include="Models\Domains\EmailSettings.cs" />
+    <Compile Include="Models\Repositories\EmailSentRepository.cs" />
     <Compile Include="Models\Repositories\EmailSettingsRepository.cs" />
     <Compile Include="Models\ViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
@@ -307,6 +312,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\SettingsWithList.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
+    <Content Include="Views\Home\SendEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -315,8 +321,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202310231743203_Init.resx">
-      <DependentUpon>202310231743203_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202310241421087_Init.resx">
+      <DependentUpon>202310241421087_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -11,7 +11,7 @@ namespace SendEmail.WebApp.NetFramework.Models
         {
         }
 
-        public DbSet<Email> Emails { get; set; }
+        public DbSet<EmailSent> Emails { get; set; }
         public DbSet<EmailSettings> EmailSettings { get; set; }
 
         public static AppDbContext Create()

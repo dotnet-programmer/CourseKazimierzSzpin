@@ -1,7 +1,12 @@
 ﻿@model SendEmail.WebApp.NetFramework.Models.Domains.EmailSettings
 
 @{
-	ViewBag.Title = "Settings";
+	ViewBag.Title = "Ustawienia";
+}
+
+@if (Model.EmailSettingsId == 0)
+{
+	<p class="alert alert-info mt-4 mb-4 text-center">Przed wysłaniem maili musisz ustawić parametry wysyłki.</p>
 }
 
 @using (Html.BeginForm("Settings", "Home"))

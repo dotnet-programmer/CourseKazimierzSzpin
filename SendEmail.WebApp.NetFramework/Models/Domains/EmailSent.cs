@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SendEmail.WebApp.NetFramework.Models.Domains
 {
-	public class Email
+	public class EmailSent
 	{
-        public int EmailId { get; set; }
+        public int EmailSentId { get; set; }
 
 		[Required]
         public string SenderName { get; set; }
@@ -22,5 +24,12 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 
 		[Display(Name = "Wiadomość")]
 		public string Message { get; set; }
+
+        public DateTime DateSent { get; set; }
+
+		[Required]
+		[ForeignKey(nameof(User))]
+		public string UserId { get; set; }
+		public ApplicationUser User { get; set; }
 	}
 }

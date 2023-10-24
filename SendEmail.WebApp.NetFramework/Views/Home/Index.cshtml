@@ -1,10 +1,10 @@
-﻿@model SendEmail.WebApp.NetFramework.Models.Domains.Email
+﻿@model SendEmail.WebApp.NetFramework.Models.Domains.EmailSent
 
 @{
-	ViewBag.Title = "Home Page";
+	ViewBag.Title = "Wysyłanie emaili";
 }
 
-@using (Html.BeginForm("", ""))
+@using (Html.BeginForm("SendEmail", "Home"))
 {
 	@Html.AntiForgeryToken()
 
@@ -41,6 +41,9 @@
 	</div>
 
 	<div class="row mb-3">
-		<button type="submit" class="col-lg-1 offset-lg-6 btn btn-primary btn-lg mb-5">Wyślij</button>
+		<button type="submit"
+				class="col-lg-1 offset-lg-6 btn btn-primary btn-lg mb-5">
+			Wyślij
+		</button>
 	</div>
 }

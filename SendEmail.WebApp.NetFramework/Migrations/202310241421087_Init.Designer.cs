@@ -13,7 +13,7 @@ namespace SendEmail.WebApp.NetFramework.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202310231743203_Init"; }
+            get { return "202310241421087_Init"; }
         }
         
         string IMigrationMetadata.Source
