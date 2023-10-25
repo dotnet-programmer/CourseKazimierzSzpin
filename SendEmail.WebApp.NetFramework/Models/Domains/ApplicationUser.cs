@@ -9,17 +9,17 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 {
 	// You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
 	public class ApplicationUser : IdentityUser
-    {
+	{
 		public ICollection<EmailSettings> EmailSettings { get; set; } = new Collection<EmailSettings>();
 		public ICollection<EmailSent> EmailSent { get; set; } = new Collection<EmailSent>();
 		public ICollection<Contact> Contacts { get; set; } = new Collection<Contact>();
 
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
-            return userIdentity;
-        }
-    }
+		{
+			// Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+			var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+			// Add custom user claims here
+			return userIdentity;
+		}
+	}
 }

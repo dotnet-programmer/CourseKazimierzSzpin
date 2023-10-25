@@ -6,9 +6,9 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 {
 	public class EmailSent
 	{
-        public int EmailSentId { get; set; }
+		public int EmailSentId { get; set; }
 
-        public string SenderName { get; set; }
+		public string SenderName { get; set; }
 
 		public string SenderEmail { get; set; }
 
@@ -23,11 +23,12 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 		[Display(Name = "Wiadomość")]
 		public string Message { get; set; }
 
-        public DateTime DateSent { get; set; }
+		public DateTime DateSent { get; set; }
 
 		[Required]
 		[ForeignKey(nameof(User))]
 		public string UserId { get; set; }
+
 		public ApplicationUser User { get; set; }
 	}
 }

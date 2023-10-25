@@ -15,30 +15,18 @@ namespace SendEmail.WebApp.NetFramework.Controllers
 		private readonly EmailSentRepository _emailSentRepository = new EmailSentRepository();
 		private readonly ContactRepository _contactRepository = new ContactRepository();
 
-		public ActionResult Index()
-		{
-			return (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ? 
-				View("Settings", new EmailSettings { UserId = GetUserId() }) : 
+		public ActionResult Index() => (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ?
+				View("Settings", new EmailSettings { UserId = GetUserId() }) :
 				View(new EmailSent { UserId = GetUserId() });
-		}
 
 		[HttpPost]
-		public ActionResult Index(string recipientEmail, string subject = "", string message = "")
-		{
-			return (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ? 
-				View("Settings", new EmailSettings { UserId = GetUserId() }) : 
+		public ActionResult Index(string recipientEmail, string subject = "", string message = "") => (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ?
+				View("Settings", new EmailSettings { UserId = GetUserId() }) :
 				View(new EmailSent { UserId = GetUserId(), RecipientEmail = recipientEmail, Subject = subject, Message = message });
-		}
 
-		public ActionResult Contacts()
-		{
-			return View(_contactRepository.GetContacts(GetUserId()));
-		}
+		public ActionResult Contacts() => View(_contactRepository.GetContacts(GetUserId()));
 
-		public ActionResult History()
-		{
-			return View(_emailSentRepository.GetEmails(GetUserId()));
-		}
+		public ActionResult History() => View(_emailSentRepository.GetEmails(GetUserId()));
 
 		public ActionResult Settings()
 		{
@@ -130,7 +118,7 @@ namespace SendEmail.WebApp.NetFramework.Controllers
 		private EmailParams GetEmailParams()
 		{
 			EmailSettings emailSettings = _emailSettingsRepository.GetEmailSettings(GetUserId());
-			return new EmailParams 
+			return new EmailParams
 			{
 				HostSmtp = emailSettings.HostSmtp,
 				Port = emailSettings.Port,

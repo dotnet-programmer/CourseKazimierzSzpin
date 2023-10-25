@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SendEmail.WebApp.NetFramework.Models.Domains
 {
 	public class EmailSettings
 	{
-        public int EmailSettingsId { get; set; }
+		public int EmailSettingsId { get; set; }
 
 		[Required]
 		[Display(Name = "Nazwa nadawcy")]
@@ -25,12 +25,13 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 
 		[Display(Name = "SSL")]
 		public bool EnableSsl { get; set; }
-		
+
 		public int Port { get; set; }
 
 		[Required]
 		[ForeignKey(nameof(User))]
 		public string UserId { get; set; }
+
 		public ApplicationUser User { get; set; }
 	}
 }

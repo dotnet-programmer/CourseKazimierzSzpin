@@ -8,43 +8,43 @@
 
 @if (Model is not null && Model.Any())
 {
-	<table class="table table-hover table-striped mt-3 mb-5">
-		<thead>
-			<tr>
-				<th scope="col">Lp</th>
-				<th scope="col">Odbiorca</th>
-				<th scope="col">Nowa wiadomość do</th>
-				<th scope="col">Usuń kontakt</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for (int i = 0; i < Model.Count(); i++)
+<table class="table table-hover table-striped mt-3 mb-5">
+	<thead>
+		<tr>
+			<th scope="col">Lp</th>
+			<th scope="col">Odbiorca</th>
+			<th scope="col">Nowa wiadomość do</th>
+			<th scope="col">Usuń kontakt</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (int i = 0; i < Model.Count(); i++)
 			{
-				<tr>
-					<td>@(i+1)</td>
-					<td>@Model.ElementAt(i).Email</td>
-					<td>
-						@using (Html.BeginForm("Index", "Home", new { recipientEmail = Model.ElementAt(i).Email }))
+		<tr>
+			<td>@(i+1)</td>
+			<td>@Model.ElementAt(i).Email</td>
+			<td>
+				@using (Html.BeginForm("Index", "Home", new { recipientEmail = Model.ElementAt(i).Email }))
 						{
-							<button type="submit" class="btn btn-primary btn-sm">
-								Nowa wiadomość
-							</button>
+				<button type="submit" class="btn btn-primary btn-sm">
+					Nowa wiadomość
+				</button>
 						}
-					</td>
-					<td>
-						<button class="btn btn-danger btn-sm"
-								onclick="deleteContact('@Model.ElementAt(i).ContactId', this)">
-							Usuń
-						</button>
-					</td>
-				</tr>
+			</td>
+			<td>
+				<button class="btn btn-danger btn-sm"
+						onclick="deleteContact('@Model.ElementAt(i).ContactId', this)">
+					Usuń
+				</button>
+			</td>
+		</tr>
 			}
-		</tbody>
-	</table>
+	</tbody>
+</table>
 }
 else
 {
-	<p class="alert alert-info mt-4 mb-4 text-center">Brak kontaktów do wyświetlenia</p>
+<p class="alert alert-info mt-4 mb-4 text-center">Brak kontaktów do wyświetlenia</p>
 }
 
 @section Scripts

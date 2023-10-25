@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using SendEmail.WebApp.NetFramework.Models.Domains;
 
 namespace SendEmail.WebApp.NetFramework.Models.Repositories
