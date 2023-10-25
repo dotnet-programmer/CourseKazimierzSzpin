@@ -30,18 +30,38 @@
 			</div>
 		</div>
 	</nav>
-	<div class="container body-content">
-		<main>
+
+	<main>
+		<div class="container body-content">
 			@RenderBody()
-		</main>
-		<hr />
-		<footer>
-			<p class="text-center">&copy; @DateTime.Now.Year - @appName</p>
-		</footer>
+			<hr />
+		</div>
+	</main>
+
+	<footer>
+		<p class="text-center">&copy; @DateTime.Now.Year - @appName</p>
+	</footer>
+
+	<div class="privacyPolicyInfo" style="display: none">
+		Serwis wykorzystuje pliki cookies. Korzystając ze strony wyrażasz zgodę na wykorzystanie plików cookies.
+		<button onclick="closePrivacyPolicy()" type="button" class="btn btn-light btn-sm mx-3 my-1 privacyPolicyBtn">Ok, rozumiem</button>
 	</div>
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@RenderSection("scripts", required: false)
+
+	<script>
+		function closePrivacyPolicy() {
+			$.cookie("privacyPolicy", "1", { path: '/', expires: 365 });
+			$('.privacyPolicyInfo').css("display", "none");
+		}
+
+		$(document).ready(function () {
+			if ($.cookie("privacyPolicy") !== "1") {
+				$('.privacyPolicyInfo').css("display", "");
+			}
+		});
+	</script>
 </body>
 </html>

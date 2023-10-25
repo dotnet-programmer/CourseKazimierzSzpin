@@ -12,6 +12,7 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
     {
 		public ICollection<EmailSettings> EmailSettings { get; set; } = new Collection<EmailSettings>();
 		public ICollection<EmailSent> EmailSent { get; set; } = new Collection<EmailSent>();
+		public ICollection<Contact> Contacts { get; set; } = new Collection<Contact>();
 
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

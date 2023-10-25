@@ -17,18 +17,32 @@
 				<th scope="col">Odbiorca</th>
 				<th scope="col">Temat</th>
 				<th scope="col">Wiadomość</th>
+				<th scope="col">Wyślij ponownie</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var email in Model)
+			@for (int i = 0; i < Model.Count(); i++)
 			{
 				<tr>
-					<td>@email.DateSent.ToString("dd-MM-yyyy")</td>
-					<td>@email.SenderName</td>
-					<td>@email.SenderEmail</td>
-					<td>@email.RecipientEmail</td>
-					<td>@email.Subject</td>
-					<td>@email.Message</td>
+					<td>@Model.ElementAt(i).DateSent.ToString("g")</td>
+					<td>@Model.ElementAt(i).SenderName</td>
+					<td>@Model.ElementAt(i).SenderEmail</td>
+					<td>@Model.ElementAt(i).RecipientEmail</td>
+					<td>@Model.ElementAt(i).Subject</td>
+					<td>@Model.ElementAt(i).Message</td>
+					<td>
+					<td>
+						@using (Html.BeginForm("Index", "Home", new { 
+							recipientEmail = Model.ElementAt(i).RecipientEmail,
+							subject = Model.ElementAt(i).Subject,
+							message = Model.ElementAt(i).Message
+						}))
+						{
+							<button type="submit" class="btn btn-primary btn-sm">
+								Wyślij ponownie
+							</button>
+						}
+					</td>
 				</tr>
 			}
 		</tbody>

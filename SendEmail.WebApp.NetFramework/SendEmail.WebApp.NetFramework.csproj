@@ -185,14 +185,23 @@
     <Compile Include="Migrations\202310241421087_Init.designer.cs">
       <DependentUpon>202310241421087_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202310251138157_NewTableContacts.cs" />
+    <Compile Include="Migrations\202310251138157_NewTableContacts.designer.cs">
+      <DependentUpon>202310251138157_NewTableContacts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310251343146_ChangeInEmailSent.cs" />
+    <Compile Include="Migrations\202310251343146_ChangeInEmailSent.designer.cs">
+      <DependentUpon>202310251343146_ChangeInEmailSent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Domains\Contact.cs" />
     <Compile Include="Models\Domains\EmailSent.cs" />
     <Compile Include="Models\Domains\EmailSettings.cs" />
+    <Compile Include="Models\Repositories\ContactRepository.cs" />
     <Compile Include="Models\Repositories\EmailSentRepository.cs" />
     <Compile Include="Models\Repositories\EmailSettingsRepository.cs" />
     <Compile Include="Models\ViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
-    <Compile Include="Models\ViewModels\EmailSettingsViewModel.cs" />
     <Compile Include="Models\ViewModels\FactorViewModel.cs" />
     <Compile Include="Models\ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Domains\ApplicationUser.cs" />
@@ -310,7 +319,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\SettingsWithList.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Home\SendEmail.cshtml" />
   </ItemGroup>
@@ -323,6 +331,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202310241421087_Init.resx">
       <DependentUpon>202310241421087_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310251138157_NewTableContacts.resx">
+      <DependentUpon>202310251138157_NewTableContacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310251343146_ChangeInEmailSent.resx">
+      <DependentUpon>202310251343146_ChangeInEmailSent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,10 +8,8 @@ namespace SendEmail.WebApp.NetFramework.Models.Domains
 	{
         public int EmailSentId { get; set; }
 
-		[Required]
         public string SenderName { get; set; }
 
-		[Required]
 		public string SenderEmail { get; set; }
 
 		[Required]

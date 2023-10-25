@@ -13,38 +13,32 @@ namespace SendEmail.WebApp.NetFramework.Controllers
 	{
 		private readonly EmailSettingsRepository _emailSettingsRepository = new EmailSettingsRepository();
 		private readonly EmailSentRepository _emailSentRepository = new EmailSentRepository();
+		private readonly ContactRepository _contactRepository = new ContactRepository();
 
 		public ActionResult Index()
 		{
-			return (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ? View("Settings", new EmailSettings { UserId = GetUserId() }) : View(new EmailSent());
+			return (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ? 
+				View("Settings", new EmailSettings { UserId = GetUserId() }) : 
+				View(new EmailSent { UserId = GetUserId() });
+		}
+
+		[HttpPost]
+		public ActionResult Index(string recipientEmail, string subject = "", string message = "")
+		{
+			return (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ? 
+				View("Settings", new EmailSettings { UserId = GetUserId() }) : 
+				View(new EmailSent { UserId = GetUserId(), RecipientEmail = recipientEmail, Subject = subject, Message = message });
 		}
 
 		public ActionResult Contacts()
 		{
-			ViewBag.Message = "Your Contacts page.";
-
-			return View();
+			return View(_contactRepository.GetContacts(GetUserId()));
 		}
 
 		public ActionResult History()
 		{
-			ViewBag.Message = "Your History page.";
-
 			return View(_emailSentRepository.GetEmails(GetUserId()));
 		}
-
-		//public ActionResult Settings(int emailSettingsId = 0)
-		//{
-		//	string userId = GetUserId();
-		//	EmailSettings emailSettings = (emailSettingsId == 0) ? GetNewEmailSettings(userId) : _emailSettingsRepository.GetEmailSettings(userId);
-		//	return View(emailSettings);
-
-		//	//var userId = GetUserId();
-		//	//EmailSettings emailSettings = (emailSettingsId == 0) ? GetNewEmailSettings(userId) : _emailSettingsRepository.GetEmailSettings(userId);
-		//	//EmailSettingsViewModel emailSettingsVM = (emailSettingsId == 0) ? GetNewEmailSettings(userId) : _emailSettingsRepository.GetEmailSettings(userId);
-		//	//return View(emailSettingsVM);
-		//	//return View(_emailSettingsRepository.GetEmailSettings(GetUserId()));
-		//}
 
 		public ActionResult Settings()
 		{
@@ -75,25 +69,36 @@ namespace SendEmail.WebApp.NetFramework.Controllers
 			return RedirectToAction("Index");
 		}
 
-		// error związany z async - trzeba oznaczyć stronę jako asynchroniczną
-		// <%@ Page Async="true" %>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		//public async Task<ActionResult> SendEmail(EmailSent emailSent)
-		public ActionResult SendEmail(EmailSent emailSent)
+		public async Task<ActionResult> SendEmail(EmailSent emailSent)
 		{
+			var userId = GetUserId();
 			EmailParams emailParams = GetEmailParams();
 			Email email = new Email(emailParams);
 
-			emailSent.UserId = GetUserId();
+			emailSent.UserId = userId;
 			emailSent.DateSent = DateTime.Now;
 			emailSent.SenderName = emailParams.SenderName;
 			emailSent.SenderEmail = emailParams.SenderEmail;
+			if (emailSent.Message == null)
+			{
+				emailSent.Message = "";
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View("Index", emailSent);
+			}
 
 			try
 			{
-				email.Send(emailSent.Subject, emailSent.Message, emailSent.RecipientEmail);
+				await email.Send(emailSent.Subject, emailSent.Message, emailSent.RecipientEmail);
 				_emailSentRepository.AddEmailSent(emailSent);
+				if (!_contactRepository.CheckIfContactExists(emailSent.RecipientEmail, userId))
+				{
+					_contactRepository.AddNewContact(new Contact { Email = emailSent.RecipientEmail, UserId = userId });
+				}
 			}
 			catch (Exception ex)
 			{
@@ -102,6 +107,20 @@ namespace SendEmail.WebApp.NetFramework.Controllers
 			}
 
 			return View(true);
+		}
+
+		[HttpPost]
+		public ActionResult DeleteContact(int contactId)
+		{
+			try
+			{
+				_contactRepository.DeleteContact(contactId, GetUserId());
+			}
+			catch (Exception ex)
+			{
+				return Json(new { Success = false, ex.Message });
+			}
+			return Json(new { Success = true });
 		}
 
 		private string GetUserId() => User.Identity.GetUserId();
