@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using InvoiceManager.WebApp.NetFramework.Models.Domains;
 using InvoiceManager.WebApp.NetFramework.Models.Repositories;
 using InvoiceManager.WebApp.NetFramework.Models.ViewModels;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace InvoiceManager.WebApp.NetFramework.Controllers
@@ -23,7 +22,7 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		public ActionResult About()
 		{
 			ViewBag.Message = "Your application description page.";
-			
+
 			// przekazanie danych jako model z kontrolera do widoku
 			string test = "testy 123";
 
@@ -63,6 +62,7 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		}
 
 		private static int number = 0;
+
 		[AllowAnonymous]
 		// INFO - Cache
 		[OutputCache(Duration = 10)]
@@ -225,56 +225,50 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 			};
 
 		#region Sesja
+
 		// INFO - sesja
 		// ta metoda będzie zawsze aktualizować sesję o wybranym kluczu o wartość podaną w argumencie
 		// argument - tutaj jest to wartość o jaką będzie aktualizowana sesja
-		private void UpdateSession(int i)
-		{
+		private void UpdateSession(int i) =>
 			// odwołanie do konkretnej sesji, w nawiasach kwadratowych trzeba podać klucz
 			Session["nr"] = i;
-		}
 
 		// ta metoda pobiera sesję
-		private int GetSession()
-		{
-			return Session["nr"] != null ? (int)Session["nr"] : 0;
-		}
+		private int GetSession() => Session["nr"] != null ? (int)Session["nr"] : 0;
+
 		#endregion Sesja
 
 		#region Cookies - ciasteczka
+
 		// INFO - Cookies - ciasteczka
 		// dodawanie nowego cookie albo aktualizacja
 		private void UpdateCookie(int i)
 		{
 			// pierwszy argument to nazwa ciastka, drugi to wartość jaka ma być przypisana
-			var cookie = new HttpCookie("nr", i.ToString());
-
-			// data wygaśnięcia ciastka
-			cookie.Expires = DateTime.Now.AddDays(365);
+			var cookie = new HttpCookie("nr", i.ToString())
+			{
+				// data wygaśnięcia ciastka
+				Expires = DateTime.Now.AddDays(365)
+			};
 
 			// w odpowiedzi ustawienie ciastka
 			Response.SetCookie(cookie);
 		}
 
 		// pobieranie ciastka
-		private int GetCookie()
-		{
+		private int GetCookie() =>
 			// sprawdzenie czy cookie istnieje
-			return Request.Cookies["nr"] != null ? int.Parse(Request.Cookies["nr"].Value) : 0;
-		}
+			Request.Cookies["nr"] != null ? int.Parse(Request.Cookies["nr"].Value) : 0;
+
 		#endregion Cookies - ciasteczka
 
 		#region Cache
-		// INFO - Cache
-		private void UpdateCache(int i)
-		{
-			HttpRuntime.Cache["nr"] = i;
-		}
 
-		private int GetCache()
-		{
-			return HttpRuntime.Cache["nr"] != null ? (int)HttpRuntime.Cache["nr"] : 0;
-		}
+		// INFO - Cache
+		private void UpdateCache(int i) => HttpRuntime.Cache["nr"] = i;
+
+		private int GetCache() => HttpRuntime.Cache["nr"] != null ? (int)HttpRuntime.Cache["nr"] : 0;
+
 		#endregion Cache
 
 		#region Test Actions

@@ -85,12 +85,12 @@
 		<tbody>
 			@foreach (var position in Model.InvoicePositions)
 			{
-				<tr>
-					<td>@position.Lp</td>
-					<td>@position.Product.Name</td>
-					<td>@position.Quantity</td>
-					<td>@position.Value zł</td>
-				</tr>
+			<tr>
+				<td>@position.Lp</td>
+				<td>@position.Product.Name</td>
+				<td>@position.Quantity</td>
+				<td>@position.Value zł</td>
+			</tr>
 			}
 		</tbody>
 	</table>
@@ -99,7 +99,7 @@
 		<div class="col-5">
 			@if (!string.IsNullOrWhiteSpace(Model.Comments))
 			{
-				<div class="text-left">Uwagi: @Model.Comments</div>
+			<div class="text-left">Uwagi: @Model.Comments</div>
 			}
 		</div>
 		<div class="col-5 offset-2">
@@ -119,6 +119,4 @@
 			<div>...............................</div>
 		</div>
 	</div>
-
 </div>
-

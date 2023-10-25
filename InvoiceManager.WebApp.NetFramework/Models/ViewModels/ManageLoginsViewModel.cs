@@ -5,8 +5,8 @@ using Microsoft.Owin.Security;
 namespace InvoiceManager.WebApp.NetFramework.Models.ViewModels
 {
 	public class ManageLoginsViewModel
-    {
-        public IList<UserLoginInfo> CurrentLogins { get; set; }
-        public IList<AuthenticationDescription> OtherLogins { get; set; }
-    }
+	{
+		public IList<UserLoginInfo> CurrentLogins { get; set; }
+		public IList<AuthenticationDescription> OtherLogins { get; set; }
+	}
 }

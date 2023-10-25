@@ -29,19 +29,22 @@ namespace InvoiceManager.WebApp.NetFramework.Models.Domains
 
 		[Display(Name = "Sposób płatności")]
 		public int MethodOfPaymentId { get; set; }
+
 		public MethodOfPayment MethodOfPayment { get; set; }
 
 		[Display(Name = "Klient")]
 		public int ClientId { get; set; }
+
 		public Client Client { get; set; }
 
 		[Required]
 		// jawna definicja klucza obcego - zrobione tak ponieważ UserId jest typu string i EF nie utworzyłby go automatycznie
 		[ForeignKey(nameof(User))]
 		public string UserId { get; set; }
+
 		// ApplicationUser - klasa użytkownika stworzona przez szablon aplikacji
 		public ApplicationUser User { get; set; }
 
-        public ICollection<InvoicePosition> InvoicePositions { get; set; } = new Collection<InvoicePosition>();
-    }
+		public ICollection<InvoicePosition> InvoicePositions { get; set; } = new Collection<InvoicePosition>();
+	}
 }

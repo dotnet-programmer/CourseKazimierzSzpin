@@ -15,12 +15,12 @@ nav, footer {
 	display: flex !important;
 }
 
-/*div w klasie row*/
-.row > div {
-	-webkit-box-flex: 1;
-	-webkit-flex: 1;
-	flex: 1;
-}
+	/*div w klasie row*/
+	.row > div {
+		-webkit-box-flex: 1;
+		-webkit-flex: 1;
+		flex: 1;
+	}
 
 tr, td, th, thead, thead tr, thead tr th, tfood {
 	page-break-inside: avoid !important;

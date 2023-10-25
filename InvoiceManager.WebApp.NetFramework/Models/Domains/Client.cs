@@ -7,9 +7,10 @@ namespace InvoiceManager.WebApp.NetFramework.Models.Domains
 {
 	public class Client
 	{
-        public int Id { get; set; }
+		public int Id { get; set; }
 		[Required]
 		public string Name { get; set; }
+
 		[Required]
 		public string Email { get; set; }
 
@@ -19,8 +20,9 @@ namespace InvoiceManager.WebApp.NetFramework.Models.Domains
 		[Required]
 		[ForeignKey(nameof(User))]
 		public string UserId { get; set; }
+
 		public ApplicationUser User { get; set; }
 
-        public ICollection<Invoice> Invoices { get; set; } = new Collection<Invoice>();
+		public ICollection<Invoice> Invoices { get; set; } = new Collection<Invoice>();
 	}
 }

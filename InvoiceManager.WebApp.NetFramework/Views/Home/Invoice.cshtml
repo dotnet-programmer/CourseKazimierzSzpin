@@ -12,21 +12,21 @@
 
 	@if (!isNewInvoice)
 	{
-		<button class="btn btn-primary mb-3"
-				onclick='window.location.href="@Url.Action("InvoicePosition", "Home", new { invoiceId = Model.Invoice.Id })"'>
-			Dodaj pozycję
-		</button>
+	<button class="btn btn-primary mb-3"
+			onclick='window.location.href="@Url.Action("InvoicePosition", "Home", new { invoiceId = Model.Invoice.Id })"'>
+		Dodaj pozycję
+	</button>
 
 		//JavaScript w onclick bo ma sie tylko wykonac jakaś funkcja, bez przeładowania strony
-		<button class="btn btn-secondary mb-3"
-				onclick="generatePdf()">
-			Generuj PDF
-		</button>
+	<button class="btn btn-secondary mb-3"
+			onclick="generatePdf()">
+		Generuj PDF
+	</button>
 
-		<button class="btn btn-secondary mb-3"
-				onclick="printPdf()">
-			Drukuj PDF
-		</button>
+	<button class="btn btn-secondary mb-3"
+			onclick="printPdf()">
+		Drukuj PDF
+	</button>
 	}
 
 	<div class="row">
@@ -36,65 +36,65 @@
 			@using (Html.BeginForm("Invoice", "Home"))
 			{
 				// INFO - zabezpieczenie przed atakiem Cross-site request forgery (w skrócie CSRF lub XSRF)
-				@Html.AntiForgeryToken()
+			@Html.AntiForgeryToken()
 
 				//INFO - walidacja poprawności wprowadzonych danych - podsumowanie błędów
-				@Html.ValidationSummary()
+			@Html.ValidationSummary()
 
 				if (isNewInvoice)
 				{
-					<p class="alert alert-info mt-4 mb-4">
-						<strong>Pola tytuł, klient, sposób płatności i termin są wymagane.</strong>
-					</p>
+			<p class="alert alert-info mt-4 mb-4">
+				<strong>Pola tytuł, klient, sposób płatności i termin są wymagane.</strong>
+			</p>
 				}
 
 				//INFO - pola które nie będą uzupełniane, ale będą przekazane do kontrolera
-				@Html.HiddenFor(x => x.Invoice.Id)
-				@Html.HiddenFor(x => x.Invoice.UserId)
-				@*@Html.HiddenFor(x => x.Invoice.CreatedDate)*@
+			@Html.HiddenFor(x => x.Invoice.Id)
+			@Html.HiddenFor(x => x.Invoice.UserId)
+			@*@Html.HiddenFor(x => x.Invoice.CreatedDate)*@
 
-				<div>
-					@Html.LabelFor(x => x.Invoice.Title)
-					@Html.TextBoxFor(x => x.Invoice.Title, new { @class = "form-control", autofocus = "autofocus" })
+			<div>
+				@Html.LabelFor(x => x.Invoice.Title)
+				@Html.TextBoxFor(x => x.Invoice.Title, new { @class = "form-control", autofocus = "autofocus" })
 
-					@*INFO - walidacja poprawności wprowadzonych danych*@
-					@Html.ValidationMessageFor(x => x.Invoice.Title)
-				</div>
+				@*INFO - walidacja poprawności wprowadzonych danych*@
+				@Html.ValidationMessageFor(x => x.Invoice.Title)
+			</div>
 
-				<div>
-					@Html.LabelFor(x => x.Invoice.ClientId)
-					@Html.DropDownListFor(x => x.Invoice.ClientId, new SelectList(Model.Clients, "Id", "Name"), "-- Wybierz klienta --", new { @class = "form-control" })
-					@Html.ValidationMessageFor(x => x.Invoice.ClientId)
-				</div>
+			<div>
+				@Html.LabelFor(x => x.Invoice.ClientId)
+				@Html.DropDownListFor(x => x.Invoice.ClientId, new SelectList(Model.Clients, "Id", "Name"), "-- Wybierz klienta --", new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.Invoice.ClientId)
+			</div>
 
 				if (!isNewInvoice)
 				{
-					<div>
-						@Html.LabelFor(x => x.Invoice.Value)
-						@Html.TextBoxFor(x => x.Invoice.Value, new { @class = "form-control", @readonly = "readonly" })
-					</div>
+			<div>
+				@Html.LabelFor(x => x.Invoice.Value)
+				@Html.TextBoxFor(x => x.Invoice.Value, new { @class = "form-control", @readonly = "readonly" })
+			</div>
 				}
 
-				<div>
-					@Html.LabelFor(x => x.Invoice.MethodOfPaymentId)
-					@Html.DropDownListFor(x => x.Invoice.MethodOfPaymentId, new SelectList(Model.MethodOfPayments, "Id", "Name"), "-- Wybierz sposób płatności --", new { @class = "form-control" })
-					@Html.ValidationMessageFor(x => x.Invoice.MethodOfPaymentId)
-				</div>
+			<div>
+				@Html.LabelFor(x => x.Invoice.MethodOfPaymentId)
+				@Html.DropDownListFor(x => x.Invoice.MethodOfPaymentId, new SelectList(Model.MethodOfPayments, "Id", "Name"), "-- Wybierz sposób płatności --", new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.Invoice.MethodOfPaymentId)
+			</div>
 
-				<div>
-					@Html.LabelFor(x => x.Invoice.PaymentDate)
-					@Html.TextBoxFor(x => x.Invoice.PaymentDate, "{0:dd-MM-yyyy}", new { @class = "form-control", @id = "PaymentDate", autocomplete = "off" })
-					@Html.ValidationMessageFor(x => x.Invoice.PaymentDate)
-				</div>
+			<div>
+				@Html.LabelFor(x => x.Invoice.PaymentDate)
+				@Html.TextBoxFor(x => x.Invoice.PaymentDate, "{0:dd-MM-yyyy}", new { @class = "form-control", @id = "PaymentDate", autocomplete = "off" })
+				@Html.ValidationMessageFor(x => x.Invoice.PaymentDate)
+			</div>
 
-				<div>
-					@Html.LabelFor(x => x.Invoice.Comments)
-					@Html.TextAreaFor(x => x.Invoice.Comments, new { @class = "form-control" })
-					@Html.ValidationMessageFor(x => x.Invoice.Comments)
-				</div>
+			<div>
+				@Html.LabelFor(x => x.Invoice.Comments)
+				@Html.TextAreaFor(x => x.Invoice.Comments, new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.Invoice.Comments)
+			</div>
 
 				//przycisk musi być typu submit, wtedy przesyła formularz z widoku do kontrolera
-				<button type="submit" class="btn btn-primary btn-lg mb-5">Zapisz</button>
+			<button type="submit" class="btn btn-primary btn-lg mb-5">Zapisz</button>
 			}
 		</div>
 
@@ -102,7 +102,7 @@
 			@if (!isNewInvoice)
 			{
 				//nazwy widoków częściowych poprzedzone są podkresleniem
-				@Html.Partial("_InvoicePosition", Model.Invoice.InvoicePositions)
+			@Html.Partial("_InvoicePosition", Model.Invoice.InvoicePositions)
 			}
 		</div>
 	</div>

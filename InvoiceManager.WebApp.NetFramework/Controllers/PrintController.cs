@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using InvoiceManager.WebApp.NetFramework.Models.Domains;
 using InvoiceManager.WebApp.NetFramework.Models.Repositories;
@@ -14,7 +11,7 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 	[Authorize]
 	public class PrintController : Controller
 	{
-		private InvoiceRepository _invoiceRepository = new InvoiceRepository();
+		private readonly InvoiceRepository _invoiceRepository = new InvoiceRepository();
 
 		// kod testowy, do wyświetlenia w przeglądarce podglądu
 		//public ActionResult InvoiceTemplate(int id)
@@ -69,7 +66,7 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 
 		private byte[] GetPdfContent(Invoice invoice)
 		{
-			// użycie Rotativa, na podstawie widoku generowany jest PDF, 
+			// użycie Rotativa, na podstawie widoku generowany jest PDF,
 			// parametry wywołania to nazwa widoku i model do tego widoku
 			var pdfResult = new ViewAsPdf(@"InvoiceTemplate", invoice)
 			{
