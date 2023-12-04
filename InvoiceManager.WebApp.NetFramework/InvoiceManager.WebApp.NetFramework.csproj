@@ -159,6 +159,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionResults\MyCsvResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Filters\CustomExceptionFilter.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -239,6 +240,7 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\PrintInvoice.css" />
     <Content Include="favicon.ico" />
+    <None Include="Files\TestFile.zip" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />

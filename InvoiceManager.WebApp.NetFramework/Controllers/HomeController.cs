@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Caching;
 using System.Web.Mvc;
+using InvoiceManager.WebApp.NetFramework.ActionResults;
 using InvoiceManager.WebApp.NetFramework.Filters;
 using InvoiceManager.WebApp.NetFramework.Models.Domains;
 using InvoiceManager.WebApp.NetFramework.Models.Repositories;
@@ -85,7 +86,7 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 
 			return View();
 		}
-		
+
 		public ActionResult Index() => View(_invoiceRepository.GetInvoices(GetUserId()));
 
 		//jeśli id = 0 to dodawanie nowej faktury, a jak jest jakieś id to będzie edycja
@@ -314,6 +315,18 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		public ActionResult Test4() => File("../Web.config", "text");
 
 		public ActionResult Test5() => Content("<script>alert('ALERT!')</script>");
+
+		[AllowAnonymous]
+		// INFO - pobranie pliku z serwera
+		// Home/GetFile?fileName=TestFile.zip
+		public ActionResult GetFile(string fileName)
+		{
+			var physicalFilePath = Server.MapPath("~/Files/" + fileName);
+			return File(physicalFilePath, "application/zip");
+		}
+
+		// INFO - własny Action Result
+		public ActionResult GetCsv() => new MyCsvResult("Jan Kowalski" + Environment.NewLine + "Krzysztof Nowak");
 
 		#endregion Test Actions
 	}
