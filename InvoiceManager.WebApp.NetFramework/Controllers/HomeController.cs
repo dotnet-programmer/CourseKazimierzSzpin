@@ -94,15 +94,20 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 			return View(viewModel);
 		}
 
+		// oznaczenie metody typu Post
 		[HttpPost]
+		
 		// INFO - zabezpieczenie przed atakiem Cross-site request forgery (w skrócie CSRF lub XSRF)
 		[ValidateAntiForgeryToken]
+
+		// parametr używany przez formularz, który dopasowuje nazwy inputów do nazw właściwości obiektu i przypisuje im odpowiednie wartości
 		public ActionResult Invoice(Invoice invoice)
 		{
 			var userId = GetUserId();
 			invoice.UserId = userId;
 
 			// INFO - walidacja poprawności wprowadzonych danych
+			// ModelState.IsValid sprawdza poprawność pól na podstawie danych wpisanych w atrybutach modeli, np czy jest wymagany, jaka długość itp.
 			if (!ModelState.IsValid)
 			{
 				EditInvoiceViewModel viewModel = PrepareEditInvoiceViewModel(invoice, userId);

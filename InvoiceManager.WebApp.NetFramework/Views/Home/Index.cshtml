@@ -48,7 +48,7 @@
 				<td>@invoice.CreatedDate.ToString("dd-MM-yyyy")</td>
 				<td>@invoice.PaymentDate.ToString("dd-MM-yyyy")</td>
 				<td>
-					@*INFO - JavaScript + Ajax na onclick, żeby nie przeładowywać strony*@
+					@*INFO - JavaScript + Ajax na onclick, żeby wywołać jakąś akcję z kontrolera i nie przeładowywać całej strony*@
 					@*INFO - parametr this - przekazanie całego obiektu, w tym przypadku będzie to button*@
 					<button class="btn btn-danger btn-sm"
 							onclick="deleteInvoice('@invoice.Id', this)">
@@ -77,23 +77,35 @@
             }
 
             // jQuery + ajax, w nawiasach {} przekazuje sie różne wartośći
-            $.ajax({
-                type: 'POST',
-                url: "@Url.Action("Delete", "Home")",
-                data: { invoiceId: id },
+			$.ajax({
+				// określenie typu akcji w kontrolerze
+				type: 'POST',
+
+				// ustawienie linku, który będzie wykonany, tutaj akcja Delete z kontrolera Home
+				url: "@Url.Action("Delete", "Home")",
+
+				// parametry przekazywane do akcji w kontrolerze, nazwa invoiceId musi być taka sama jak nazwa parametru akcji
+				data: { invoiceId: id },
+
+				// określenie co ma się wydarzyć, jeśli wszystko pójdzie zgodnie z oczekiwaniami
+				// parametr data - to jest wartość zwracana przez wywołaną akcję, w tym wypadku jest to Json
                 success: function (data) {
                     if (data.Success) {
-                        // usuwanie z html
+                        // usuwanie wybranego rzędu (faktury) z tabelki w html
                         var row = btn.parentNode.parentNode;
                         row.parentNode.removeChild(row);
                     }
                     else {
                         alert(data.Message);
                     }
-                },
+				},
+
+				// jeżeli występują jakieś inne błędy w javaScripcie
                 error: function (data) {
                     alert(data.Message);
-                },
+				},
+
+				// określenie typu zwracanego przez akcję
                 dataType: 'json'
             });
         }
