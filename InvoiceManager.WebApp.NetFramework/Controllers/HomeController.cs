@@ -328,6 +328,22 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		// INFO - własny Action Result
 		public ActionResult GetCsv() => new MyCsvResult("Jan Kowalski" + Environment.NewLine + "Krzysztof Nowak");
 
+		// INFO - ChildActionOnly
+		// oznacza że nie można dostać się do tej akcji poprzez wpisanie adresu URL
+		// czyli jest dostępne tylko jako podzapytanie gdy przetwarzany jest główny widok
+		// umożliwia przekazanie modelu do widoku częściowego, w którym można się odwołać do @Model, bez wcześniejszej deklaracji modelu
+		[ChildActionOnly]
+		[AllowAnonymous]
+		public ActionResult GetTimePartial()
+		{
+			var time = DateTime.Now.ToLongTimeString();
+			return PartialView("PartialTime", time);
+		}
+
+		[ChildActionOnly]
+		[AllowAnonymous]
+		public string GetTime() => DateTime.Now.ToLongTimeString();
+
 		#endregion Test Actions
 	}
 }

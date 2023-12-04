@@ -17,4 +17,15 @@
 		<strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
 		<strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
 	</address>
+
+	@*
+		INFO - Html.Action - ChildActionOnly
+		Umożliwia najpierw wykonanie jakiejś logiki w akcji kontrolera, który przygotuje jakiś model
+		oraz późniejsze wywołanie widoku częściowego, który będzie korzystał z tych danych
+	*@
+	@Html.Action("GetTimePartial")
+
+	@* INFO - Html.Action - może zwracać też typ prosty, np string *@
+	@Html.Action("GetTime")
+
 </main>
