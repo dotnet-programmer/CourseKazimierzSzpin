@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Caching;
 using System.Web.Mvc;
+using InvoiceManager.WebApp.NetFramework.Filters;
 using InvoiceManager.WebApp.NetFramework.Models.Domains;
 using InvoiceManager.WebApp.NetFramework.Models.Repositories;
 using InvoiceManager.WebApp.NetFramework.Models.ViewModels;
@@ -18,7 +19,15 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		private readonly ClientRepository _clientRepository = new ClientRepository();
 		private readonly ProductRepository _productRepository = new ProductRepository();
 
+		private static int _number = 0;
+
+		#region Actions
+
+		// umożliwia wykonanie akcji niezalogowanym użytkownikom
 		[AllowAnonymous]
+
+		// INFO - własna klasa atrybutu Action Filter
+		[Timer]
 		public ActionResult About()
 		{
 			ViewBag.Message = "Your application description page.";
@@ -61,29 +70,23 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 			return View((object)test);
 		}
 
-		private static int number = 0;
-
 		[AllowAnonymous]
-		// INFO - Cache
+
+		// INFO - Cache, czas trwania danych w cache ustawiony na 10s
 		[OutputCache(Duration = 10)]
 		public ActionResult Contact()
 		{
-			number++;
+			_number++;
 
-			ViewBag.Message = "Your contact page. =>" + number;
+			ViewBag.Message = "Your contact page. =>" + _number;
 
 			// zmiana domyślnego widoku zwraacnego przez kontroler - trzeba podać nazwę widoku który ma zostać wyświetlony
 			//return View("About");
 
 			return View();
 		}
-
-		public ActionResult Index() =>
-			//var userId = User.Identity.GetUserId();
-			//List<Invoice> invoices = _invoiceRepository.GetInvoices(userId);
-			//return View(invoices);
-
-			View(_invoiceRepository.GetInvoices(GetUserId()));
+		
+		public ActionResult Index() => View(_invoiceRepository.GetInvoices(GetUserId()));
 
 		//jeśli id = 0 to dodawanie nowej faktury, a jak jest jakieś id to będzie edycja
 		public ActionResult Invoice(int invoiceId = 0)
@@ -96,7 +99,7 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 
 		// oznaczenie metody typu Post
 		[HttpPost]
-		
+
 		// INFO - zabezpieczenie przed atakiem Cross-site request forgery (w skrócie CSRF lub XSRF)
 		[ValidateAntiForgeryToken]
 
@@ -125,8 +128,16 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 			return RedirectToAction("Index");
 		}
 
+		// INFO - dodanie własnej strony błędu wyświetlanej podczas wystąpienia określonego typu wyjątku
+		[HandleError(ExceptionType = typeof(ArgumentException), View = "ArgumentException")]
 		public ActionResult InvoicePosition(int invoiceId, int invoicePositionId = 0)
 		{
+			// INFO - dodanie własnej strony błędu wyświetlanej podczas wystąpienia określonego typu wyjątku
+			if (invoicePositionId < 0)
+			{
+				throw new ArgumentException(nameof(invoicePositionId));
+			}
+
 			var userId = GetUserId();
 			InvoicePosition invoicePosition = (invoicePositionId == 0) ? GetNewInvoicePosition(invoiceId, invoicePositionId) : _invoiceRepository.GetInvoicePosition(invoicePositionId, userId);
 			EditInvoicePositionViewModel viewModel = PrepareEditInvoicePositionViewModel(invoicePosition);
@@ -195,6 +206,10 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 			return Json(new { Success = true, InvoiceValue = invoiceValue });
 		}
 
+		#endregion Actions
+
+		#region Private methods
+
 		private string GetUserId() => User.Identity.GetUserId();
 
 		private Invoice GetNewInvoice(string userId)
@@ -228,6 +243,8 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 				Heading = (invoicePosition.Id == 0) ? "Dodawanie nowej pozycji" : "Pozycja",
 				Products = _productRepository.GetProducts(),
 			};
+
+		#endregion Private methods
 
 		#region Sesja
 
