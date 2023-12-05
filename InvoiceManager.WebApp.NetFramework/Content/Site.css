@@ -12,8 +12,15 @@
 	white-space: normal;
 }
 
+/* styl dla komunikatu o błędnie wypełnionym polu */
 .field-validation-error {
 	color: #ff3333;
+}
+
+/* styl dla pola input o błędnie wypełnionym polu */
+.input-validation-error {
+	background: #ff7d7d;
+	border: 1px solid #ff3333;
 }
 
 .privacyPolicyInfo {
