@@ -1,0 +1,55 @@
+﻿@using SendEmail.NetFramework.WebApp.Models.Domains
+
+@model IEnumerable<EmailSent>
+
+@{
+	ViewBag.Title = "Historia";
+}
+
+@if (Model is not null && Model.Any())
+{
+<table class="table table-hover table-striped mt-3 mb-5">
+	<thead>
+		<tr>
+			<th scope="col">Data wysłania</th>
+			<th scope="col">Nadawca</th>
+			<th scope="col">Email nadawcy</th>
+			<th scope="col">Odbiorca</th>
+			<th scope="col">Temat</th>
+			<th scope="col">Wiadomość</th>
+			<th scope="col">Wyślij ponownie</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (int i = 0; i < Model.Count(); i++)
+			{
+		<tr>
+			<td>@Model.ElementAt(i).DateSent.ToString("g")</td>
+			<td>@Model.ElementAt(i).SenderName</td>
+			<td>@Model.ElementAt(i).SenderEmail</td>
+			<td>@Model.ElementAt(i).RecipientEmail</td>
+			<td>@Model.ElementAt(i).Subject</td>
+			<td>@Model.ElementAt(i).Message</td>
+			<td>
+			<td>
+				@using (Html.BeginForm("Index", "Home", new
+						{
+							recipientEmail = Model.ElementAt(i).RecipientEmail,
+							subject = Model.ElementAt(i).Subject,
+							message = Model.ElementAt(i).Message
+						}))
+						{
+				<button type="submit" class="btn btn-primary btn-sm">
+					Wyślij ponownie
+				</button>
+						}
+			</td>
+		</tr>
+			}
+	</tbody>
+</table>
+}
+else
+{
+<p class="alert alert-info mt-4 mb-4 text-center">Brak maili do wyświetlenia</p>
+}

@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HumanResources.Homework.Wpf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManager.WebApp.NetFramework", "InvoiceManager.WebApp.NetFramework\InvoiceManager.WebApp.NetFramework.csproj", "{72D0C54D-1FCA-488B-A8D6-77CC709DC764}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendEmail.WebApp.NetFramework", "SendEmail.WebApp.NetFramework\SendEmail.WebApp.NetFramework.csproj", "{771A26B3-CC36-46EE-BC2C-0283BC9C37D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendEmail.NetFramework.WebApp", "SendEmail.NetFramework.WebApp\SendEmail.NetFramework.WebApp.csproj", "{771A26B3-CC36-46EE-BC2C-0283BC9C37D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
