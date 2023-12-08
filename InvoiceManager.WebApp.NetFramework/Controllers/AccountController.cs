@@ -129,6 +129,8 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		// GET: /Account/Register
 		// INFO - ten atrybut oznacza dostęp do tego widoku dla osób niezalogowanych
 		[AllowAnonymous]
+		// INFO - wymuszenie połączenia przez HTTPS
+		[RequireHttps]
 		public ActionResult Register() => View();
 
 		// INFO - typ metody Post - musi być oznaczona atrybutem [HttpPost],
@@ -138,6 +140,8 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
+		// wymuszenie połączenia przez HTTPS
+		[RequireHttps]
 		public async Task<ActionResult> Register(RegisterViewModel model)
 		{
 			if (ModelState.IsValid)

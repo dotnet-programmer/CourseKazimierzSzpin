@@ -252,9 +252,8 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		// INFO - sesja
 		// ta metoda będzie zawsze aktualizować sesję o wybranym kluczu o wartość podaną w argumencie
 		// argument - tutaj jest to wartość o jaką będzie aktualizowana sesja
-		private void UpdateSession(int i) =>
-			// odwołanie do konkretnej sesji, w nawiasach kwadratowych trzeba podać klucz
-			Session["nr"] = i;
+		// odwołanie do konkretnej sesji, w nawiasach kwadratowych trzeba podać klucz
+		private void UpdateSession(int i) => Session["nr"] = i;
 
 		// ta metoda pobiera sesję
 		private int GetSession() => Session["nr"] != null ? (int)Session["nr"] : 0;
@@ -267,21 +266,23 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 		// dodawanie nowego cookie albo aktualizacja
 		private void UpdateCookie(int i)
 		{
-			// pierwszy argument to nazwa ciastka, drugi to wartość jaka ma być przypisana
-			var cookie = new HttpCookie("nr", i.ToString())
+			// pierwszy argument to nazwa ciastka, drugi to wartość jaka ma być przypisana, rzutować na typ string
+			HttpCookie cookie = new HttpCookie("nr", i.ToString())
 			{
-				// data wygaśnięcia ciastka
+				// data wygaśnięcia ciastka, gdy nie ustawione to ciastko istnieje tylko podczas uruchomienia w przegladarce, po zamknięciu ciastko jest kasowane
 				Expires = DateTime.Now.AddDays(365)
+
+				// ustawienie ujemnej daty powoduje usunięcie ciasteczka
+				//Expires = DateTime.Now.AddDays(-1)
 			};
 
-			// w odpowiedzi ustawienie ciastka
+			// w odpowiedzi ustawienie ciastka, response zawiera informacje jakie ciasteczka przeglądarka powinna zapisać
 			Response.SetCookie(cookie);
 		}
 
-		// pobieranie ciastka
-		private int GetCookie() =>
-			// sprawdzenie czy cookie istnieje
-			Request.Cookies["nr"] != null ? int.Parse(Request.Cookies["nr"].Value) : 0;
+		// pobieranie ciastka; ciastka są wysyłane z każdym żądaniem wysyłanym do serwera
+		// sprawdzenie czy cookie istnieje, request używa się do odczytania ciastka
+		private int GetCookie() => Request.Cookies["nr"] != null ? int.Parse(Request.Cookies["nr"].Value) : 0;
 
 		#endregion Cookies - ciasteczka
 
@@ -289,6 +290,10 @@ namespace InvoiceManager.WebApp.NetFramework.Controllers
 
 		// INFO - Cache
 		private void UpdateCache(int i) => HttpRuntime.Cache["nr"] = i;
+
+		// inny sposób ustawienia wartości cache, argumenty to:
+		// nazwa, wartość, zależność do pliku/tabelki, bezwzględny czas wygasania, czas przedłużający czas wygasania po użyciu cache, prirorytet - kolejność usuwania, delegat wywoływany podczas usuwania cache z pamięci
+		//private void UpdateCache(int i) => HttpRuntime.Cache.Add("nr", i, null, DateTime.Now.AddSeconds(5), TimeSpan.Zero, CacheItemPriority.Default, null);
 
 		private int GetCache() => HttpRuntime.Cache["nr"] != null ? (int)HttpRuntime.Cache["nr"] : 0;
 
