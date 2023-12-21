@@ -2,7 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MyTasks.WebApp.Data.Migrations;
+namespace MyTasks.WebApp.Persistence.Migrations;
+
 public partial class CreateIdentitySchema : Migration
 {
 	protected override void Up(MigrationBuilder migrationBuilder)

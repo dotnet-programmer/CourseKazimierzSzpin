@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MyTasks.WebApp.Models;
+using MyTasks.WebApp.Core.ViewModels;
 
 namespace MyTasks.WebApp.Controllers;
 public class HomeController : Controller
