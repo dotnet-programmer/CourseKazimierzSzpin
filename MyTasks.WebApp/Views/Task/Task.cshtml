@@ -1,0 +1,72 @@
+﻿@model TaskViewModel
+
+@{
+	ViewData["Title"] = Model.Heading;
+}
+
+<h1>@Model.Heading</h1>
+
+@using (Html.BeginForm("Task", "Task"))
+{
+	<p class="alert alert-info mt-4 mb-4">
+		Pola tytuł, opis i kategoria są <strong>wymagane</strong>
+	</p>
+
+	@Html.AntiForgeryToken()
+
+	@Html.HiddenFor(x => x.Task.CategoryId)
+
+	<div class="col-auto form-floating">
+		@Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", placeholder = "Tytuł", autofocus = "autofocus" })
+		@Html.LabelFor(x => x.Task.Title, "Tytuł")
+		@Html.ValidationMessageFor(x => x.Task.Title)
+	</div>
+
+	<div class="col-auto form-floating">
+		@Html.TextBoxFor(x => x.Task.Description, new { @class = "form-control", placeholder = "x" })
+		@Html.LabelFor(x => x.Task.Description)
+		@Html.ValidationMessageFor(x => x.Task.Description)
+	</div>
+
+	<div class="col-auto form-floating">
+		@Html.DropDownListFor(
+				x => x.Task.CategoryId,
+				new SelectList(Model.Categories, "Id", "Name"),
+				"-- wybierz kategorię --",
+				new { @class = "form-select" })
+		@Html.LabelFor(x => x.Task.CategoryId)
+		@Html.ValidationMessageFor(x => x.Task.CategoryId)
+	</div>
+
+	<div class="col-auto form-floating">
+		@Html.TextBoxFor(x => x.Task.Term, "{0:dd-MM-yyyy}", new { @class = "form-control", placeholder = "x", id = "Term", autocomplete = "off" })
+		@Html.LabelFor(x => x.Task.Term)
+		@Html.ValidationMessageFor(x => x.Task.Term)
+	</div>
+
+	if (Model.Task.TaskId > 0)
+	{
+		<div class="col-auto form-check">
+			@Html.CheckBoxFor(x => x.Task.IsExecuted, new { @class = "form-check-input" })
+			@Html.LabelFor(x => x.Task.IsExecuted, new { @class = "form-check-label" })
+		</div>
+	}
+
+	<button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+}
+
+@section Scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#Term').datepicker({
+				format: "dd-mm-yyyy",
+				language: "pl",
+				multidate: false,
+				autoclose: true,
+				todayHighlight: true,
+				forceParse: false
+			});
+		});
+	</script>
+}
