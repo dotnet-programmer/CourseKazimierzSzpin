@@ -44,7 +44,6 @@ public class TaskRepository
 	public void AddTask(Task task)
 	{
 		_context.Tasks.Add(task);
-		_context.SaveChanges();
 	}
 
 	public void UpdateTask(Task task)
@@ -55,20 +54,17 @@ public class TaskRepository
 		taskToUpdate.Term = task.Term;
 		taskToUpdate.IsExecuted = task.IsExecuted;
 		taskToUpdate.CategoryId = task.CategoryId;
-		_context.SaveChanges();
 	}
 
 	public void DeleteTask(int taskId, string userId)
 	{
 		var taskToDelete = _context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId);
 		_context.Tasks.Remove(taskToDelete);
-		_context.SaveChanges();
 	}
 
 	public void FinishTask(int taskId, string userId)
 	{
 		var taskToFinish = _context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId);
 		taskToFinish.IsExecuted = true;
-		_context.SaveChanges();
 	}
 }
