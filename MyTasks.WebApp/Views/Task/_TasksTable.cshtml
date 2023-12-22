@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<MyTasks.WebApp.Core.Models.Domains.Task>
 
 <div id="tasksTable">
-	<table class="table table-bordered mt-3">
-		<thead class="thead-dark">
+	<table class="table table-bordered table-striped mt-3">
+		<thead class="table-dark">
 			<tr>
 				<th scope="col">Tytuł</th>
 				<th scope="col">Opis</th>
@@ -33,7 +33,7 @@
 									Zrealizuj
 								</button>
 							}
-							<button class="btn btn-btn-danger btn-sm"
+							<button class="btn btn-danger btn-sm"
 									onclick="deleteTask('@task.TaskId', this)">
 								Usuń
 							</button>

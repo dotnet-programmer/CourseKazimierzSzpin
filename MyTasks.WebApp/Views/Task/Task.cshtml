@@ -14,31 +14,32 @@
 
 	@Html.AntiForgeryToken()
 
-	@Html.HiddenFor(x => x.Task.CategoryId)
+	@Html.HiddenFor(x => x.Task.TaskId)
+	@Html.HiddenFor(x => x.Task.UserId)
 
-	<div class="col-auto form-floating">
-		@Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", placeholder = "Tytuł", autofocus = "autofocus" })
-		@Html.LabelFor(x => x.Task.Title, "Tytuł")
+	<div class="col-auto form-floating mb-4">
+		@Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", placeholder = "t", autofocus = "autofocus" })
+		@Html.LabelFor(x => x.Task.Title)
 		@Html.ValidationMessageFor(x => x.Task.Title)
 	</div>
 
-	<div class="col-auto form-floating">
+	<div class="col-auto form-floating mb-4">
 		@Html.TextBoxFor(x => x.Task.Description, new { @class = "form-control", placeholder = "x" })
 		@Html.LabelFor(x => x.Task.Description)
 		@Html.ValidationMessageFor(x => x.Task.Description)
 	</div>
 
-	<div class="col-auto form-floating">
+	<div class="col-auto form-floating mb-4">
 		@Html.DropDownListFor(
 				x => x.Task.CategoryId,
-				new SelectList(Model.Categories, "Id", "Name"),
+				new SelectList(Model.Categories, "CategoryId", "Name"),
 				"-- wybierz kategorię --",
 				new { @class = "form-select" })
 		@Html.LabelFor(x => x.Task.CategoryId)
 		@Html.ValidationMessageFor(x => x.Task.CategoryId)
 	</div>
 
-	<div class="col-auto form-floating">
+	<div class="col-auto form-floating mb-4">
 		@Html.TextBoxFor(x => x.Task.Term, "{0:dd-MM-yyyy}", new { @class = "form-control", placeholder = "x", id = "Term", autocomplete = "off" })
 		@Html.LabelFor(x => x.Task.Term)
 		@Html.ValidationMessageFor(x => x.Task.Term)
@@ -46,7 +47,7 @@
 
 	if (Model.Task.TaskId > 0)
 	{
-		<div class="col-auto form-check">
+		<div class="col-auto form-check mb-4">
 			@Html.CheckBoxFor(x => x.Task.IsExecuted, new { @class = "form-check-input" })
 			@Html.LabelFor(x => x.Task.IsExecuted, new { @class = "form-check-label" })
 		</div>

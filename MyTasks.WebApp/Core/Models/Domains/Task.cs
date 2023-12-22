@@ -25,9 +25,9 @@ public class Task
     [Required(ErrorMessage = "Pole Kategoria jest wymagane")]
 	[Display(Name = "Kategoria")]
 	public int CategoryId { get; set; }
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 
 	public string UserId { get; set; }
-    public ApplicationUser User { get; set; }
+    public ApplicationUser? User { get; set; }
 
 }
