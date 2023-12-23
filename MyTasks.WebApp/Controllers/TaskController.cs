@@ -1,13 +1,9 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTasks.WebApp.Core.Models;
-using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence;
 using MyTasks.WebApp.Persistence.Extensions;
-using MyTasks.WebApp.Persistence.Repositories;
+using MyTasks.WebApp.Persistence.Services;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Controllers;
@@ -15,48 +11,50 @@ namespace MyTasks.WebApp.Controllers;
 [Authorize]
 public class TaskController : Controller
 {
-	private UnitOfWork _unitOfWork;
+	private readonly TaskService _taskService;
 
 	// context jest przekazywany przez Dependency Injection
-	public TaskController(ApplicationDbContext context)
-    {
-		_unitOfWork = new(context);
-	}
+	public TaskController(ApplicationDbContext context) => _taskService = new(new UnitOfWork(context));
 
-    public IActionResult Tasks()
+	public IActionResult Tasks()
 	{
 		TasksViewModel vm = new()
 		{
-			Tasks = _unitOfWork.TaskRepository.GetTasks(User.GetUserId()),
-			Categories = _unitOfWork.TaskRepository.GetCategories(),
+			Tasks = _taskService.GetTasks(User.GetUserId()),
+			Categories = _taskService.GetCategories(),
 			FilterTasks = new(),
 		};
+
 		return View(vm);
 	}
 
 	[HttpPost]
 	public IActionResult Tasks(TasksViewModel tasksViewModel)
 	{
-		var tasks = _unitOfWork.TaskRepository.GetTasks(
+		var tasks = _taskService.GetTasks(
 			User.GetUserId(),
 			tasksViewModel.FilterTasks.IsExecuted,
 			tasksViewModel.FilterTasks.CategoryId,
 			tasksViewModel.FilterTasks.Title);
+
 		return PartialView("_TasksTable", tasks);
 	}
 
 	public IActionResult Task(int taskId = 0)
 	{
 		var userId = User.GetUserId();
-		Task task = taskId == 0 ? 
-			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } : 
-			_unitOfWork.TaskRepository.GetTask(taskId, userId);
+
+		Task task = taskId == 0 ?
+			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } :
+			_taskService.GetTask(taskId, userId);
+
 		TaskViewModel vm = new()
 		{
 			Task = task,
 			Heading = taskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
-			Categories = _unitOfWork.TaskRepository.GetCategories()
+			Categories = _taskService.GetCategories()
 		};
+
 		return View(vm);
 	}
 
@@ -65,25 +63,28 @@ public class TaskController : Controller
 	public IActionResult Task(Task task)
 	{
 		task.UserId = User.GetUserId();
+
 		if (!ModelState.IsValid)
 		{
 			TaskViewModel vm = new()
 			{
 				Task = task,
 				Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
-				Categories = _unitOfWork.TaskRepository.GetCategories()
+				Categories = _taskService.GetCategories()
 			};
+
 			return View("Task", vm);
 		}
+
 		if (task.TaskId == 0)
 		{
-			_unitOfWork.TaskRepository.AddTask(task);
+			_taskService.AddTask(task);
 		}
 		else
 		{
-			_unitOfWork.TaskRepository.UpdateTask(task);
+			_taskService.UpdateTask(task);
 		}
-		_unitOfWork.Complete();
+
 		return RedirectToAction("Tasks");
 	}
 
@@ -93,14 +94,14 @@ public class TaskController : Controller
 		try
 		{
 			var userId = User.GetUserId();
-			_unitOfWork.TaskRepository.DeleteTask(taskId, userId);
-			_unitOfWork.Complete();
+			_taskService.DeleteTask(taskId, userId);
 		}
 		catch (Exception ex)
 		{
 			// logowanie do pliku
 			return Json(new { success = false, message = ex.Message });
 		}
+
 		return Json(new { success = true });
 	}
 
@@ -110,14 +111,14 @@ public class TaskController : Controller
 		try
 		{
 			var userId = User.GetUserId();
-			_unitOfWork.TaskRepository.FinishTask(taskId, userId);
-			_unitOfWork.Complete();
+			_taskService.FinishTask(taskId, userId);
 		}
 		catch (Exception ex)
 		{
 			// logowanie do pliku
 			return Json(new { success = false, message = ex.Message });
 		}
+
 		return Json(new { success = true });
 	}
 }

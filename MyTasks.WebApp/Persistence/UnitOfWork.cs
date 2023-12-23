@@ -9,7 +9,8 @@ public class UnitOfWork
     public UnitOfWork(ApplicationDbContext context)
     {
 		_context = context;
-    }
+		TaskRepository = new(context);
+	}
 
     public TaskRepository TaskRepository { get; set; }
 
