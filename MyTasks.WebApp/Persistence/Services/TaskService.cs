@@ -1,4 +1,5 @@
 ﻿using MyTasks.WebApp.Core;
+using MyTasks.WebApp.Core.Models;
 using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Core.Service;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
@@ -14,9 +15,9 @@ public class TaskService : ITaskService
 		_unitOfWork = unitOfWork;
 	}
 
-	public IEnumerable<Task> GetTasks(string? userId, bool isExecuted = false, int categoryId = 0, string title = null)
+	public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams)
 	{
-		return _unitOfWork.TaskRepository.GetTasks(userId, isExecuted, categoryId, title);
+		return _unitOfWork.TaskRepository.GetTasks(getTaskParams);
 	}
 
 	public IEnumerable<Category> GetCategories()

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyTasks.WebApp.Core;
+using MyTasks.WebApp.Core.Models;
 using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Core.Repositories;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
@@ -15,20 +16,20 @@ public class TaskRepository : ITaskRepository
 		_context = context;
     }
 
-    public IEnumerable<Task> GetTasks(string? userId, bool isExecuted = false, int categoryId = 0, string title = null)
+    public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams)
 	{
 		var tasks = _context.Tasks
 			.Include(x => x.Category)
-			.Where(x => x.UserId == userId && x.IsExecuted == isExecuted);
+			.Where(x => x.UserId == getTaskParams.UserId && x.IsExecuted == getTaskParams.IsExecuted);
 
-		if (categoryId != 0)
+		if (getTaskParams.CategoryId != 0)
 		{
-			tasks = tasks.Where(x => x.CategoryId == categoryId);
+			tasks = tasks.Where(x => x.CategoryId == getTaskParams.CategoryId);
 		}
 
-		if (!string.IsNullOrWhiteSpace(title))
+		if (!string.IsNullOrWhiteSpace(getTaskParams.Title))
 		{
-			tasks = tasks.Where(x => x.Title.Contains(title));
+			tasks = tasks.Where(x => x.Title.Contains(getTaskParams.Title));
 		}
 
 		return tasks.OrderBy(x => x.Term).ToList();

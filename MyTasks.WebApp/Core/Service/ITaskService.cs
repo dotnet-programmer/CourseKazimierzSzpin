@@ -1,11 +1,12 @@
-﻿using MyTasks.WebApp.Core.Models.Domains;
+﻿using MyTasks.WebApp.Core.Models;
+using MyTasks.WebApp.Core.Models.Domains;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Core.Service;
 
 public interface ITaskService
 {
-	IEnumerable<Task> GetTasks(string? userId, bool isExecuted = false, int categoryId = 0, string title = null);
+	IEnumerable<Task> GetTasks(GetTaskParams getTaskParams);
 
 	IEnumerable<Category> GetCategories();
 

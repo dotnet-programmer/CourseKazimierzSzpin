@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyTasks.WebApp.Core.Models;
 using MyTasks.WebApp.Core.Service;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence;
@@ -21,7 +22,7 @@ public class TaskController : Controller
 	{
 		TasksViewModel vm = new()
 		{
-			Tasks = _taskService.GetTasks(User.GetUserId()),
+			Tasks = _taskService.GetTasks(new() { UserId = User.GetUserId() }),
 			Categories = _taskService.GetCategories(),
 			FilterTasks = new(),
 		};
@@ -32,11 +33,13 @@ public class TaskController : Controller
 	[HttpPost]
 	public IActionResult Tasks(TasksViewModel tasksViewModel)
 	{
-		var tasks = _taskService.GetTasks(
-			User.GetUserId(),
-			tasksViewModel.FilterTasks.IsExecuted,
-			tasksViewModel.FilterTasks.CategoryId,
-			tasksViewModel.FilterTasks.Title);
+		var tasks = _taskService.GetTasks(new()
+		{
+			UserId = User.GetUserId(),
+			IsExecuted = tasksViewModel.FilterTasks.IsExecuted,
+			CategoryId = tasksViewModel.FilterTasks.CategoryId,
+			Title = tasksViewModel.FilterTasks.Title,
+		});
 
 		return PartialView("_TasksTable", tasks);
 	}
