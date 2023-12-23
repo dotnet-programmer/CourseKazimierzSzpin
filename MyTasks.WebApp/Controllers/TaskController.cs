@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyTasks.WebApp.Core.Service;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence;
 using MyTasks.WebApp.Persistence.Extensions;
@@ -11,10 +12,10 @@ namespace MyTasks.WebApp.Controllers;
 [Authorize]
 public class TaskController : Controller
 {
-	private readonly TaskService _taskService;
+	private readonly ITaskService _taskService;
 
 	// context jest przekazywany przez Dependency Injection
-	public TaskController(ApplicationDbContext context) => _taskService = new(new UnitOfWork(context));
+	public TaskController(ITaskService taskService) => _taskService = taskService;
 
 	public IActionResult Tasks()
 	{

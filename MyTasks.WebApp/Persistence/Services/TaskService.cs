@@ -1,15 +1,15 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models.Domains;
+using MyTasks.WebApp.Core.Service;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Persistence.Services;
 
-public class TaskService
+public class TaskService : ITaskService
 {
-	private readonly UnitOfWork _unitOfWork;
+	private readonly IUnitOfWork _unitOfWork;
 
-	public TaskService(UnitOfWork unitOfWork)
+	public TaskService(IUnitOfWork unitOfWork)
     {
 		_unitOfWork = unitOfWork;
 	}

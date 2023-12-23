@@ -18,7 +18,7 @@
 				{
 					<tr>
 						<td>
-							@Html.ActionLink(task.Title, "Task", "Task", new { id = task.TaskId }, new { @class = "fw-bold" })
+							@Html.ActionLink(task.Title, "Task", "Task", new { taskId = task.TaskId }, new { @class = "fw-bold" })
 							@* <a href="@Url.Action("Task", "Task", new { id = task.TaskId })" class="fw-bold">@task.Title</a> *@
 							@* <a asp-controller="Task" asp-action="Task">Dodaj nowe</a> *@
 						</td>

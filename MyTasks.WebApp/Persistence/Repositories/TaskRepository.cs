@@ -1,16 +1,16 @@
-﻿
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models.Domains;
+using MyTasks.WebApp.Core.Repositories;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Persistence.Repositories;
 
-public class TaskRepository
+public class TaskRepository : ITaskRepository
 {
-	private ApplicationDbContext _context;
+	private IApplicationDbContext _context;
 
-    public TaskRepository(ApplicationDbContext context)
+    public TaskRepository(IApplicationDbContext context)
     {
 		_context = context;
     }
