@@ -64,6 +64,11 @@ public class OperationController : ControllerBase
 		return response;
 	}
 
+	/// <summary>
+	/// Get operation by Operation Id
+	/// </summary>
+	/// <param name="operationId">Operation Id</param>
+	/// <returns>DataResponse - Operation Dto</returns>
 	// INFO - nazwa parametru, który ma zostać przekazany po nazwie kontrolera
 	[HttpGet("{operationId}")]
 	public DataResponse<OperationDto> GetOperation(int operationId)
@@ -72,7 +77,7 @@ public class OperationController : ControllerBase
 
 		try
 		{
-			response.Data = _unitOfWork.OperationRepository.GetOperation(operationId).ToDto();
+			response.Data = _unitOfWork.OperationRepository.GetOperation(operationId)?.ToDto();
 		}
 		catch (Exception ex)
 		{
@@ -84,13 +89,14 @@ public class OperationController : ControllerBase
 	}
 
 	[HttpPost]
-	public DataResponse<int> AddOperation(OperationDto operation)
+	public DataResponse<int> AddOperation(OperationDto operationDto)
 	{
 		DataResponse<int> response = new();
 
 		try
 		{
-			_unitOfWork.OperationRepository.AddOperation(operation.ToDao());
+			var operation = operationDto.ToDao();
+			_unitOfWork.OperationRepository.AddOperation(operation);
 			_unitOfWork.Complete();
 			response.Data = operation.OperationId;
 		}
