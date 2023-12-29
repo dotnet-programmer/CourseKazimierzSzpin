@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.WebApi.Models;
+using MyFinances.WebApi.Models.Converters;
 using MyFinances.WebApi.Models.Domains;
+using MyFinances.WebApi.Models.Dtos;
 using MyFinances.WebApi.Models.Response;
 
 namespace MyFinances.WebApi.Controllers;
@@ -15,6 +17,7 @@ namespace MyFinances.WebApi.Controllers;
 public class OperationController : ControllerBase
 {
 	private readonly UnitOfWork _unitOfWork;
+
 	public OperationController(UnitOfWork unitOfWork)
 	{
 		_unitOfWork = unitOfWork;
@@ -44,13 +47,13 @@ public class OperationController : ControllerBase
 
 	[HttpGet]
 	// INFO - nazwa nie ma znaczenia
-	public DataResponse<IEnumerable<Operation>> GetOperations()
+	public DataResponse<IEnumerable<OperationDto>> GetOperations()
 	{
-		DataResponse<IEnumerable<Operation>> response = new();
+		DataResponse<IEnumerable<OperationDto>> response = new();
 
 		try
 		{
-			response.Data = _unitOfWork.OperationRepository.GetOperations();
+			response.Data = _unitOfWork.OperationRepository.GetOperations().ToDtos();
 		}
 		catch (Exception ex)
 		{
@@ -63,13 +66,13 @@ public class OperationController : ControllerBase
 
 	// INFO - nazwa parametru, który ma zostać przekazany po nazwie kontrolera
 	[HttpGet("{operationId}")]
-	public DataResponse<Operation> GetOperation(int operationId)
+	public DataResponse<OperationDto> GetOperation(int operationId)
 	{
-		DataResponse<Operation> response = new();
+		DataResponse<OperationDto> response = new();
 
 		try
 		{
-			response.Data = _unitOfWork.OperationRepository.GetOperation(operationId);
+			response.Data = _unitOfWork.OperationRepository.GetOperation(operationId).ToDto();
 		}
 		catch (Exception ex)
 		{
@@ -81,13 +84,13 @@ public class OperationController : ControllerBase
 	}
 
 	[HttpPost]
-	public DataResponse<int> AddOperation(Operation operation)
+	public DataResponse<int> AddOperation(OperationDto operation)
 	{
 		DataResponse<int> response = new();
 
 		try
 		{
-			_unitOfWork.OperationRepository.AddOperation(operation);
+			_unitOfWork.OperationRepository.AddOperation(operation.ToDao());
 			_unitOfWork.Complete();
 			response.Data = operation.OperationId;
 		}
@@ -101,13 +104,13 @@ public class OperationController : ControllerBase
 	}
 
 	[HttpPut]
-	public Response UpdateOperation(Operation operation)
+	public Response UpdateOperation(OperationDto operation)
 	{
 		Response response = new();
 
 		try
 		{
-			_unitOfWork.OperationRepository.UpdateOperation(operation);
+			_unitOfWork.OperationRepository.UpdateOperation(operation.ToDao());
 			_unitOfWork.Complete();
 		}
 		catch (Exception ex)
