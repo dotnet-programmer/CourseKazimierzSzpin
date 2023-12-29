@@ -8,16 +8,13 @@ public class UnitOfWork : IUnitOfWork
 {
 	private readonly IApplicationDbContext _context;
 
-    public UnitOfWork(IApplicationDbContext context)
-    {
+	public UnitOfWork(IApplicationDbContext context)
+	{
 		_context = context;
 		TaskRepository = new TaskRepository(context);
 	}
 
-    public ITaskRepository TaskRepository { get; set; }
+	public ITaskRepository TaskRepository { get; set; }
 
-	public void Complete()
-	{
-		_context.SaveChanges();
-	}
+	public void Complete() => _context.SaveChanges();
 }

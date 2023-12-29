@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // INFO - Dependency Injection
 // w ka¿dym miejscu w aplikacji gdzie u¿ywane jest ITaskService, podstaw implementacjê TaskService
-// s¹ 3 mo¿liwoœci w jaki sposób mo¿na wstrzykn¹æ ten serwis: 
+// s¹ 3 mo¿liwoœci w jaki sposób mo¿na wstrzykn¹æ ten serwis:
 //   - AddScoped - w ka¿dym requeœcie danego klienta bêdzie tworzony nowy obiekt
 //   - AddSingleton - w ca³ej aplikacji bêdzie tylko 1 instancja tego obiektu
 //   - AddTransient - ka¿de u¿ycie (tutaj TaskService) powoduje stworzenie nowej instancji
@@ -25,7 +25,6 @@ builder.Services
 	.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
 
 var app = builder.Build();
 

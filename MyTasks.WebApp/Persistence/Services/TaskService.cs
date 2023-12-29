@@ -10,25 +10,13 @@ public class TaskService : ITaskService
 {
 	private readonly IUnitOfWork _unitOfWork;
 
-	public TaskService(IUnitOfWork unitOfWork)
-    {
-		_unitOfWork = unitOfWork;
-	}
+	public TaskService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-	public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams)
-	{
-		return _unitOfWork.TaskRepository.GetTasks(getTaskParams);
-	}
+	public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams) => _unitOfWork.TaskRepository.GetTasks(getTaskParams);
 
-	public IEnumerable<Category> GetCategories()
-	{
-		return _unitOfWork.TaskRepository.GetCategories();
-	}
+	public IEnumerable<Category> GetCategories() => _unitOfWork.TaskRepository.GetCategories();
 
-	public Task GetTask(int taskId, string userId)
-	{
-		return _unitOfWork.TaskRepository.GetTask(taskId, userId);
-	}
+	public Task GetTask(int taskId, string userId) => _unitOfWork.TaskRepository.GetTask(taskId, userId);
 
 	public void AddTask(Task task)
 	{

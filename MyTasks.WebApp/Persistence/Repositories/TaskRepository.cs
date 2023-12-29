@@ -9,14 +9,11 @@ namespace MyTasks.WebApp.Persistence.Repositories;
 
 public class TaskRepository : ITaskRepository
 {
-	private IApplicationDbContext _context;
+	private readonly IApplicationDbContext _context;
 
-    public TaskRepository(IApplicationDbContext context)
-    {
-		_context = context;
-    }
+	public TaskRepository(IApplicationDbContext context) => _context = context;
 
-    public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams)
+	public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams)
 	{
 		var tasks = _context.Tasks
 			.Include(x => x.Category)
@@ -35,17 +32,14 @@ public class TaskRepository : ITaskRepository
 		return tasks.OrderBy(x => x.Term).ToList();
 	}
 
-	public IEnumerable<Category> GetCategories() => 
+	public IEnumerable<Category> GetCategories() =>
 		_context.Categories
 		.OrderBy(x => x.Name)
 		.ToList();
 
 	public Task GetTask(int taskId, string userId) => _context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId);
 
-	public void AddTask(Task task)
-	{
-		_context.Tasks.Add(task);
-	}
+	public void AddTask(Task task) => _context.Tasks.Add(task);
 
 	public void UpdateTask(Task task)
 	{

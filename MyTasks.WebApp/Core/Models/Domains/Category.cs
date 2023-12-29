@@ -5,7 +5,7 @@ namespace MyTasks.WebApp.Core.Models.Domains;
 
 public class Category
 {
-    public int CategoryId { get; set; }
+	public int CategoryId { get; set; }
 
 	[Required]
 	public string Name { get; set; }

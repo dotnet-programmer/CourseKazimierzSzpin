@@ -11,6 +11,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 	{
 	}
 
-    public DbSet<Core.Models.Domains.Task> Tasks { get; set; }
-    public DbSet<Category> Categories { get; set; }
+	public DbSet<Core.Models.Domains.Task> Tasks { get; set; }
+	public DbSet<Category> Categories { get; set; }
 }

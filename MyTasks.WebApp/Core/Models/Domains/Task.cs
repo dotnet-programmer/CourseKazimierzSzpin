@@ -9,7 +9,7 @@ public class Task
 	[Required(ErrorMessage = "Pole Tytuł jest wymagane")]
 	[Display(Name = "Tytuł")]
 	[MaxLength(50)]
-    public string Title { get; set; }
+	public string Title { get; set; }
 
 	[Required(ErrorMessage = "Pole Opis jest wymagane")]
 	[Display(Name = "Opis")]
@@ -22,12 +22,12 @@ public class Task
 	[Display(Name = "Zrealizowane")]
 	public bool IsExecuted { get; set; }
 
-    [Required(ErrorMessage = "Pole Kategoria jest wymagane")]
+	[Required(ErrorMessage = "Pole Kategoria jest wymagane")]
 	[Display(Name = "Kategoria")]
 	public int CategoryId { get; set; }
-    public Category? Category { get; set; }
+
+	public Category? Category { get; set; }
 
 	public string UserId { get; set; }
-    public ApplicationUser? User { get; set; }
-
+	public ApplicationUser? User { get; set; }
 }

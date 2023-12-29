@@ -5,7 +5,7 @@ namespace MyTasks.WebApp.Core.ViewModels;
 
 public class TaskViewModel
 {
-    public string Heading { get; set; }
-    public Task	Task { get; set; }
-    public IEnumerable<Category> Categories { get; set; }
+	public string Heading { get; set; }
+	public Task Task { get; set; }
+	public IEnumerable<Category> Categories { get; set; }
 }

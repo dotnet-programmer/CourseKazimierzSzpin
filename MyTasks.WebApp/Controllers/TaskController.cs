@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTasks.WebApp.Core.Models;
 using MyTasks.WebApp.Core.Service;
 using MyTasks.WebApp.Core.ViewModels;
-using MyTasks.WebApp.Persistence;
 using MyTasks.WebApp.Persistence.Extensions;
-using MyTasks.WebApp.Persistence.Services;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Controllers;
