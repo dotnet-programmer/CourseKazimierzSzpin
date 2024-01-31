@@ -42,5 +42,15 @@ namespace SendEmail.NetFramework.WebApp.Models.Repositories
 					.ToList();
 			}
 		}
+
+		internal int GetContactCount(string userId)
+		{
+			using (AppDbContext context = new AppDbContext())
+			{
+				return context.Contacts
+					.Where(x => x.UserId == userId)
+					.Count();
+			}
+		}
 	}
 }

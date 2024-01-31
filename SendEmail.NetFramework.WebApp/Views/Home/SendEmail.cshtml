@@ -6,16 +6,16 @@
 
 @if (Model)
 {
-<p class="alert alert-info mt-4 mb-4 text-center">Wysłano email.</p>
+	<p class="alert alert-info mt-4 mb-4 text-center">Wysłano email.</p>
 }
 else
 {
-<p class="alert alert-danger mt-4 mb-4 text-center">
-	Nie udało się wysłać emaila!
-	<br />
-	<br />
-	@ViewBag.ErrorMessage
-</p>
+	<p class="alert alert-danger mt-4 mb-4 text-center">
+		Nie udało się wysłać emaila!
+		<br />
+		<br />
+		@ViewBag.ErrorMessage
+	</p>
 }
 
 <button type="button"

@@ -21,38 +21,40 @@
 			</button>
 			<div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
 				<ul class="navbar-nav flex-grow-1">
-					<li>@Html.ActionLink("Kontakty", "Contacts", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-					<li>@Html.ActionLink("Historia", "History", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-					<li>@Html.ActionLink("Ustawienia", "Settings", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li>@Html.ActionLink("Nowy email", "NewEmail", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Kontakty", "Contacts", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Historia", "History", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("Ustawienia", "Settings", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+					}
 				</ul>
 				@Html.Partial("_LoginPartial")
 			</div>
 		</div>
 	</nav>
 
-	<main>
-		<div class="container body-content">
-			@RenderBody()
-			<hr />
-		</div>
-	</main>
-
-	<footer>
+	<div class="container body-content">
+		@RenderBody()
+	</div>
+	<footer class="my-footer">
+		<hr />
 		<p class="text-center">&copy; @DateTime.Now.Year - @appName</p>
 	</footer>
 
-	<div class="privacyPolicyInfo" style="display: none">
+	<div class="privacyPolicyInfo" style="display: none;">
 		Serwis wykorzystuje pliki cookies. Korzystając ze strony wyrażasz zgodę na wykorzystanie plików cookies.
 		<button onclick="closePrivacyPolicy()" type="button" class="btn btn-light btn-sm mx-3 my-1 privacyPolicyBtn">Ok, rozumiem</button>
 	</div>
 
 	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/jqueryval")
 	@Scripts.Render("~/bundles/bootstrap")
 	@RenderSection("scripts", required: false)
 
 	<script>
 		function closePrivacyPolicy() {
-			$.cookie("privacyPolicy", "1", { path: '/', expires: 365 });
+			$.cookie("privacyPolicy", "1", { path: '/', expires: 1 });
 			$('.privacyPolicyInfo').css("display", "none");
 		}
 

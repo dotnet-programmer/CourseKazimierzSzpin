@@ -6,8 +6,7 @@ namespace SendEmail.NetFramework.WebApp.Models
 {
 	public class AppDbContext : IdentityDbContext<ApplicationUser>
 	{
-		public AppDbContext()
-			: base("DefaultConnection", throwIfV1Schema: false)
+		public AppDbContext() : base("DefaultConnection", throwIfV1Schema: false)
 		{
 		}
 

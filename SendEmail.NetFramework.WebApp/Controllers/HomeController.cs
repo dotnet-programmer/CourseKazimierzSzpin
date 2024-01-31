@@ -15,22 +15,27 @@ namespace SendEmail.NetFramework.WebApp.Controllers
 		private readonly EmailSentRepository _emailSentRepository = new EmailSentRepository();
 		private readonly ContactRepository _contactRepository = new ContactRepository();
 
-		public ActionResult Index() => (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ?
-				View("Settings", new EmailSettings { UserId = GetUserId() }) :
-				View(new EmailSent { UserId = GetUserId() });
+		private string GetUserId => User.Identity.GetUserId();
+
+		public ActionResult Index()
+		{
+			ViewBag.NumberOfEmails = _emailSentRepository.GetEmailCount(GetUserId);
+			ViewBag.NumberOfContacts = _contactRepository.GetContactCount(GetUserId);
+			return View();
+		}
+
+		public ActionResult NewEmail(string recipientEmail) => View(new EmailSent { RecipientEmail = recipientEmail });
 
 		[HttpPost]
-		public ActionResult Index(string recipientEmail, string subject = "", string message = "") => (_emailSettingsRepository.GetEmailSettings(GetUserId()) == null) ?
-				View("Settings", new EmailSettings { UserId = GetUserId() }) :
-				View(new EmailSent { UserId = GetUserId(), RecipientEmail = recipientEmail, Subject = subject, Message = message });
+		public ActionResult NewEmail(EmailSent emailSent) => View(emailSent);
 
-		public ActionResult Contacts() => View(_contactRepository.GetContacts(GetUserId()));
+		public ActionResult Contacts() => View(_contactRepository.GetContacts(GetUserId));
 
-		public ActionResult History() => View(_emailSentRepository.GetEmails(GetUserId()));
+		public ActionResult History() => View(_emailSentRepository.GetEmails(GetUserId));
 
 		public ActionResult Settings()
 		{
-			EmailSettings emailSettings = _emailSettingsRepository.GetEmailSettings(GetUserId()) ?? new EmailSettings { UserId = GetUserId() };
+			EmailSettings emailSettings = _emailSettingsRepository.GetEmailSettings(GetUserId) ?? new EmailSettings { UserId = GetUserId };
 			return View(emailSettings);
 		}
 
@@ -38,8 +43,7 @@ namespace SendEmail.NetFramework.WebApp.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Settings(EmailSettings emailSettings)
 		{
-			var userId = GetUserId();
-			emailSettings.UserId = userId;
+			emailSettings.UserId = GetUserId;
 
 			if (!ModelState.IsValid)
 			{
@@ -63,7 +67,12 @@ namespace SendEmail.NetFramework.WebApp.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> SendEmail(EmailSent emailSent)
 		{
-			var userId = GetUserId();
+			if (_emailSettingsRepository.GetEmailSettings(GetUserId) == null)
+			{
+				RedirectToAction("Settings");
+			}
+
+			var userId = GetUserId;
 			EmailParams emailParams = GetEmailParams();
 			Email email = new Email(emailParams);
 
@@ -71,6 +80,7 @@ namespace SendEmail.NetFramework.WebApp.Controllers
 			emailSent.DateSent = DateTime.Now;
 			emailSent.SenderName = emailParams.SenderName;
 			emailSent.SenderEmail = emailParams.SenderEmail;
+
 			if (emailSent.Message == null)
 			{
 				emailSent.Message = "";
@@ -104,7 +114,7 @@ namespace SendEmail.NetFramework.WebApp.Controllers
 		{
 			try
 			{
-				_contactRepository.DeleteContact(contactId, GetUserId());
+				_contactRepository.DeleteContact(contactId, GetUserId);
 			}
 			catch (Exception ex)
 			{
@@ -113,13 +123,11 @@ namespace SendEmail.NetFramework.WebApp.Controllers
 			return Json(new { Success = true });
 		}
 
-		private string GetUserId() => User.Identity.GetUserId();
-
 		private EmailSettings GetNewEmailSettings(string userId) => new EmailSettings { UserId = userId };
 
 		private EmailParams GetEmailParams()
 		{
-			EmailSettings emailSettings = _emailSettingsRepository.GetEmailSettings(GetUserId());
+			EmailSettings emailSettings = _emailSettingsRepository.GetEmailSettings(GetUserId);
 			return new EmailParams
 			{
 				HostSmtp = emailSettings.HostSmtp,

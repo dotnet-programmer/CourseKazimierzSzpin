@@ -8,14 +8,6 @@ namespace SendEmail.NetFramework.WebApp.Models.Repositories
 	{
 		private readonly StringCipher _stringCipher = new StringCipher("4838731F-FC44-40B9-9952-EE5CCB6C198E");
 
-		//internal List<EmailSettings> GetEmailSettings(string userId)
-		//{
-		//	using (AppDbContext context = new AppDbContext())
-		//	{
-		//		return context.EmailSettings.Where(x => x.UserId == userId).ToList();
-		//	}
-		//}
-
 		internal EmailSettings GetEmailSettings(string userId)
 		{
 			using (AppDbContext context = new AppDbContext())

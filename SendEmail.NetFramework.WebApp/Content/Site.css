@@ -37,3 +37,10 @@ textarea {
 .privacyPolicyBtn {
 	font-size: 11px;
 }
+
+.my-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 5px 0;
+}

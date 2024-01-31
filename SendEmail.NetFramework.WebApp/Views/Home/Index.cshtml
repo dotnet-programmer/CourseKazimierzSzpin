@@ -1,49 +1,21 @@
-﻿@model SendEmail.NetFramework.WebApp.Models.Domains.EmailSent
-
-@{
-	ViewBag.Title = "Wysyłanie emaili";
+﻿@{
+	ViewBag.Title = "Statystyki wysyłanych emaili";
 }
 
-@using (Html.BeginForm("SendEmail", "Home"))
-{
-@Html.AntiForgeryToken()
-
-@Html.HiddenFor(x => x.UserId)
-
-<div class="row mb-3">
-	<div class="col-lg-3 text-lg-end">
-		@Html.LabelFor(x => x.RecipientEmail)
-	</div>
-	<div class="col-lg-8">
-		@Html.TextBoxFor(x => x.RecipientEmail, new { @class = "form-control", autofocus = "autofocus" })
-		@Html.ValidationMessageFor(x => x.RecipientEmail)
-	</div>
+<h1 class="mt-5 text-center">Statystyki użytkownika</h1>
+<div class="px-5">
+	<table class="table table-hover table-striped mt-5 mb-5 text-center">
+		<thead>
+			<tr>
+				<th scope="col">Wysłanych emaili</th>
+				<th scope="col">Zapisanych kontaktów</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>@ViewBag.NumberOfEmails</td>
+				<td>@ViewBag.NumberOfContacts</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-
-<div class="row mb-3">
-	<div class="col-lg-3 text-lg-end">
-		@Html.LabelFor(x => x.Subject)
-	</div>
-	<div class="col-lg-8">
-		@Html.TextBoxFor(x => x.Subject, new { @class = "form-control", })
-		@Html.ValidationMessageFor(x => x.Subject)
-	</div>
-</div>
-
-<div class="row mb-3">
-	<div class="col-lg-3 text-lg-end">
-		@Html.LabelFor(x => x.Message)
-	</div>
-	<div class="col-lg-8">
-		@Html.TextAreaFor(x => x.Message, new { @class = "form-control" })
-		@Html.ValidationMessageFor(x => x.Message)
-	</div>
-</div>
-
-<div class="row mb-3">
-	<button type="submit"
-			class="col-lg-1 offset-lg-6 btn btn-primary btn-lg mb-5">
-		Wyślij
-	</button>
-</div>
-}

@@ -11,7 +11,6 @@ namespace SendEmail.NetFramework.WebApp.Models.Domains
 		[Required]
 		[ForeignKey(nameof(User))]
 		public string UserId { get; set; }
-
 		public ApplicationUser User { get; set; }
 	}
 }
