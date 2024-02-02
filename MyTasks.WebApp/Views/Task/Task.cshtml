@@ -4,7 +4,7 @@
 	ViewData["Title"] = Model.Heading;
 }
 
-<h1>@Model.Heading</h1>
+<h1 class="mb-3">@Model.Heading</h1>
 
 @using (Html.BeginForm("Task", "Task"))
 {
@@ -18,13 +18,13 @@
 	@Html.HiddenFor(x => x.Task.UserId)
 
 	<div class="col-auto form-floating mb-4">
-		@Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", placeholder = "t", autofocus = "autofocus" })
+		@Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", placeholder = "Title", autofocus = "autofocus" })
 		@Html.LabelFor(x => x.Task.Title)
 		@Html.ValidationMessageFor(x => x.Task.Title)
 	</div>
 
 	<div class="col-auto form-floating mb-4">
-		@Html.TextBoxFor(x => x.Task.Description, new { @class = "form-control", placeholder = "x" })
+		@Html.TextBoxFor(x => x.Task.Description, new { @class = "form-control", placeholder = "Description" })
 		@Html.LabelFor(x => x.Task.Description)
 		@Html.ValidationMessageFor(x => x.Task.Description)
 	</div>
@@ -40,7 +40,10 @@
 	</div>
 
 	<div class="col-auto form-floating mb-4">
-		@Html.TextBoxFor(x => x.Task.Term, "{0:dd-MM-yyyy}", new { @class = "form-control", placeholder = "x", id = "Term", autocomplete = "off" })
+		@Html.TextBoxFor(
+				x => x.Task.Term,
+				"{0:dd-MM-yyyy}",
+				new { @class = "form-control", placeholder = "x", id = "Term", autocomplete = "off" })
 		@Html.LabelFor(x => x.Task.Term)
 		@Html.ValidationMessageFor(x => x.Task.Term)
 	</div>

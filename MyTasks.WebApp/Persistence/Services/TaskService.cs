@@ -1,18 +1,22 @@
 ﻿using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models;
 using MyTasks.WebApp.Core.Models.Domains;
-using MyTasks.WebApp.Core.Service;
+using MyTasks.WebApp.Core.Services;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Persistence.Services;
 
+// INFO - serwisy - tutaj można umieszczać dodatkową logikę żeby kontrolery pozostały możliwie jak najprostsze
+// dodatkowa logika np. wysłanie email
+// jakieś obliczenia/zmiany w bazie
 public class TaskService : ITaskService
 {
 	private readonly IUnitOfWork _unitOfWork;
 
 	public TaskService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-	public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams) => _unitOfWork.TaskRepository.GetTasks(getTaskParams);
+	// INFO - sygnatury metod skopiowane z TaskRepository
+	public IEnumerable<Task> GetTasks(GetTasksParams getTasksParams) => _unitOfWork.TaskRepository.GetTasks(getTasksParams);
 
 	public IEnumerable<Category> GetCategories() => _unitOfWork.TaskRepository.GetCategories();
 
@@ -39,9 +43,9 @@ public class TaskService : ITaskService
 	public void FinishTask(int taskId, string userId)
 	{
 		_unitOfWork.TaskRepository.FinishTask(taskId, userId);
-		// INFO - serwisy - tutaj można umieszczać dodatkową logikę żeby kontrolery pozostały możliwie jak najprostsze
-		// dodatkowa logika np. wysłanie email
-		// jakieś obliczenia/zmiany w bazie
+		// wyślij email
+		// inna logika
+		// inne zmiany w bazie danych
 		_unitOfWork.Complete();
 	}
 }

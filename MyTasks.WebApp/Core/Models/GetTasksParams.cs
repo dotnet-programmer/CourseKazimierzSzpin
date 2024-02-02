@@ -1,6 +1,6 @@
 ﻿namespace MyTasks.WebApp.Core.Models;
 
-public class GetTaskParams
+public class GetTasksParams
 {
 	public string UserId { get; set; }
 	public bool IsExecuted { get; set; }

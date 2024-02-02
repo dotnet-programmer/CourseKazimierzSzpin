@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTasks.WebApp.Core.Service;
+using MyTasks.WebApp.Core.Services;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence.Extensions;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
@@ -49,12 +49,7 @@ public class TaskController : Controller
 			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } :
 			_taskService.GetTask(taskId, userId);
 
-		TaskViewModel vm = new()
-		{
-			Task = task,
-			Heading = taskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
-			Categories = _taskService.GetCategories()
-		};
+		TaskViewModel vm = GetTaskViewModel(task);
 
 		return View(vm);
 	}
@@ -67,13 +62,7 @@ public class TaskController : Controller
 
 		if (!ModelState.IsValid)
 		{
-			TaskViewModel vm = new()
-			{
-				Task = task,
-				Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
-				Categories = _taskService.GetCategories()
-			};
-
+			TaskViewModel vm = GetTaskViewModel(task);
 			return View("Task", vm);
 		}
 
@@ -122,4 +111,11 @@ public class TaskController : Controller
 
 		return Json(new { success = true });
 	}
+
+	private TaskViewModel GetTaskViewModel(Task task) => new()
+	{
+		Task = task,
+		Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
+		Categories = _taskService.GetCategories()
+	};
 }

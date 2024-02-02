@@ -6,7 +6,7 @@ namespace MyTasks.WebApp.Core.Repositories;
 
 public interface ITaskRepository
 {
-	IEnumerable<Task> GetTasks(GetTaskParams getTaskParams);
+	IEnumerable<Task> GetTasks(GetTasksParams getTasksParams);
 
 	IEnumerable<Category> GetCategories();
 

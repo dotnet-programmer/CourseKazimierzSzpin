@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
 		TaskRepository = new TaskRepository(context);
 	}
 
+	// INFO - obiekty repozytoryjne, jeżeli więcej repozytoriów, to więcej takich właściwości
 	public ITaskRepository TaskRepository { get; set; }
 
 	public void Complete() => _context.SaveChanges();

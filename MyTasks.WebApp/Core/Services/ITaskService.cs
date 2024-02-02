@@ -2,11 +2,11 @@
 using MyTasks.WebApp.Core.Models.Domains;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
-namespace MyTasks.WebApp.Core.Service;
+namespace MyTasks.WebApp.Core.Services;
 
 public interface ITaskService
 {
-	IEnumerable<Task> GetTasks(GetTaskParams getTaskParams);
+	IEnumerable<Task> GetTasks(GetTasksParams getTaskParams);
 
 	IEnumerable<Category> GetCategories();
 

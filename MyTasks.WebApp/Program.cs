@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models.Domains;
-using MyTasks.WebApp.Core.Service;
+using MyTasks.WebApp.Core.Services;
 using MyTasks.WebApp.Persistence;
 using MyTasks.WebApp.Persistence.Services;
 
@@ -9,13 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // INFO - Dependency Injection
-// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest ITaskService, podstaw implementacjê TaskService
 // s¹ 3 mo¿liwoœci w jaki sposób mo¿na wstrzykn¹æ ten serwis:
-//   - AddScoped - w ka¿dym requeœcie danego klienta bêdzie tworzony nowy obiekt
-//   - AddSingleton - w ca³ej aplikacji bêdzie tylko 1 instancja tego obiektu
+//   - AddScoped - w ka¿dym jednych requeœcie danego klienta bêdzie u¿ywana 1 instancja, czyli bêdzie tworzony jeden nowy obiekt tej klasy
+//   - AddSingleton - w ca³ej aplikacji bêdzie tylko 1 instancja tego obiektu, która bêdzie u¿ywana za ka¿dym razem
 //   - AddTransient - ka¿de u¿ycie (tutaj TaskService) powoduje stworzenie nowej instancji
+// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest ITaskService, podstaw implementacjê TaskService
 builder.Services.AddScoped<ITaskService, TaskService>();
+// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest IApplicationDbContext, podstaw implementacjê ApplicationDbContext
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest IUnitOfWork, podstaw implementacjê UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -28,6 +30,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// INFO - mo¿liwoœæ skonfigurowania potoku ¿¹dañ HTTP, na pocz¹tku skonfigurowana jest reakcja na wyj¹tki w aplikacji
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -41,12 +44,15 @@ else
 }
 
 app.UseHttpsRedirection();
+
+// INFO - udostêpnianie plików statycznych zawartych w wwwroot
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 
+// INFO - konfiguracja domyœlnego rutingu
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Task}/{action=Tasks}/{id?}");

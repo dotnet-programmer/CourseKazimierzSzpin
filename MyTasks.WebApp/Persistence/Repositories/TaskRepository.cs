@@ -13,20 +13,20 @@ public class TaskRepository : ITaskRepository
 
 	public TaskRepository(IApplicationDbContext context) => _context = context;
 
-	public IEnumerable<Task> GetTasks(GetTaskParams getTaskParams)
+	public IEnumerable<Task> GetTasks(GetTasksParams getTasksParams)
 	{
 		var tasks = _context.Tasks
 			.Include(x => x.Category)
-			.Where(x => x.UserId == getTaskParams.UserId && x.IsExecuted == getTaskParams.IsExecuted);
+			.Where(x => x.UserId == getTasksParams.UserId && x.IsExecuted == getTasksParams.IsExecuted);
 
-		if (getTaskParams.CategoryId != 0)
+		if (getTasksParams.CategoryId != 0)
 		{
-			tasks = tasks.Where(x => x.CategoryId == getTaskParams.CategoryId);
+			tasks = tasks.Where(x => x.CategoryId == getTasksParams.CategoryId);
 		}
 
-		if (!string.IsNullOrWhiteSpace(getTaskParams.Title))
+		if (!string.IsNullOrWhiteSpace(getTasksParams.Title))
 		{
-			tasks = tasks.Where(x => x.Title.Contains(getTaskParams.Title));
+			tasks = tasks.Where(x => x.Title.Contains(getTasksParams.Title));
 		}
 
 		return tasks.OrderBy(x => x.Term).ToList();
