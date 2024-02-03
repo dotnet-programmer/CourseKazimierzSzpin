@@ -8,8 +8,6 @@ public interface ITaskRepository
 {
 	IEnumerable<Task> GetTasks(GetTasksParams getTasksParams);
 
-	IEnumerable<Category> GetCategories();
-
 	Task GetTask(int taskId, string userId);
 
 	void AddTask(Task task);
@@ -19,4 +17,16 @@ public interface ITaskRepository
 	void DeleteTask(int taskId, string userId);
 
 	void FinishTask(int taskId, string userId);
+
+	IEnumerable<Category> GetCategories();
+
+	IEnumerable<Category> GetCategories(string userId);
+
+	Category GetCategory(int categoryId, string userId);
+
+	void AddCategory(Category category);
+
+	void UpdateCategory(Category category);
+
+	void DeleteCategory(int categoryId, string userId);
 }

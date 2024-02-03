@@ -13,4 +13,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
 	public DbSet<Core.Models.Domains.Task> Tasks { get; set; }
 	public DbSet<Category> Categories { get; set; }
+
+	protected override void OnModelCreating(ModelBuilder builder)
+	{
+		builder.Entity<ApplicationUser>()
+			.HasMany(x => x.Categories)
+			.WithOne(x => x.User)
+			.HasForeignKey(x => x.UserId)
+			.OnDelete(DeleteBehavior.NoAction);
+
+		base.OnModelCreating(builder);
+	}
 }

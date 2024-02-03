@@ -1,0 +1,83 @@
+﻿@model IEnumerable<MyTasks.WebApp.Core.Models.Domains.Category>
+
+@{
+	ViewData["Title"] = "Kategorie";
+}
+
+<div class="mb-4 d-flex justify-content-between">
+	<h1 class="d-inline">Moje kategorie</h1>
+	<button class="btn btn-primary"
+			onclick='window.location.href="@Url.Action("Category", "Task")"'>
+		Dodaj nową kategorię
+	</button>
+</div>
+
+<table class="table table-bordered table-striped mt-3 text-center">
+	<thead class="table-dark">
+		<tr>
+			<th scope="col">Kategoria</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			foreach (var category in Model)
+			{
+				<tr>
+					<td>
+						@Html.ActionLink(category.Name, "Category", "Task", new { categoryId = category.CategoryId }, new { @class = "fw-bold" })
+					</td>
+					<td>
+						<button class="btn btn-danger btn-sm"
+								onclick="deleteTask('@category.CategoryId', this)">
+							Usuń
+						</button>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td>
+					Brak kategorii!
+				</td>
+				<td></td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@section Scripts
+{
+	<script type="text/javascript">
+
+		function deleteTask(categoryId, btn) {
+			if (!confirm("Czy na pewno chcesz usunąć kategorię?")) {
+				return;
+			}
+
+			$.ajax({
+				type: "POST",
+				url: "@Url.Action("DeleteCategory", "Task")",
+				data: {
+					categoryId: categoryId
+				},
+				success: function (data) {
+					if (data.success) {
+						var row = btn.parentNode.parentNode;
+						row.parentNode.removeChild(row);
+					} else {
+						alert(data.message)
+					}
+				},
+				error: function (data) {
+					alert(data.message);
+				},
+				dataType: "json"
+			});
+		}
+
+	</script>
+}

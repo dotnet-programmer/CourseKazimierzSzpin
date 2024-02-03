@@ -6,9 +6,7 @@ namespace MyTasks.WebApp.Core.Services;
 
 public interface ITaskService
 {
-	IEnumerable<Task> GetTasks(GetTasksParams getTaskParams);
-
-	IEnumerable<Category> GetCategories();
+	IEnumerable<Task> GetTasks(GetTasksParams getTasksParams);
 
 	Task GetTask(int taskId, string userId);
 
@@ -19,4 +17,16 @@ public interface ITaskService
 	void DeleteTask(int taskId, string userId);
 
 	void FinishTask(int taskId, string userId);
+
+	IEnumerable<Category> GetCategories();
+
+	IEnumerable<Category> GetCategories(string userId);
+
+	Category GetCategory(int categoryId, string userId);
+
+	void AddCategory(Category category);
+
+	void UpdateCategory(Category category);
+
+	void DeleteCategory(int categoryId, string userId);
 }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Core.Services;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence.Extensions;
@@ -49,9 +51,7 @@ public class TaskController : Controller
 			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } :
 			_taskService.GetTask(taskId, userId);
 
-		TaskViewModel vm = GetTaskViewModel(task);
-
-		return View(vm);
+		return View(GetTaskViewModel(task));
 	}
 
 	[HttpPost]
@@ -112,10 +112,78 @@ public class TaskController : Controller
 		return Json(new { success = true });
 	}
 
+	public IActionResult Categories()
+	{
+		return View(_taskService.GetCategories(User.GetUserId()));
+	}
+
+	public IActionResult Category(int categoryId = 0)
+	{
+		var userId = User.GetUserId();
+
+		Category category = categoryId == 0 ?
+			new Category { CategoryId = categoryId, UserId = userId } :
+			_taskService.GetCategory(categoryId, userId);
+
+		return View(GetCategoryViewModel(category));
+	}
+
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public IActionResult Category(Category category)
+	{
+		category.UserId = User.GetUserId();
+
+		if (!ModelState.IsValid)
+		{
+			CategoryViewModel vm = GetCategoryViewModel(category);
+			return View("Category", vm);
+		}
+
+		if (category.CategoryId == 0)
+		{
+			_taskService.AddCategory(category);
+		}
+		else
+		{
+			_taskService.UpdateCategory(category);
+		}
+
+		return RedirectToAction("Categories");
+	}
+
+	// TODO: po usunięciu kategorii zadanie powinno zostać na liście tylko bez żadnej kategorii
+	// teraz robi się kaskadowe usuwanie, po usunięciu kategorii usuwane są wpisy powiązane z tą kategorią
+	// czyli zrobić tak jak w zadaniu żeby była kategoria "ogólna":
+	//	albo która jest przypisywana do każdego nowego usera (wtedy mając 1000 użytkowników będzie 1000 takich samych wpisów)
+	//	albo tylko 1 wpis w bazie, bez id usera, nieedytowalna i nieusuwalna
+	[HttpPost]
+	public IActionResult DeleteCategory(int categoryId)
+	{
+		try
+		{
+			var userId = User.GetUserId();
+			_taskService.DeleteCategory(categoryId, userId);
+		}
+		catch (Exception ex)
+		{
+			// logowanie do pliku
+			return Json(new { success = false, message = ex.Message });
+		}
+
+		return Json(new { success = true });
+	}
+
 	private TaskViewModel GetTaskViewModel(Task task) => new()
 	{
 		Task = task,
 		Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
 		Categories = _taskService.GetCategories()
+	};
+
+	private CategoryViewModel GetCategoryViewModel(Category category) => new()
+	{
+		Category = category,
+		Heading = category.CategoryId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
 	};
 }

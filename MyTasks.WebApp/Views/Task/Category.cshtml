@@ -1,0 +1,27 @@
+﻿@model CategoryViewModel
+
+@{
+	ViewData["Title"] = Model.Heading;
+}
+
+<h1 class="mb-3">@Model.Heading</h1>
+
+@using (Html.BeginForm("Category", "Task"))
+{
+	<p class="alert alert-info mt-4 mb-4">
+		Pole nazwa jest <strong>wymagane</strong>
+	</p>
+
+	@Html.AntiForgeryToken()
+
+	@Html.HiddenFor(x => x.Category.CategoryId)
+	@Html.HiddenFor(x => x.Category.UserId)
+
+	<div class="col-auto form-floating mb-4">
+		@Html.TextBoxFor(x => x.Category.Name, new { @class = "form-control", placeholder = "Name", autofocus = "autofocus" })
+		@Html.LabelFor(x => x.Category.Name)
+		@Html.ValidationMessageFor(x => x.Category.Name)
+	</div>
+
+	<button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+}

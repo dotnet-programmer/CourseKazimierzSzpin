@@ -32,11 +32,6 @@ public class TaskRepository : ITaskRepository
 		return tasks.OrderBy(x => x.Term).ToList();
 	}
 
-	public IEnumerable<Category> GetCategories() =>
-		_context.Categories
-		.OrderBy(x => x.Name)
-		.ToList();
-
 	public Task GetTask(int taskId, string userId) => _context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId);
 
 	public void AddTask(Task task) => _context.Tasks.Add(task);
@@ -61,5 +56,32 @@ public class TaskRepository : ITaskRepository
 	{
 		var taskToFinish = _context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId);
 		taskToFinish.IsExecuted = true;
+	}
+
+	public IEnumerable<Category> GetCategories() =>
+		_context.Categories
+		.OrderBy(x => x.Name)
+		.ToList();
+
+	public IEnumerable<Category> GetCategories(string userId) =>
+		_context.Categories
+		.Where(x => x.UserId == userId)
+		.OrderBy(x => x.Name)
+		.ToList();
+
+	public Category GetCategory(int categoryId, string userId) => _context.Categories.Single(x=> x.CategoryId == categoryId && x.UserId == userId);
+
+	public void AddCategory(Category category) => _context.Categories.Add(category);
+
+	public void UpdateCategory(Category category)
+	{
+		var categoryToUpdate = _context.Categories.Single(x => x.CategoryId == category.CategoryId);
+		categoryToUpdate.Name = category.Name;
+	}
+
+	public void DeleteCategory(int categoryId, string userId)
+	{
+		var categoryToDelete = _context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
+		_context.Categories.Remove(categoryToDelete);
 	}
 }
