@@ -9,11 +9,11 @@ using MyTasks.WebApp.Persistence;
 
 #nullable disable
 
-namespace MyTasks.WebApp.Persistence.Migrations
+namespace MyTasks.WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231220143256_Init")]
-    partial class Init
+    [Migration("20240204124658_StopCascadeDelete")]
+    partial class StopCascadeDelete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,13 +235,42 @@ namespace MyTasks.WebApp.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
+                    b.Property<bool?>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CategoryId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            IsDefault = true,
+                            Name = "Ogólne"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            IsDefault = true,
+                            Name = "Praca"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            IsDefault = true,
+                            Name = "Dom"
+                        });
                 });
 
             modelBuilder.Entity("MyTasks.WebApp.Core.Models.Domains.Task", b =>
@@ -335,6 +364,16 @@ namespace MyTasks.WebApp.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyTasks.WebApp.Core.Models.Domains.Category", b =>
+                {
+                    b.HasOne("MyTasks.WebApp.Core.Models.Domains.ApplicationUser", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyTasks.WebApp.Core.Models.Domains.Task", b =>
                 {
                     b.HasOne("MyTasks.WebApp.Core.Models.Domains.Category", "Category")
@@ -356,6 +395,8 @@ namespace MyTasks.WebApp.Persistence.Migrations
 
             modelBuilder.Entity("MyTasks.WebApp.Core.Models.Domains.ApplicationUser", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Tasks");
                 });
 

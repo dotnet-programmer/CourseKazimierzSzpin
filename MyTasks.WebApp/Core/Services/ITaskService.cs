@@ -22,6 +22,8 @@ public interface ITaskService
 
 	IEnumerable<Category> GetCategories(string userId);
 
+	IEnumerable<Category> GetUserCategories(string userId);
+
 	Category GetCategory(int categoryId, string userId);
 
 	void AddCategory(Category category);

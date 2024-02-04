@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Core.Services;
@@ -22,7 +21,7 @@ public class TaskController : Controller
 		TasksViewModel vm = new()
 		{
 			Tasks = _taskService.GetTasks(new() { UserId = User.GetUserId() }),
-			Categories = _taskService.GetCategories(),
+			Categories = _taskService.GetCategories(User.GetUserId()),
 			FilterTasks = new(),
 		};
 
@@ -112,10 +111,7 @@ public class TaskController : Controller
 		return Json(new { success = true });
 	}
 
-	public IActionResult Categories()
-	{
-		return View(_taskService.GetCategories(User.GetUserId()));
-	}
+	public IActionResult Categories() => View(_taskService.GetUserCategories(User.GetUserId()));
 
 	public IActionResult Category(int categoryId = 0)
 	{
@@ -152,11 +148,6 @@ public class TaskController : Controller
 		return RedirectToAction("Categories");
 	}
 
-	// TODO: po usunięciu kategorii zadanie powinno zostać na liście tylko bez żadnej kategorii
-	// teraz robi się kaskadowe usuwanie, po usunięciu kategorii usuwane są wpisy powiązane z tą kategorią
-	// czyli zrobić tak jak w zadaniu żeby była kategoria "ogólna":
-	//	albo która jest przypisywana do każdego nowego usera (wtedy mając 1000 użytkowników będzie 1000 takich samych wpisów)
-	//	albo tylko 1 wpis w bazie, bez id usera, nieedytowalna i nieusuwalna
 	[HttpPost]
 	public IActionResult DeleteCategory(int categoryId)
 	{

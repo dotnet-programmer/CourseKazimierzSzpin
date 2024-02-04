@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTasks.WebApp.Persistence;
 
 #nullable disable
 
-namespace MyTasks.WebApp.Persistence.Migrations
+namespace MyTasks.WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240203222631_AddUserInCategory")]
-    partial class AddUserInCategory
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,13 +232,15 @@ namespace MyTasks.WebApp.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
+                    b.Property<bool?>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CategoryId");
@@ -249,6 +248,26 @@ namespace MyTasks.WebApp.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            IsDefault = true,
+                            Name = "Ogólne"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            IsDefault = true,
+                            Name = "Praca"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            IsDefault = true,
+                            Name = "Dom"
+                        });
                 });
 
             modelBuilder.Entity("MyTasks.WebApp.Core.Models.Domains.Task", b =>
@@ -347,8 +366,7 @@ namespace MyTasks.WebApp.Persistence.Migrations
                     b.HasOne("MyTasks.WebApp.Core.Models.Domains.ApplicationUser", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });

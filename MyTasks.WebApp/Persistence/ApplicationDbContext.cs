@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models.Domains;
+using MyTasks.WebApp.Persistence.Extensions;
 
 namespace MyTasks.WebApp.Persistence;
 
@@ -19,8 +21,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 		builder.Entity<ApplicationUser>()
 			.HasMany(x => x.Categories)
 			.WithOne(x => x.User)
-			.HasForeignKey(x => x.UserId)
-			.OnDelete(DeleteBehavior.NoAction);
+			.OnDelete(DeleteBehavior.Restrict);
+
+		builder.SeedCategories();
 
 		base.OnModelCreating(builder);
 	}

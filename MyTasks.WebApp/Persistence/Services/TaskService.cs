@@ -51,6 +51,8 @@ public class TaskService : ITaskService
 
 	public IEnumerable<Category> GetCategories(string userId) => _unitOfWork.TaskRepository.GetCategories(userId);
 
+	public IEnumerable<Category> GetUserCategories(string userId) => _unitOfWork.TaskRepository.GetUserCategories(userId);
+
 	public Category GetCategory(int categoryId, string userId) => _unitOfWork.TaskRepository.GetCategory(categoryId, userId);
 
 	public void AddCategory(Category category)

@@ -65,6 +65,12 @@ public class TaskRepository : ITaskRepository
 
 	public IEnumerable<Category> GetCategories(string userId) =>
 		_context.Categories
+		.Where(x => x.IsDefault == true || x.UserId == userId)
+		.OrderBy(x => x.Name)
+		.ToList();
+
+	public IEnumerable<Category> GetUserCategories(string userId) =>
+		_context.Categories
 		.Where(x => x.UserId == userId)
 		.OrderBy(x => x.Name)
 		.ToList();
@@ -81,7 +87,23 @@ public class TaskRepository : ITaskRepository
 
 	public void DeleteCategory(int categoryId, string userId)
 	{
+		var tasksToChange = _context.Tasks
+			.Where(x => x.CategoryId == categoryId && x.UserId == userId)
+			.ToList();
+
+		var defaultCategoryId = _context.Categories
+			.Where(x => x.IsDefault == true)
+			.OrderBy(x => x.CategoryId)
+			.First()
+			.CategoryId;
+		
+		foreach (var task in tasksToChange)
+		{
+			task.CategoryId = defaultCategoryId;
+		}
+
 		var categoryToDelete = _context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
+
 		_context.Categories.Remove(categoryToDelete);
 	}
 }
