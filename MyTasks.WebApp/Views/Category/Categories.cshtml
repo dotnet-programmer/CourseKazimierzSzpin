@@ -7,7 +7,7 @@
 <div class="mb-4 d-flex justify-content-between">
 	<h1 class="d-inline">Moje kategorie</h1>
 	<button class="btn btn-primary"
-			onclick='window.location.href="@Url.Action("Category", "Task")"'>
+			onclick='window.location.href="@Url.Action("Category", "Category")"'>
 		Dodaj nową kategorię
 	</button>
 </div>
@@ -26,7 +26,7 @@
 			{
 				<tr>
 					<td>
-						@Html.ActionLink(category.Name, "Category", "Task", new { categoryId = category.CategoryId }, new { @class = "fw-bold" })
+						@Html.ActionLink(category.Name, "Category", "Category", new { categoryId = category.CategoryId }, new { @class = "fw-bold" })
 					</td>
 					<td>
 						<button class="btn btn-danger btn-sm"
@@ -60,7 +60,7 @@
 
 			$.ajax({
 				type: "POST",
-				url: "@Url.Action("DeleteCategory", "Task")",
+				url: "@Url.Action("DeleteCategory", "Category")",
 				data: {
 					categoryId: categoryId
 				},

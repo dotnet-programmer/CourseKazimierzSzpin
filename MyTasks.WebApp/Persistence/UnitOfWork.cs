@@ -12,10 +12,13 @@ public class UnitOfWork : IUnitOfWork
 	{
 		_context = context;
 		TaskRepository = new TaskRepository(context);
+		CategoryRepository = new CategoryRepository(context);
 	}
 
 	// INFO - obiekty repozytoryjne, jeżeli więcej repozytoriów, to więcej takich właściwości
 	public ITaskRepository TaskRepository { get; set; }
+
+	public ICategoryRepository CategoryRepository { get; set; }
 
 	public void Complete() => _context.SaveChanges();
 }

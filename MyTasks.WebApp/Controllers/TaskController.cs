@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Core.Services;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence.Extensions;
@@ -12,16 +11,21 @@ namespace MyTasks.WebApp.Controllers;
 public class TaskController : Controller
 {
 	private readonly ITaskService _taskService;
+	private readonly ICategoryService _categoryService;
 
 	// context jest przekazywany przez Dependency Injection
-	public TaskController(ITaskService taskService) => _taskService = taskService;
+	public TaskController(ITaskService taskService, ICategoryService categoryService)
+	{
+		_taskService = taskService;
+		_categoryService = categoryService;
+	}
 
 	public IActionResult Tasks()
 	{
 		TasksViewModel vm = new()
 		{
 			Tasks = _taskService.GetTasks(new() { UserId = User.GetUserId() }),
-			Categories = _taskService.GetCategories(User.GetUserId()),
+			Categories = _categoryService.GetCategories(User.GetUserId()),
 			FilterTasks = new(),
 		};
 
@@ -111,70 +115,10 @@ public class TaskController : Controller
 		return Json(new { success = true });
 	}
 
-	public IActionResult Categories() => View(_taskService.GetUserCategories(User.GetUserId()));
-
-	public IActionResult Category(int categoryId = 0)
-	{
-		var userId = User.GetUserId();
-
-		Category category = categoryId == 0 ?
-			new Category { CategoryId = categoryId, UserId = userId } :
-			_taskService.GetCategory(categoryId, userId);
-
-		return View(GetCategoryViewModel(category));
-	}
-
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public IActionResult Category(Category category)
-	{
-		category.UserId = User.GetUserId();
-
-		if (!ModelState.IsValid)
-		{
-			CategoryViewModel vm = GetCategoryViewModel(category);
-			return View("Category", vm);
-		}
-
-		if (category.CategoryId == 0)
-		{
-			_taskService.AddCategory(category);
-		}
-		else
-		{
-			_taskService.UpdateCategory(category);
-		}
-
-		return RedirectToAction("Categories");
-	}
-
-	[HttpPost]
-	public IActionResult DeleteCategory(int categoryId)
-	{
-		try
-		{
-			var userId = User.GetUserId();
-			_taskService.DeleteCategory(categoryId, userId);
-		}
-		catch (Exception ex)
-		{
-			// logowanie do pliku
-			return Json(new { success = false, message = ex.Message });
-		}
-
-		return Json(new { success = true });
-	}
-
 	private TaskViewModel GetTaskViewModel(Task task) => new()
 	{
 		Task = task,
 		Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
-		Categories = _taskService.GetCategories()
-	};
-
-	private CategoryViewModel GetCategoryViewModel(Category category) => new()
-	{
-		Category = category,
-		Heading = category.CategoryId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
+		Categories = _categoryService.GetCategories(User.GetUserId())
 	};
 }

@@ -1,5 +1,4 @@
 ﻿using MyTasks.WebApp.Core.Models;
-using MyTasks.WebApp.Core.Models.Domains;
 using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 
 namespace MyTasks.WebApp.Core.Repositories;
@@ -17,18 +16,4 @@ public interface ITaskRepository
 	void DeleteTask(int taskId, string userId);
 
 	void FinishTask(int taskId, string userId);
-
-	IEnumerable<Category> GetCategories();
-
-	IEnumerable<Category> GetCategories(string userId);
-
-	IEnumerable<Category> GetUserCategories(string userId);
-
-	Category GetCategory(int categoryId, string userId);
-
-	void AddCategory(Category category);
-
-	void UpdateCategory(Category category);
-
-	void DeleteCategory(int categoryId, string userId);
 }

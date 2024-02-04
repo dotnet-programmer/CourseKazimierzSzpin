@@ -6,7 +6,7 @@
 
 <h1 class="mb-3">@Model.Heading</h1>
 
-@using (Html.BeginForm("Category", "Task"))
+@using (Html.BeginForm("Category", "Category"))
 {
 	<p class="alert alert-info mt-4 mb-4">
 		Pole nazwa jest <strong>wymagane</strong>
@@ -15,7 +15,6 @@
 	@Html.AntiForgeryToken()
 
 	@Html.HiddenFor(x => x.Category.CategoryId)
-	@Html.HiddenFor(x => x.Category.UserId)
 
 	<div class="col-auto form-floating mb-4">
 		@Html.TextBoxFor(x => x.Category.Name, new { @class = "form-control", placeholder = "Name", autofocus = "autofocus" })
