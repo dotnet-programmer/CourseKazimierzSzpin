@@ -41,7 +41,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendEmail.NetFramework.WebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTasks.WebApp", "MyTasks.WebApp\MyTasks.WebApp.csproj", "{ABD6E83E-1342-4125-AEC8-D0F4EA4EDB2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.WebApi", "MyFinances.WebApi\MyFinances.WebApi.csproj", "{09C16FFA-64B4-4B41-9D95-B6D6F3F75704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.WebApi", "MyFinances.WebApi\MyFinances.WebApi.csproj", "{09C16FFA-64B4-4B41-9D95-B6D6F3F75704}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advertisements.WebApp", "Advertisements.WebApp\Advertisements.WebApp.csproj", "{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{09C16FFA-64B4-4B41-9D95-B6D6F3F75704}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09C16FFA-64B4-4B41-9D95-B6D6F3F75704}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09C16FFA-64B4-4B41-9D95-B6D6F3F75704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
