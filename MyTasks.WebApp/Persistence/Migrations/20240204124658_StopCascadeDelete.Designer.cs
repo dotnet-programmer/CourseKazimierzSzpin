@@ -9,7 +9,7 @@ using MyTasks.WebApp.Persistence;
 
 #nullable disable
 
-namespace MyTasks.WebApp.Migrations
+namespace MyTasks.WebApp.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240204124658_StopCascadeDelete")]
