@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Advertisements.WebApp.Data.Migrations;
+namespace Advertisements.WebApp.Data.Migrations.Persistence;
 public partial class CreateIdentitySchema : Migration
 {
 	protected override void Up(MigrationBuilder migrationBuilder)

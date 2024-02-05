@@ -15,4 +15,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Core\Services\" />
+    <Folder Include="Data\Core\Repositories\" />
+    <Folder Include="Data\Persistence\Extensions\" />
+    <Folder Include="Data\Persistence\Services\" />
+    <Folder Include="Data\Persistence\Repositories\" />
+  </ItemGroup>
+
 </Project>
