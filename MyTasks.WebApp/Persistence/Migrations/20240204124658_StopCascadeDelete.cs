@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MyTasks.WebApp.Migrations
+namespace MyTasks.WebApp.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class StopCascadeDelete : Migration
