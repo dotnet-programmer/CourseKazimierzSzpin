@@ -1,13 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
 
 namespace Advertisements.WebApp.Data.Core.Models.Domains;
 
-public class ApplicationUser : IdentityUser
+public class Subcategory
 {
-	public int AddressId { get; set; }
-	public Address Address { get; set; }
+	public int CategoryId { get; set; }
+
+	[Required(ErrorMessage = "Pole Nazwa jest wymagane")]
+	[Display(Name = "Nazwa")]
+	[MaxLength(50)]
+	public string Name { get; set; }
 
 	public ICollection<Advertisement> Advertisements { get; set; } = new Collection<Advertisement>();
 }
