@@ -1,0 +1,70 @@
+﻿@model AdvertisementsViewModel
+
+@{
+	ViewData["Title"] = "Ogłoszenia";
+}
+
+@* filtering form *@
+<form id="filterForm" class="row gy-2 gx-3 align-items-center">
+	<div class="col-auto form-floating">
+		@Html.TextBoxFor(x => x.FilterAdvertisements.Title, new { @class = "form-control", placeholder = "Title" })
+		@Html.LabelFor(x => x.FilterAdvertisements.Title)
+	</div>
+	<div class="col-auto form-floating">
+		@Html.DropDownListFor(
+					x => x.FilterAdvertisements.CategoryId,
+					new SelectList(Model.Categories, "CategoryId", "Name"),
+					"-- wybierz kategorię --",
+					new { @class = "form-select" })
+		@Html.LabelFor(x => x.FilterAdvertisements.CategoryId)
+	</div>
+	<div class="col-auto form-floating">
+		@Html.DropDownListFor(
+					x => x.FilterAdvertisements.SubcategoryId,
+					new SelectList(Model.Subcategories, "SubcategoryId", "Name"),
+					"-- wybierz podkategorię --",
+					new { @class = "form-select" })
+		@Html.LabelFor(x => x.FilterAdvertisements.SubcategoryId)
+	</div>
+	<div class="col-auto form-floating">
+		@Html.TextBoxFor(x => x.FilterAdvertisements.MinPrice, new { @class = "form-control", placeholder = "MinPrice" })
+		@Html.LabelFor(x => x.FilterAdvertisements.MinPrice)
+	</div>
+	<div class="col-auto form-floating">
+		@Html.TextBoxFor(x => x.FilterAdvertisements.MaxPrice, new { @class = "form-control", placeholder = "MaxPrice" })
+		@Html.LabelFor(x => x.FilterAdvertisements.MaxPrice)
+	</div>
+	<div class="col-auto">
+		<button type="submit" class="btn btn-primary">Szukaj</button>
+	</div>
+</form>
+
+@* tabela z zadaniami *@
+<div>
+	@await Html.PartialAsync("_AdvertisementsTable", Model.Advertisements)
+</div>
+
+@section Scripts
+{
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+			$('#filterForm').submit(function () {
+				$.ajax({
+					type: "POST",
+					url: "@Url.Action("Advertisements", "Advertisement")",
+					data: $(this).serialize(),
+					success: function (data) {
+						$('#advertisementsTable').html(data);
+					},
+					error: function (data) {
+						alert(data.message);
+					},
+					dataType: "html"
+				});
+				return false;
+			});
+		});
+
+	</script>
+}

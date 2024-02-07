@@ -19,10 +19,10 @@ public class Advertisement
 	[Display(Name = "Cena")]
 	public decimal Price { get; set; }
 
-	[Required(ErrorMessage = "Pole Lokalizacja jest wymagane")]
-	[Display(Name = "Lokalizacja")]
+	[Required(ErrorMessage = "Pole Miasto jest wymagane")]
+	[Display(Name = "Miasto")]
 	[MaxLength(100)]
-	public string Location { get; set; }
+	public string City { get; set; }
 
     [Required]
 	public DateTime Added { get; set; }
@@ -31,12 +31,14 @@ public class Advertisement
 	[Display(Name = "Data wygaśnięcia")]
 	public DateTime Expiration { get; set; }
 
-	public byte[] Picture { get; set; }
+    public bool IsActive { get; set; }
+
+    public byte[] Picture { get; set; }
 	public string PictureFormat { get; set; }
 
-	[Required]
-	public int CategoryId { get; set; }
-	public Category Category { get; set; }
+	//[Required]
+	//public int CategoryId { get; set; }
+	//public Category Category { get; set; }
 
 	[Required]
 	public int SubcategoryId { get; set; }

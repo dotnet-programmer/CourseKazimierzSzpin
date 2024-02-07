@@ -12,5 +12,6 @@ public class Category
 	[MaxLength(50)]
 	public string Name { get; set; }
 
-	public ICollection<Advertisement> Advertisements { get; set; } = new Collection<Advertisement>();
+	//public ICollection<Advertisement> Advertisements { get; set; } = new Collection<Advertisement>();
+	public ICollection<Subcategory> Subcategories { get; set; } = new Collection<Subcategory>();
 }

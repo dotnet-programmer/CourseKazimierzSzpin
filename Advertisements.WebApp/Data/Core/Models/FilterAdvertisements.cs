@@ -13,5 +13,11 @@ public class FilterAdvertisements
 	[Display(Name = "Podkategoria")]
 	public int SubcategoryId { get; set; }
 
-	// TODO - rodzaj sortowania: od najtańszych, od najdrozszych itp
+	[Display(Name = "Cena od")]
+	public decimal MinPrice { get; set; }
+
+	[Display(Name = "Cena Do")]
+	public decimal MaxPrice { get; set; }
+
+    // TODO - rodzaj sortowania: od najtańszych, od najdrozszych itp
 }
