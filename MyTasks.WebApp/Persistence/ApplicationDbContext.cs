@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models.Domains;
 using MyTasks.WebApp.Persistence.Extensions;

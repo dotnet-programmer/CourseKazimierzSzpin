@@ -4,6 +4,7 @@ using Advertisements.WebApp.Data.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Advertisements.WebApp.Data.Migrations.Persistence
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240208181244_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,6 +124,9 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -166,6 +172,8 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -422,6 +430,17 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Advertisements.WebApp.Data.Core.Models.Domains.ApplicationUser", b =>
+                {
+                    b.HasOne("Advertisements.WebApp.Data.Core.Models.Domains.Address", "Address")
+                        .WithMany("Users")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -471,6 +490,11 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Advertisements.WebApp.Data.Core.Models.Domains.Address", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Advertisements.WebApp.Data.Core.Models.Domains.ApplicationUser", b =>

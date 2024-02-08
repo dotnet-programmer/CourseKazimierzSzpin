@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Advertisements.WebApp.Data.Core.Models.Domains;
 
@@ -17,6 +18,7 @@ public class Advertisement
 
 	[Required(ErrorMessage = "Pole Cena jest wymagane")]
 	[Display(Name = "Cena")]
+	[Column(TypeName = "decimal(12, 2)")]
 	public decimal Price { get; set; }
 
 	[Required(ErrorMessage = "Pole Miasto jest wymagane")]
@@ -36,13 +38,13 @@ public class Advertisement
     public byte[] Picture { get; set; }
 	public string PictureFormat { get; set; }
 
-	//[Required]
-	//public int CategoryId { get; set; }
-	//public Category Category { get; set; }
-
 	[Required]
-	public int SubcategoryId { get; set; }
-	public Subcategory Subcategory { get; set; }
+	public int CategoryId { get; set; }
+	public Category Category { get; set; }
+
+	//[Required]
+	//public int SubcategoryId { get; set; }
+	//public Subcategory Subcategory { get; set; }
 
 	[Required]
 	public string UserId { get; set; }

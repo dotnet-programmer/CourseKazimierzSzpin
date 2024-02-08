@@ -1,11 +1,11 @@
 ﻿@model AdvertisementsViewModel
 
 @{
-	ViewData["Title"] = "Ogłoszenia";
+	ViewData["Title"] = "Ogłoszenia - strona główna";
 }
 
 @* filtering form *@
-<form id="filterForm" class="row gy-2 gx-3 align-items-center">
+<form id="filterForm" class="row gy-2 gx-3 align-items-center justify-content-center mt-2 mb-4">
 	<div class="col-auto form-floating">
 		@Html.TextBoxFor(x => x.FilterAdvertisements.Title, new { @class = "form-control", placeholder = "Title" })
 		@Html.LabelFor(x => x.FilterAdvertisements.Title)
@@ -18,28 +18,29 @@
 					new { @class = "form-select" })
 		@Html.LabelFor(x => x.FilterAdvertisements.CategoryId)
 	</div>
-	<div class="col-auto form-floating">
+@* 	<div class="col-auto form-floating">
 		@Html.DropDownListFor(
 					x => x.FilterAdvertisements.SubcategoryId,
 					new SelectList(Model.Subcategories, "SubcategoryId", "Name"),
 					"-- wybierz podkategorię --",
 					new { @class = "form-select" })
 		@Html.LabelFor(x => x.FilterAdvertisements.SubcategoryId)
-	</div>
+	</div> *@
 	<div class="col-auto form-floating">
-		@Html.TextBoxFor(x => x.FilterAdvertisements.MinPrice, new { @class = "form-control", placeholder = "MinPrice" })
+		@Html.TextBoxFor(x => x.FilterAdvertisements.MinPrice, new { @class = "form-control", placeholder = "MinPrice", value = "" })
 		@Html.LabelFor(x => x.FilterAdvertisements.MinPrice)
 	</div>
 	<div class="col-auto form-floating">
-		@Html.TextBoxFor(x => x.FilterAdvertisements.MaxPrice, new { @class = "form-control", placeholder = "MaxPrice" })
+		@Html.TextBoxFor(x => x.FilterAdvertisements.MaxPrice, new { @class = "form-control", placeholder = "MaxPrice", value = "" })
 		@Html.LabelFor(x => x.FilterAdvertisements.MaxPrice)
 	</div>
 	<div class="col-auto">
-		<button type="submit" class="btn btn-primary">Szukaj</button>
+		<button type="submit" class="btn btn-primary btn-lg">Szukaj</button>
 	</div>
 </form>
 
 @* tabela z zadaniami *@
+@* TODO - rodzaj sortowania: od najtańszych, od najdrozszych itp *@
 <div>
 	@await Html.PartialAsync("_AdvertisementsTable", Model.Advertisements)
 </div>

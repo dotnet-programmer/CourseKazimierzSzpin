@@ -7,6 +7,6 @@ public class AdvertisementsViewModel
 {
 	public IEnumerable<Advertisement> Advertisements { get; set; }
 	public IEnumerable<Category> Categories { get; set; }
-	public IEnumerable<Subcategory> Subcategories { get; set; }
+	//public IEnumerable<Subcategory> Subcategories { get; set; }
 	public FilterAdvertisements FilterAdvertisements { get; set; }
 }

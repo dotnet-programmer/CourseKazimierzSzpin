@@ -27,5 +27,5 @@ public class Address
 	[MaxLength(6)]
 	public string PostalCode { get; set; }
 
-	public ICollection<ApplicationUser> Users { get; set; } = new Collection<ApplicationUser>();
+	//public ICollection<ApplicationUser> Users { get; set; } = new Collection<ApplicationUser>();
 }

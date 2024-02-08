@@ -12,9 +12,9 @@ public class Subcategory
 	[MaxLength(50)]
 	public string Name { get; set; }
 
-	[Required]
-	public int CategoryId { get; set; }
-    public Category Category { get; set; }
+	//[Required]
+	//public int CategoryId { get; set; }
+ //   public Category Category { get; set; }
 
-    public ICollection<Advertisement> Advertisements { get; set; } = new Collection<Advertisement>();
+ //   public ICollection<Advertisement> Advertisements { get; set; } = new Collection<Advertisement>();
 }

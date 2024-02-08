@@ -9,4 +9,6 @@ public interface IApplicationDbContext
 	DbSet<Advertisement> Advertisements { get; set; }
 	DbSet<Category> Categories { get; set; }
 	DbSet<Subcategory> Subcategories { get; set; }
+
+	int SaveChanges();
 }

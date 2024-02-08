@@ -17,10 +17,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Core\Services\" />
-    <Folder Include="Data\Persistence\Extensions\" />
-    <Folder Include="Data\Persistence\Services\" />
-  </ItemGroup>
-
 </Project>

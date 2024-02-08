@@ -2,6 +2,7 @@
 using Advertisements.WebApp.Data.Core.Models;
 using Advertisements.WebApp.Data.Core.Models.Domains;
 using Advertisements.WebApp.Data.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Advertisements.WebApp.Data.Persistence.Repositories;
 
@@ -11,7 +12,32 @@ public class AdvertisementRepository : IAdvertisementRepository
 
 	public AdvertisementRepository(IApplicationDbContext context) => _context = context;
 
-	public IEnumerable<Advertisement> GetAdvertisements(GetAdvertisementsParams getAdvertisementsParams) => throw new NotImplementedException();
+	public IEnumerable<Advertisement> GetAdvertisements(GetAdvertisementsParams getAdvertisementsParams)
+	{
+		var advertisements = _context.Advertisements.Where(x => x.IsActive == getAdvertisementsParams.IsActive && x.Price >= getAdvertisementsParams.MinPrice);
+
+		if (getAdvertisementsParams.MaxPrice != 0)
+		{
+			advertisements = advertisements.Where(x => x.Price <= getAdvertisementsParams.MaxPrice);
+		}
+
+		if (getAdvertisementsParams.CategoryId != 0)
+		{
+			advertisements = advertisements.Where(x => x.CategoryId == getAdvertisementsParams.CategoryId);
+		}
+
+		//if (getAdvertisementsParams.SubcategoryId != 0)
+		//{
+		//	advertisements = advertisements.Where(x => x.SubcategoryId == getAdvertisementsParams.SubcategoryId);
+		//}
+
+		if (!string.IsNullOrWhiteSpace(getAdvertisementsParams.Title))
+		{
+			advertisements = advertisements.Where(x => x.Title.Contains(getAdvertisementsParams.Title));
+		}
+
+		return advertisements.OrderByDescending(x => x.Added).ToList();
+	}
 
 	public Advertisement GetAdvertisement(int advertisementId, string userId) => _context.Advertisements.Single(x=>x.AdvertisementId == advertisementId && x.UserId == userId);
 
@@ -24,7 +50,8 @@ public class AdvertisementRepository : IAdvertisementRepository
 		advertisementToUpdate.Description = advertisement.Description;
 		advertisementToUpdate.Picture = advertisement.Picture;
 		advertisementToUpdate.PictureFormat = advertisement.PictureFormat;
-		advertisementToUpdate.SubcategoryId = advertisement.SubcategoryId;
+		//advertisementToUpdate.SubcategoryId = advertisement.SubcategoryId;
+		advertisementToUpdate.CategoryId = advertisement.CategoryId;
 		advertisementToUpdate.Title = advertisement.Title;
 	}
 
