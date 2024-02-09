@@ -78,10 +78,7 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Expiration")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsArchival")
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("Picture")

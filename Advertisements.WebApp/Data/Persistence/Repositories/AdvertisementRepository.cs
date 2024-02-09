@@ -14,7 +14,7 @@ public class AdvertisementRepository : IAdvertisementRepository
 
 	public IEnumerable<Advertisement> GetAdvertisements(GetAdvertisementsParams getAdvertisementsParams)
 	{
-		var advertisements = _context.Advertisements.Where(x => x.IsActive == getAdvertisementsParams.IsActive && x.Price >= getAdvertisementsParams.MinPrice);
+		var advertisements = _context.Advertisements.Where(x => x.IsArchival == getAdvertisementsParams.IsArchival && x.Price >= getAdvertisementsParams.MinPrice);
 
 		if (getAdvertisementsParams.MaxPrice != 0)
 		{
@@ -46,13 +46,14 @@ public class AdvertisementRepository : IAdvertisementRepository
 	public void UpdateAdvertisement(Advertisement advertisement)
 	{
 		var advertisementToUpdate = _context.Advertisements.Single(x => x.AdvertisementId == advertisement.AdvertisementId);
-		advertisementToUpdate.City = advertisement.City;
+		advertisementToUpdate.Title = advertisement.Title;
 		advertisementToUpdate.Description = advertisement.Description;
+		advertisementToUpdate.Price = advertisement.Price;
+		advertisementToUpdate.City = advertisement.City;
 		advertisementToUpdate.Picture = advertisement.Picture;
 		advertisementToUpdate.PictureFormat = advertisement.PictureFormat;
 		//advertisementToUpdate.SubcategoryId = advertisement.SubcategoryId;
 		advertisementToUpdate.CategoryId = advertisement.CategoryId;
-		advertisementToUpdate.Title = advertisement.Title;
 	}
 
 	public void FinishAdvertisement(int advertisementId, string userId) => throw new NotImplementedException();

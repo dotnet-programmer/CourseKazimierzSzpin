@@ -1,5 +1,61 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AdvertisementViewModel
+
 @{
+	ViewData["Title"] = Model.Heading;
+}
+
+<h1 class="mb-3">@Model.Heading</h1>
+
+@using (Html.BeginForm("Advertisement", "Advertisement", FormMethod.Post, new { enctype="multipart/form-data" }))
+{
+	<p class="alert alert-info mt-4 mb-4">
+		Pola tytuł, opis, cena, miasto i kategoria są <strong>wymagane</strong>
+	</p>
+
+	@Html.AntiForgeryToken()
+
+	@Html.HiddenFor(x => x.Advertisement.AdvertisementId)
+	@Html.HiddenFor(x => x.Advertisement.UserId)
+
+	<div class="col-auto form-floating mb-4">
+		@Html.TextBoxFor(x => x.Advertisement.Title, new { @class = "form-control", placeholder = "Title", autofocus = "autofocus" })
+		@Html.LabelFor(x => x.Advertisement.Title)
+		@Html.ValidationMessageFor(x => x.Advertisement.Title)
+	</div>
+
+	<div class="col-auto form-floating mb-4">
+		@Html.TextBoxFor(x => x.Advertisement.Description, new { @class = "form-control", placeholder = "Description" })
+		@Html.LabelFor(x => x.Advertisement.Description)
+		@Html.ValidationMessageFor(x => x.Advertisement.Description)
+	</div>
+
+	<div class="col-auto form-floating mb-4">
+		@Html.TextBoxFor(x => x.Advertisement.Price, new { @class = "form-control", placeholder = "Price" })
+		@Html.LabelFor(x => x.Advertisement.Price)
+		@Html.ValidationMessageFor(x => x.Advertisement.Price)
+	</div>
+
+	<div class="col-auto form-floating mb-4">
+		@Html.TextBoxFor(x => x.Advertisement.City, new { @class = "form-control", placeholder = "City" })
+		@Html.LabelFor(x => x.Advertisement.City)
+		@Html.ValidationMessageFor(x => x.Advertisement.City)
+	</div>
+
+	<div class="col-auto form-floating mb-4">
+		@Html.DropDownListFor(
+				x => x.Advertisement.CategoryId,
+				new SelectList(Model.Categories, "CategoryId", "Name"),
+				"-- wybierz kategorię --",
+				new { @class = "form-select" })
+		@Html.LabelFor(x => x.Advertisement.CategoryId)
+		@Html.ValidationMessageFor(x => x.Advertisement.CategoryId)
+	</div>
+
+	<div class="col-auto mb-4">
+		<label asp-for="Picture" class="form-label mb-1"></label>
+		<input asp-for="Picture" accept="image/*" class="form-control" type="file" />
+		<span asp-validation-for="Picture" class="text-danger"></span>
+	</div>
+
+	<button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
 }

@@ -13,13 +13,6 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "AddressId",
-                table: "AspNetUsers",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
@@ -73,8 +66,7 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                     Price = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Added = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsArchival = table.Column<bool>(type: "bit", nullable: false),
                     Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PictureFormat = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
@@ -115,11 +107,6 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_AddressId",
-                table: "AspNetUsers",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Advertisements_CategoryId",
                 table: "Advertisements",
                 column: "CategoryId");
@@ -128,23 +115,11 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                 name: "IX_Advertisements_UserId",
                 table: "Advertisements",
                 column: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Addresses_AddressId",
-                table: "AspNetUsers",
-                column: "AddressId",
-                principalTable: "Addresses",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Addresses_AddressId",
-                table: "AspNetUsers");
-
             migrationBuilder.DropTable(
                 name: "Addresses");
 
@@ -156,14 +131,6 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUsers_AddressId",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "AddressId",
-                table: "AspNetUsers");
         }
     }
 }

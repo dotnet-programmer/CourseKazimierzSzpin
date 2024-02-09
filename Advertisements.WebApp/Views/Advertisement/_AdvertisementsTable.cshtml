@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Advertisement>
+﻿@* @model IEnumerable<Advertisement> *@
+@model IEnumerable<Advertisements.WebApp.Data.Core.Models.AdvertisementsTableItem>
 
 <div id="advertisementsTable">
 	<table class="table table-bordered table-striped mt-3">
@@ -8,17 +9,17 @@
 				<th scope="col">Tytuł</th>
 				<th scope="col">Opis</th>
 				<th scope="col">Cena</th>
-				<th scope="col">Wygasa</th>
+				@* <th scope="col">Wygasa</th> *@
 			</tr>
 		</thead>
 		<tbody>
 			@if (Model != null && Model.Any())
 			{
-				foreach (var advertisement in Model)
+				foreach (var advertisementTableItem in Model)
 				{
 					<tr>
 						<td>
-							<img src="data:@advertisement.PictureFormat;base64,@advertisement.Picture">
+							<img src="data:@advertisementTableItem.Advertisement.PictureFormat;base64,@advertisementTableItem.Picture">
 						</td>
 						<td>
 @* 							@Html.ActionLink(
@@ -27,11 +28,11 @@
 								"Advertisement", 
 								new { advertisementId = advertisement.AdvertisementId }, 
 								new { @class = "fw-bold" }) *@
-							<a class="fw-bold" asp-controller="Advertisement" asp-action="Advertisement" asp-route-advertisementId="@advertisement.AdvertisementId">@advertisement.Title</a>
+							<a class="fw-bold" asp-controller="Advertisement" asp-action="Advertisement" asp-route-advertisementId="@advertisementTableItem.Advertisement.AdvertisementId">@advertisementTableItem.Advertisement.Title</a>
 						</td>
-						<td>@advertisement.Description</td>
-						<td>@advertisement.Price</td>
-						<td>@advertisement.Expiration.ToString("G")</td>
+						<td>@advertisementTableItem.Advertisement.Description</td>
+						<td>@advertisementTableItem.Advertisement.Price</td>
+						@* <td>@advertisement.Expiration.ToString("G")</td> *@
 					</tr>
 				}
 			}

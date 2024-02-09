@@ -18,4 +18,7 @@ public class FilterAdvertisements
 
 	[Display(Name = "Cena Do")]
 	public decimal MaxPrice { get; set; }
+
+	[Display(Name = "Archiwalne")]
+	public bool IsArchival { get; set; }
 }

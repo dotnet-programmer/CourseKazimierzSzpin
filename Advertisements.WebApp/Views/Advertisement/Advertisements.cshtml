@@ -34,14 +34,19 @@
 		@Html.TextBoxFor(x => x.FilterAdvertisements.MaxPrice, new { @class = "form-control", placeholder = "MaxPrice", value = "" })
 		@Html.LabelFor(x => x.FilterAdvertisements.MaxPrice)
 	</div>
+	<div class="col-auto form-check mb-4">
+		@Html.CheckBoxFor(x => x.FilterAdvertisements.IsArchival, new { @class = "form-check-input" })
+		@Html.LabelFor(x => x.FilterAdvertisements.IsArchival, new { @class = "form-check-label" })
+	</div>
 	<div class="col-auto">
 		<button type="submit" class="btn btn-primary btn-lg">Szukaj</button>
 	</div>
 </form>
 
-@* tabela z zadaniami *@
+@* table with advertisements *@
 @* TODO - rodzaj sortowania: od najtańszych, od najdrozszych itp *@
 <div>
+	@* @await Html.PartialAsync("_AdvertisementsTable", Model.Advertisements) *@
 	@await Html.PartialAsync("_AdvertisementsTable", Model.Advertisements)
 </div>
 

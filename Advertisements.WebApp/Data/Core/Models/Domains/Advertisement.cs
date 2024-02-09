@@ -29,16 +29,17 @@ public class Advertisement
     [Required]
 	public DateTime Added { get; set; }
 
-	[Required(ErrorMessage = "Pole Data wygaśnięcia jest wymagane")]
-	[Display(Name = "Data wygaśnięcia")]
-	public DateTime Expiration { get; set; }
+	//[Required(ErrorMessage = "Pole Data wygaśnięcia jest wymagane")]
+	//[Display(Name = "Data wygaśnięcia")]
+	//public DateTime Expiration { get; set; }
 
-    public bool IsActive { get; set; }
+    public bool IsArchival { get; set; }
 
     public byte[] Picture { get; set; }
 	public string PictureFormat { get; set; }
 
-	[Required]
+	[Required(ErrorMessage = "Pole Kategoria jest wymagane")]
+	[Display(Name = "Kategoria")]
 	public int CategoryId { get; set; }
 	public Category Category { get; set; }
 
