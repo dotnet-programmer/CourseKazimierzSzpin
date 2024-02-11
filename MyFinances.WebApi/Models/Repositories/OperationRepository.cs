@@ -16,6 +16,11 @@ public class OperationRepository
 		return _context.Operations;
 	}
 
+	public IEnumerable<Operation> GetOperations(int recordCount, int page)
+	{
+		return _context.Operations.Skip(recordCount * (page - 1)).Take(recordCount);
+	}
+
 	public Operation GetOperation(int operationId)
 	{
 		return _context.Operations.FirstOrDefault(x => x.OperationId == operationId);

@@ -45,8 +45,8 @@ public class OperationController : ControllerBase
 	//	return Ok(_unitOfWork.OperationRepository.GetOperations());
 	//}
 
+	// INFO - nazwa akcji nie ma znaczenia
 	[HttpGet]
-	// INFO - nazwa nie ma znaczenia
 	public DataResponse<IEnumerable<OperationDto>> GetOperations()
 	{
 		DataResponse<IEnumerable<OperationDto>> response = new();
@@ -54,6 +54,33 @@ public class OperationController : ControllerBase
 		try
 		{
 			response.Data = _unitOfWork.OperationRepository.GetOperations().ToDtos();
+		}
+		catch (Exception ex)
+		{
+			// logowanie do pliku...
+			response.Errors.Add(new Error(ex.Source, ex.Message));
+		}
+
+		return response;
+	}
+
+	// INFO - homework
+	[HttpGet("{recordCount}/{page}")]
+	public DataResponse<IEnumerable<OperationDto>> GetOperations(int recordCount, int page)
+	{
+		DataResponse<IEnumerable<OperationDto>> response = new();
+
+		try
+		{
+			if (recordCount <= 0)
+			{
+				throw new ArgumentException("Wartość nie może być mniejsza lub równa 0!", nameof(recordCount));
+			}
+			if (page <= 0)
+			{
+				throw new ArgumentException("Wartość nie może być mniejsza lub równa 0!", nameof(page));
+			}
+			response.Data = _unitOfWork.OperationRepository.GetOperations(recordCount, page).ToDtos();
 		}
 		catch (Exception ex)
 		{
