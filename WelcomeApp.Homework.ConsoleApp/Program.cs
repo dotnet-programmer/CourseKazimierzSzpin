@@ -22,12 +22,12 @@ Console.ReadLine();
 
 static string GetTextInput()
 {
-	string? birthplace;
-	while (string.IsNullOrWhiteSpace(birthplace = Console.ReadLine()))
+	string input;
+	while (string.IsNullOrWhiteSpace(input = Console.ReadLine()))
 	{
 		ErrorMessage();
 	}
-	return birthplace;
+	return input;
 }
 
 static int GetYear()
@@ -60,4 +60,5 @@ static int GetDay(int year, int month)
 	return day;
 }
 
-static void ErrorMessage() => Console.Write("Wrong input!");
+static void ErrorMessage()
+	=> Console.Write("Wrong input!");
