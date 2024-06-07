@@ -8,6 +8,7 @@ namespace StudentsDiary.WinFormsApp;
 public partial class Main : Form
 {
 	private readonly SerializeToFile<List<Student>> _dataFile = new SerializeToXml<List<Student>>(Program.DataFilePath, Program.DataFileName);
+
 	private ConfigurationManager _configurationManager;
 	private List<Student> _students;
 	private List<Group> _groups;
@@ -32,11 +33,14 @@ public partial class Main : Form
 		}
 	}
 
-	private void BtnEdit_Click(object sender, EventArgs e) => EditStudent();
+	private void BtnEdit_Click(object sender, EventArgs e) 
+		=> EditStudent();
 
-	private void DgvDiary_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => EditStudent();
+	private void DgvDiary_CellDoubleClick(object sender, DataGridViewCellEventArgs e) 
+		=> EditStudent();
 
-	private void CbGroups_SelectedIndexChanged(object sender, EventArgs e) => RefreshDiary();
+	private void CbGroups_SelectedIndexChanged(object sender, EventArgs e) 
+		=> RefreshDiary();
 
 	private void BtnDelete_Click(object sender, EventArgs e)
 	{
@@ -51,7 +55,6 @@ public partial class Main : Form
 			$"Czy na pewno chcesz usun¹æ ucznia {selectedStudent.FirstName} {selectedStudent.LastName}",
 			"Usuwanie ucznia",
 			MessageBoxButtons.OKCancel);
-
 		if (confirmDelete == DialogResult.OK)
 		{
 			DeleteStudent(selectedStudent);
@@ -60,9 +63,11 @@ public partial class Main : Form
 		}
 	}
 
-	private void BtnRefresh_Click(object sender, EventArgs e) => RefreshDiary();
+	private void BtnRefresh_Click(object sender, EventArgs e) 
+		=> RefreshDiary();
 
-	private void Main_FormClosing(object sender, FormClosingEventArgs e) => _configurationManager.SaveConfiguration();
+	private void Main_FormClosing(object sender, FormClosingEventArgs e) 
+		=> _configurationManager.SaveConfiguration();
 
 	private void SetWindowState()
 	{
@@ -83,7 +88,9 @@ public partial class Main : Form
 	private void RefreshDiary()
 	{
 		int groupId = (CbGroups.SelectedItem as Group).Id;
-		_students = groupId != 0 ? _students.Where(x => x.GroupId == groupId).ToList() : _dataFile.Deserialize();
+		_students = groupId != 0 
+			? _students.Where(x => x.GroupId == groupId).ToList() 
+			: _dataFile.Deserialize();
 		_students.Sort();
 		DgvDiary.DataSource = _students;
 	}
@@ -119,7 +126,6 @@ public partial class Main : Form
 
 		int selectedIndex = GetSelectedIndex();
 		AddEditStudent addEditStudent = new(GetSelectedStudent());
-
 		if (addEditStudent.ShowDialog() == DialogResult.OK)
 		{
 			RefreshDiary();
@@ -127,13 +133,18 @@ public partial class Main : Form
 		}
 	}
 
-	private void SaveDiaryToFile() => _dataFile.Serialize(_students);
+	private void SaveDiaryToFile() 
+		=> _dataFile.Serialize(_students);
 
-	private bool IsRowSelected() => DgvDiary.SelectedRows.Count != 0;
+	private bool IsRowSelected() 
+		=> DgvDiary.SelectedRows.Count != 0;
 
-	private Student GetSelectedStudent() => (Student)DgvDiary.SelectedRows[0].DataBoundItem;
+	private Student GetSelectedStudent() 
+		=> (Student)DgvDiary.SelectedRows[0].DataBoundItem;
 
-	private int GetSelectedIndex() => DgvDiary.SelectedRows[0].Index;
+	private int GetSelectedIndex() 
+		=> DgvDiary.SelectedRows[0].Index;
 
-	private void DeleteStudent(Student student) => _students.RemoveAll(x => x.Id == student.Id);
+	private void DeleteStudent(Student student) 
+		=> _students.RemoveAll(x => x.Id == student.Id);
 }

@@ -2,29 +2,27 @@
 
 namespace StudentsDiary.WinFormsApp.FileSerialization;
 
-internal class SerializeToJson<T> : SerializeToFile<T> where T : new()
+internal class SerializeToJson<T>(string filePath, string fileName) : SerializeToFile<T>(filePath, fileName, ".json") where T : new()
 {
-	private const string JsonExt = ".json";
-
-	public SerializeToJson(string filePath, string fileName) : base(filePath, fileName, JsonExt)
-	{
-	}
+	private readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true };
 
 	public override void Serialize(T item)
 	{
 		string path = GetPath();
 		CreateDirectoryIfNotExist(path);
-		var json = JsonSerializer.Serialize(item, new JsonSerializerOptions { WriteIndented = true });
+		string json = JsonSerializer.Serialize(item, _jsonSerializerOptions);
 		File.WriteAllText(path, json);
 	}
 
 	public override T Deserialize()
 	{
 		string path = GetPath();
+
 		if (!File.Exists(path))
 		{
 			return new T();
 		}
+
 		var json = File.ReadAllText(path);
 		return JsonSerializer.Deserialize<T>(json);
 	}

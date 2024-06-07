@@ -7,9 +7,10 @@ namespace StudentsDiary.WinFormsApp.Forms;
 public partial class AddEditStudent : Form
 {
 	private readonly SerializeToFile<List<Student>> _dataFile = new SerializeToXml<List<Student>>(Program.DataFilePath, Program.DataFileName);
+	private readonly Student _student;
+
 	private ConfigurationManager _configurationManager;
 	private List<Group> _groups;
-	private readonly Student _student;
 
 	public AddEditStudent()
 	{
@@ -20,13 +21,13 @@ public partial class AddEditStudent : Form
 
 	public AddEditStudent(Student student) : this()
 	{
-		if (student is null)
-		{
-			throw new ArgumentNullException(nameof(student));
-		}
-
-		Text = "Edytowanie danych ucznia";
+		//if (student is null)
+		//{
+		//	throw new ArgumentNullException(nameof(student));
+		//}
+		ArgumentNullException.ThrowIfNull(student);
 		_student = student;
+		Text = "Edytowanie danych ucznia";
 		FillTextBoxes();
 	}
 
@@ -51,7 +52,8 @@ public partial class AddEditStudent : Form
 		Close();
 	}
 
-	private void AddEditStudent_FormClosing(object sender, FormClosingEventArgs e) => _configurationManager.SaveConfiguration();
+	private void AddEditStudent_FormClosing(object sender, FormClosingEventArgs e)
+		=> _configurationManager.SaveConfiguration();
 
 	private void SetWindowState()
 	{
@@ -124,8 +126,12 @@ public partial class AddEditStudent : Form
 			Activities = CbActivities.Checked,
 		});
 
-		static int GetStudentId(List<Student> students) => students.Any() ? students.Max(x => x.Id) + 1 : 1;
+		static int GetStudentId(List<Student> students)
+			=> students.Any() 
+				? students.Max(x => x.Id) + 1 
+				: 1;
 	}
 
-	private void SaveDiaryToFile(List<Student> students) => _dataFile.Serialize(students);
+	private void SaveDiaryToFile(List<Student> students)
+		=> _dataFile.Serialize(students);
 }

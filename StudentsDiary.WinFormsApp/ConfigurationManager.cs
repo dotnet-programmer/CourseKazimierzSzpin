@@ -6,19 +6,12 @@ using StudentsDiary.WinFormsApp.Properties;
 
 namespace StudentsDiary.WinFormsApp;
 
-internal class ConfigurationManager
+internal class ConfigurationManager(Form form)
 {
-	//private readonly FileHelper<Configuration> _configFile;
-	private readonly SerializeToFile<Configuration> _configFile;
+	//private readonly FileHelper<Configuration> _configFile = new(Program.DataFilePath, form.Name);
+	private readonly SerializeToFile<Configuration> _configFile = new SerializeToJson<Configuration>(Program.DataFilePath, form.Name);
 
-	private readonly Form _form;
-
-	public ConfigurationManager(Form form)
-	{
-		//_configFile = new(Program.DataFilePath, form.Name);
-		_configFile = new SerializeToJson<Configuration>(Program.DataFilePath, form.Name);
-		_form = form;
-	}
+	private readonly Form _form = form;
 
 	public void LoadConfiguration()
 	{
@@ -75,14 +68,16 @@ internal class ConfigurationManager
 		Settings.Default.Save();
 	}
 
-	//private void SaveWindowStateUsingConfigFile() => _configFile.SerializeToJSON(new Configuration()
+	//private void SaveWindowStateUsingConfigFile()
+	//=> _configFile.SerializeToJSON(new Configuration()
 	//{
 	//	IsMaximized = _form.WindowState == FormWindowState.Maximized,
 	//	WindowPosition = _form.DesktopBounds
 	//});
-	private void SaveWindowStateUsingConfigFile() => _configFile.Serialize(new Configuration()
-	{
-		IsMaximized = _form.WindowState == FormWindowState.Maximized,
-		WindowPosition = _form.DesktopBounds
-	});
+	private void SaveWindowStateUsingConfigFile()
+		=> _configFile.Serialize(new Configuration()
+		{
+			IsMaximized = _form.WindowState == FormWindowState.Maximized,
+			WindowPosition = _form.DesktopBounds
+		});
 }

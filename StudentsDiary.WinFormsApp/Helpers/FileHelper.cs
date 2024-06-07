@@ -4,19 +4,13 @@ using System.Xml.Serialization;
 
 namespace StudentsDiary.WinFormsApp.Helpers;
 
-internal class FileHelper<T> where T : new()
+internal class FileHelper<T>(string filePath, string fileName) where T : new()
 {
 	private const string XmlExt = ".xml";
 	private const string JsonExt = ".json";
 
-	private readonly string _filePath;
-	private readonly string _fileName;
-
-	public FileHelper(string filePath, string fileName)
-	{
-		_filePath = filePath;
-		_fileName = fileName;
-	}
+	private readonly string _filePath = filePath;
+	private readonly string _fileName = fileName;
 
 	public void SerializeToXML(T item)
 	{
@@ -87,7 +81,9 @@ internal class FileHelper<T> where T : new()
 		}
 	}
 
-	private string GetPathToXml() => Path.Combine(_filePath, _fileName + XmlExt);
+	private string GetPathToXml() 
+		=> Path.Combine(_filePath, _fileName + XmlExt);
 
-	private string GetPathToJson() => Path.Combine(_filePath, _fileName + JsonExt);
+	private string GetPathToJson() 
+		=> Path.Combine(_filePath, _fileName + JsonExt);
 }

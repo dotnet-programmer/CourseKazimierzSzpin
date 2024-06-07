@@ -14,5 +14,6 @@ public class Student : IComparable<Student>
 	public bool Activities { get; set; }
 	public int GroupId { get; set; }
 
-	public int CompareTo(Student other) => Id > other?.Id ? 1 : -1;
+	public int CompareTo(Student student) 
+		=> Id > student.Id ? 1 : -1;
 }

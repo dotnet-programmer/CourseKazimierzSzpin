@@ -2,14 +2,8 @@
 
 namespace StudentsDiary.WinFormsApp.FileSerialization;
 
-internal class SerializeToXml<T> : SerializeToFile<T> where T : new()
+internal class SerializeToXml<T>(string filePath, string fileName) : SerializeToFile<T>(filePath, fileName, ".xml") where T : new()
 {
-	private const string XmlExt = ".xml";
-
-	public SerializeToXml(string filePath, string fileName) : base(filePath, fileName, XmlExt)
-	{
-	}
-
 	public override void Serialize(T item)
 	{
 		string path = GetPath();
@@ -24,10 +18,12 @@ internal class SerializeToXml<T> : SerializeToFile<T> where T : new()
 	public override T Deserialize()
 	{
 		string path = GetPath();
+
 		if (!File.Exists(path))
 		{
 			return new T();
 		}
+
 		using (StreamReader stream = new(path))
 		{
 			XmlSerializer serializer = new(typeof(T));
