@@ -6,27 +6,17 @@ using EmailSender.Lib.Extensions;
 
 namespace EmailSender.Lib;
 
-public class Email
+public class Email(EmailParams emailParams)
 {
-	private readonly string _hostSmtp;
-	private readonly bool _enableSsl;
-	private readonly int _port;
-	private readonly string _senderEmail;
-	private readonly string _senderEmailPassword;
-	private readonly string _senderName;
+	private readonly string _hostSmtp = emailParams.HostSmtp;
+	private readonly bool _enableSsl = emailParams.EnableSsl;
+	private readonly int _port = emailParams.Port;
+	private readonly string _senderEmail = emailParams.SenderEmail;
+	private readonly string _senderEmailPassword = emailParams.SenderEmailPassword;
+	private readonly string _senderName = emailParams.SenderName;
 
 	private SmtpClient _smtp;
 	private MailMessage _mail;
-
-	public Email(EmailParams emailParams)
-	{
-		_hostSmtp = emailParams.HostSmtp;
-		_enableSsl = emailParams.EnableSsl;
-		_port = emailParams.Port;
-		_senderEmail = emailParams.SenderEmail;
-		_senderEmailPassword = emailParams.SenderEmailPassword;
-		_senderName = emailParams.SenderName;
-	}
 
 	public async Task Send(string subject, string body, string to)
 	{
