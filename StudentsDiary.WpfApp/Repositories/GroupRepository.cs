@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using StudentsDiary.WpfApp.Models;
 using StudentsDiary.WpfApp.Models.Domains;
 
 namespace StudentsDiary.WpfApp.Repositories;

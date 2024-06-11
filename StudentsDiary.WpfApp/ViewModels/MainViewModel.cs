@@ -7,6 +7,7 @@ using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using StudentsDiary.WpfApp.Commands;
+using StudentsDiary.WpfApp.Models;
 using StudentsDiary.WpfApp.Models.Domains;
 using StudentsDiary.WpfApp.Models.Wrappers;
 using StudentsDiary.WpfApp.Repositories;
@@ -25,9 +26,8 @@ internal class MainViewModel : BaseViewModel
 	public MainViewModel(IDialogCoordinator instance)
 	{
 		// INFO - MahApps 6 - dodanie okien dialogowych zgodnych z MVVM
-		LoadedWindow(null);
-		SetCommands();
 		_dialogCoordinator = instance;
+		SetCommands();
 	}
 
 	#region Property binding
@@ -101,7 +101,11 @@ internal class MainViewModel : BaseViewModel
 		addEditStudentView.ShowDialog();
 	}
 
-	private void AddEditStudentView_Closed(object? sender, EventArgs e) => RefreshDiary();
+	private void AddEditStudentView_Closed(object sender, EventArgs e)
+		=> RefreshDiary();
+
+	private bool CanEditDeleteStudent(object commandParameter)
+		=> SelectedStudent != null;
 
 	private async Task DeleteStudentAsync(object commandParameter)
 	{
@@ -124,13 +128,12 @@ internal class MainViewModel : BaseViewModel
 		}
 	}
 
-	private bool CanEditDeleteStudent(object commandParameter) => SelectedStudent != null;
+	private void RefreshStudents(object commandParameter)
+		=> RefreshDiary();
 
-	private void RefreshStudents(object commandParameter) => RefreshDiary();
-
-	private void ShowSettings(object obj)
+	private void ShowSettings(object commandParameter)
 	{
-		var settingsView = new SettingsView(true);
+		SettingsView settingsView = new(true);
 		settingsView.ShowDialog();
 	}
 
@@ -152,7 +155,7 @@ internal class MainViewModel : BaseViewModel
 			}
 			else
 			{
-				var settingsWindow = new SettingsView(false);
+				SettingsView settingsWindow = new(false);
 				settingsWindow.ShowDialog();
 			}
 		}
@@ -163,7 +166,7 @@ internal class MainViewModel : BaseViewModel
 		}
 	}
 
-	private bool IsValidConnectionToDataBase()
+	private static bool IsValidConnectionToDataBase()
 	{
 		try
 		{
@@ -182,17 +185,18 @@ internal class MainViewModel : BaseViewModel
 
 	private void SetColumnsWidth(object commandParameter)
 	{
-		var dataGrid = commandParameter as DataGrid;
-		foreach (var column in dataGrid.Columns)
+		if (commandParameter is DataGrid dataGrid)
 		{
-			column.MinWidth = column.ActualWidth;
-			column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+			foreach (var column in dataGrid.Columns)
+			{
+				column.MinWidth = column.ActualWidth;
+				column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+			}
 		}
 	}
 
-	private void GridDoubleClick(object commandParameter) => AddEditStudent(commandParameter);
-
-	#endregion Command binding
+	private void GridDoubleClick(object commandParameter)
+		=> AddEditStudent(commandParameter);
 
 	private void SetGroups()
 	{
@@ -202,16 +206,25 @@ internal class MainViewModel : BaseViewModel
 		SelectedGroupId = 0;
 	}
 
-	private void RefreshDiary() => Students = new ObservableCollection<StudentWrapper>(_studentRepository.GetStudents(SelectedGroupId));
+	private void RefreshDiary()
+		=> Students = new ObservableCollection<StudentWrapper>(_studentRepository.GetStudents(SelectedGroupId));
+
+	#endregion Command binding
 
 	#region okna dialogowe MahApps
 
 	// INFO - MahApps 6 - dodanie okien dialogowych zgodnych z MVVM
 
 	// Simple method which can be used on a Button
-	private async void FooMessage() => await _dialogCoordinator.ShowMessageAsync(this, "Message Title", "Bar");
+	private async void FooMessage()
+		=> await _dialogCoordinator.ShowMessageAsync(this, "Message Title", "Bar");
 
-	private async Task<MessageDialogResult> ShowMessage(string title, string message, MessageDialogStyle dialogStyle = MessageDialogStyle.Affirmative, MetroDialogSettings dialogSettings = null) => await _dialogCoordinator.ShowMessageAsync(this, title, message, dialogStyle, dialogSettings);
+	private async Task<MessageDialogResult> ShowMessage(
+		string title,
+		string message,
+		MessageDialogStyle dialogStyle = MessageDialogStyle.Affirmative,
+		MetroDialogSettings dialogSettings = null)
+		=> await _dialogCoordinator.ShowMessageAsync(this, title, message, dialogStyle, dialogSettings);
 
 	private async void FooProgress()
 	{

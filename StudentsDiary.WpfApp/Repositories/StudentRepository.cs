@@ -24,7 +24,10 @@ internal class StudentRepository
 				students = students.Where(x => x.GroupId == groupId);
 			}
 
-			return students.ToList().Select(x => x.ToWrapper()).ToList();
+			return students
+				.ToList()
+				.Select(x => x.ToWrapper())
+				.ToList();
 		}
 	}
 
@@ -81,7 +84,10 @@ internal class StudentRepository
 		}
 	}
 
-	private static List<Rating> GetStudentRatings(Student student, AppDbContext context) => context.Ratings.Where(x => x.StudentId == student.Id).ToList();
+	private static List<Rating> GetStudentRatings(Student student, AppDbContext context) 
+		=> context.Ratings
+			.Where(x => x.StudentId == student.Id)
+			.ToList();
 
 	private static void UpdateStudentProperties(Student student, AppDbContext context)
 	{
@@ -95,8 +101,13 @@ internal class StudentRepository
 
 	private static void UpdateRate(Student student, List<Rating> newRatings, AppDbContext context, List<Rating> studentRatings, Subject subject)
 	{
-		var subjectRatings = studentRatings.Where(x => x.SubjectId == (int)subject).Select(x => x.Rate);
-		var newSubjectRatings = newRatings.Where(x => x.SubjectId == (int)subject).Select(x => x.Rate);
+		var subjectRatings = studentRatings
+			.Where(x => x.SubjectId == (int)subject)
+			.Select(x => x.Rate);
+
+		var newSubjectRatings = newRatings
+			.Where(x => x.SubjectId == (int)subject)
+			.Select(x => x.Rate);
 
 		var subjectRatingsToDelete = GetSubjectRatingsToDelete(subjectRatings, newSubjectRatings);
 		var subjectRatingsToAdd = GetSubjectRatingsToAdd(subjectRatings, newSubjectRatings);
@@ -116,7 +127,7 @@ internal class StudentRepository
 
 	private static List<int> GetSubjectRatingsToDelete(IEnumerable<int> oldSubRatings, IEnumerable<int> newSubRatings)
 	{
-		List<int> subRatingsToDelete = new();
+		List<int> subRatingsToDelete = [];
 		List<int> newListCopy = new(newSubRatings);
 		foreach (var item in oldSubRatings)
 		{
@@ -135,7 +146,7 @@ internal class StudentRepository
 
 	private static List<int> GetSubjectRatingsToAdd(IEnumerable<int> oldSubRatings, IEnumerable<int> newSubRatings)
 	{
-		List<int> subRatingsToAdd = new();
+		List<int> subRatingsToAdd = [];
 		List<int> oldListCopy = new(oldSubRatings);
 		foreach (var item in newSubRatings)
 		{

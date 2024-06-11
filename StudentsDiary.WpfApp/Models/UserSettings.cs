@@ -41,6 +41,11 @@ public class UserSettings : IDataErrorInfo
 		set => Settings.Default.Password = value;
 	}
 
+	public bool IsValid
+		=> _isServerAddressValid && _isServerNameValid && _isDatabaseValid && _isUserValid && _isPasswordValid;
+
+	public string Error { get; set; }
+
 	public string this[string columnName]
 	{
 		get
@@ -79,9 +84,6 @@ public class UserSettings : IDataErrorInfo
 		}
 	}
 
-	public bool IsValid => _isServerAddressValid && _isServerNameValid && _isDatabaseValid && _isUserValid && _isPasswordValid;
-
-	public string Error { get; set; }
-
-	internal void Save() => Settings.Default.Save();
+	internal void Save()
+		=> Settings.Default.Save();
 }

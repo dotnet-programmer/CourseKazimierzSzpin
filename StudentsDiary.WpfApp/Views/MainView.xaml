@@ -1,7 +1,7 @@
 ﻿<!--
 	INFO - Wiązanie widoku z ViewModel w czasie projektowania - wyświetlanie podpowiedzi IntelliSense:
 	1. dodać: xmlns do pliku ViewModel
-	2. dodać: d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+	2. dodać: d:DataContext="{d:DesignInstance Type=viewmodels:PlikViewModel}"
 -->
 
 <!--
@@ -55,7 +55,7 @@
 	-->
 	<mah:MetroWindow.IconTemplate>
 		<DataTemplate>
-			<iconPacks:PackIconUnicons Kind="BatteryBolt"
+			<iconPacks:PackIconUnicons Kind="BatteryBoltLine"
 									   Width="32"
 									   Height="32"
 									   HorizontalAlignment="Center"
@@ -85,14 +85,14 @@
 	<mah:MetroWindow.RightWindowCommands>
 		<mah:WindowCommands>
 			<Button Command="{Binding RightWindowCommand}"
-					Content="Deploy CupCakes">
+					Content="Button on the right side">
 				<Button.ContentTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<iconPacks:PackIconModern Width="22"
 													  Height="22"
 													  VerticalAlignment="Center"
-													  Kind="FoodCupcake" />
+													  Kind="BikeParking" />
 							<TextBlock Margin="4 0 0 0"
 									   VerticalAlignment="Center"
 									   Text="{Binding}" />

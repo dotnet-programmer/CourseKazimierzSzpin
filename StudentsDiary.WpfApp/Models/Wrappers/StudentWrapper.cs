@@ -7,12 +7,13 @@ public class StudentWrapper : IDataErrorInfo // INotifyDataErrorInfo
 	private bool _isFirstNameValid;
 	private bool _isLastNameValid;
 
-	public StudentWrapper() => Group = new GroupWrapper();
+	public StudentWrapper() 
+		=> Group = new GroupWrapper();
 
 	public int Id { get; set; }
 	public string FirstName { get; set; }
 	public string LastName { get; set; }
-	public string? Comments { get; set; }
+	public string Comments { get; set; }
 	public string Math { get; set; }
 	public string Technology { get; set; }
 	public string Physics { get; set; }
@@ -21,7 +22,8 @@ public class StudentWrapper : IDataErrorInfo // INotifyDataErrorInfo
 	public bool Activities { get; set; }
 	public GroupWrapper Group { get; set; }
 
-	public bool IsValid => _isFirstNameValid && _isLastNameValid && Group.IsValid;
+	public bool IsValid 
+		=> _isFirstNameValid && _isLastNameValid && Group.IsValid;
 	//public bool IsValid => string.IsNullOrWhiteSpace(Error);
 
 	public string Error { get; set; }

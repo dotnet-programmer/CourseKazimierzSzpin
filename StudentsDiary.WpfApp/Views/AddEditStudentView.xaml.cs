@@ -9,7 +9,7 @@ namespace StudentsDiary.WpfApp.Views;
 /// </summary>
 public partial class AddEditStudentView : MetroWindow
 {
-	public AddEditStudentView(StudentWrapper? student = null)
+	public AddEditStudentView(StudentWrapper student = null)
 	{
 		InitializeComponent();
 		//DataContext = new AddEditStudentViewModel(student);

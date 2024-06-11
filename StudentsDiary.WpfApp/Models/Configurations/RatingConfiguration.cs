@@ -6,7 +6,8 @@ namespace StudentsDiary.WpfApp.Models.Configurations;
 
 internal class RatingConfiguration : IEntityTypeConfiguration<Rating>
 {
-	public void Configure(EntityTypeBuilder<Rating> builder) => builder
+	public void Configure(EntityTypeBuilder<Rating> builder)
+		=> builder
 			.Property(x => x.Rate)
 			.IsRequired();
 }

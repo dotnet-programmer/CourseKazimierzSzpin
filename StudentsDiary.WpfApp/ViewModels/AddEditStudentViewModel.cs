@@ -13,9 +13,9 @@ internal class AddEditStudentViewModel : BaseViewModel
 	private readonly GroupRepository _groupRepository = new();
 	private readonly StudentRepository _studentRepository = new();
 
-	public AddEditStudentViewModel(StudentWrapper? student = null)
+	public AddEditStudentViewModel(StudentWrapper student = null)
 	{
-		if (student == null)
+		if (student is null)
 		{
 			Student = new();
 		}
@@ -100,10 +100,12 @@ internal class AddEditStudentViewModel : BaseViewModel
 		CloseWindow(commandParameter);
 	}
 
-	private bool CanConfirm(object commandParameter) => Student.IsValid;
+	private bool CanConfirm(object commandParameter)
+		=> Student.IsValid;
 
 	// INFO - MVVM Zamykanie okna 1 - przekazanie całego okna jako parametr
-	private void CloseWindow(object commandParameter) => (commandParameter as Window)?.Close();
+	private void CloseWindow(object commandParameter)
+		=> (commandParameter as Window)?.Close();
 
 	// INFO - MVVM Zamykanie okna 4 - użycie eventa
 	//private void OnCloseAction()
@@ -111,9 +113,11 @@ internal class AddEditStudentViewModel : BaseViewModel
 	//	CloseAction?.Invoke();
 	//}
 
-	private void AddStudent() => _studentRepository.AddStudent(Student);
+	private void AddStudent()
+		=> _studentRepository.AddStudent(Student);
 
-	private void UpdateStudent() => _studentRepository.UpdateStudent(Student);
+	private void UpdateStudent()
+		=> _studentRepository.UpdateStudent(Student);
 
 	#endregion Command binding
 
