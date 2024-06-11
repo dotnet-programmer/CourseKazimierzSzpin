@@ -6,9 +6,11 @@ namespace HumanResources.Homework.WpfApp.Views.AttachedProperties;
 internal class ButtonHelper
 {
 	// Boilerplate code to register attached property "bool? DialogResult"
-	public static bool? GetDialogResult(DependencyObject obj) => (bool?)obj.GetValue(DialogResultProperty);
+	public static bool? GetDialogResult(DependencyObject obj)
+		=> (bool?)obj.GetValue(DialogResultProperty);
 
-	public static void SetDialogResult(DependencyObject obj, bool? value) => obj.SetValue(DialogResultProperty, value);
+	public static void SetDialogResult(DependencyObject obj, bool? value)
+		=> obj.SetValue(DialogResultProperty, value);
 
 	public static readonly DependencyProperty DialogResultProperty =
 		DependencyProperty.RegisterAttached(
@@ -26,5 +28,6 @@ internal class ButtonHelper
 						Window.GetWindow(button).DialogResult = GetDialogResult(button);
 					};
 				}
-			});
+			}
+		);
 }

@@ -6,13 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HumanResources.Homework.WpfApp.Repositories;
 
-internal static class EmployeeRepository
+internal class EmployeeRepository
 {
-	public static List<EmployeeWrapper> GetEmployees(int workTimeId, Employment employment)
+	public List<EmployeeWrapper> GetEmployees(int workTimeId, Employment employment)
 	{
 		using (AppDbContext context = new())
 		{
-			var employees = context.Employees.Include(x => x.WorkTime).AsQueryable();
+			var employees = context.Employees
+				.Include(x => x.WorkTime)
+				.AsQueryable();
 
 			if (workTimeId != 0)
 			{
@@ -25,11 +27,14 @@ internal static class EmployeeRepository
 				Employment.Zwolnieni => employees.Where(x => x.FireDate != null)
 			};
 
-			return employees.ToList().Select(x => x.ToWrapper()).ToList();
+			return employees
+				.ToList()
+				.Select(x => x.ToWrapper())
+				.ToList();
 		}
 	}
 
-	public static void AddEmployee(EmployeeWrapper employeeWrapper)
+	public void AddEmployee(EmployeeWrapper employeeWrapper)
 	{
 		var employee = employeeWrapper.ToDao();
 
@@ -40,7 +45,7 @@ internal static class EmployeeRepository
 		}
 	}
 
-	public static async Task AddEmployeeAsync(EmployeeWrapper employeeWrapper)
+	public async Task AddEmployeeAsync(EmployeeWrapper employeeWrapper)
 	{
 		var employee = employeeWrapper.ToDao();
 
@@ -51,7 +56,7 @@ internal static class EmployeeRepository
 		}
 	}
 
-	public static void UpdateEmployee(EmployeeWrapper employeeWrapper)
+	public void UpdateEmployee(EmployeeWrapper employeeWrapper)
 	{
 		var employee = employeeWrapper.ToDao();
 
@@ -63,7 +68,7 @@ internal static class EmployeeRepository
 		}
 	}
 
-	public static async Task UpdateEmployeeAsync(EmployeeWrapper employeeWrapper)
+	public async Task UpdateEmployeeAsync(EmployeeWrapper employeeWrapper)
 	{
 		var employee = employeeWrapper.ToDao();
 
@@ -75,7 +80,7 @@ internal static class EmployeeRepository
 		}
 	}
 
-	private static void UpdateEmployeeProperties(Employee employeeToUpdate, Employee employee)
+	private void UpdateEmployeeProperties(Employee employeeToUpdate, Employee employee)
 	{
 		employeeToUpdate.FirstName = employee.FirstName;
 		employeeToUpdate.LastName = employee.LastName;

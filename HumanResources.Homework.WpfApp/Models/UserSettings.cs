@@ -32,11 +32,14 @@ public class UserSettings : IDataErrorInfo
 	public string User { get; set; }
 	public string Password { get; set; }
 
-	public bool IsValid => _isServerAddressValid && _isServerNameValid && _isDatabaseValid && _isUserValid && !string.IsNullOrWhiteSpace(Password);
+	public bool IsValid 
+		=> _isServerAddressValid && _isServerNameValid && _isDatabaseValid && _isUserValid && !string.IsNullOrWhiteSpace(Password);
 
-	private string GetRequiredFieldErrorMessage(bool isValid, string fieldName) => isValid ? string.Empty : $"Pole {fieldName} jest wymagane.";
+	private string GetRequiredFieldErrorMessage(bool isValid, string fieldName) 
+		=> isValid ? string.Empty : $"Pole {fieldName} jest wymagane.";
 
-	public static string GetStringFromConfig(string key) => ConfigurationManager.AppSettings[key] ?? "Not Found";
+	public static string GetStringFromConfig(string key) 
+		=> ConfigurationManager.AppSettings[key] ?? "Not Found";
 
 	public void Save()
 	{

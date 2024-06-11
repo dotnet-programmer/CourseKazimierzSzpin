@@ -12,7 +12,7 @@ namespace HumanResources.Homework.WpfApp.Views.Converters;
 /// <typeparam name="T">Converter class</typeparam>
 internal abstract class BaseValueConverter<T> : MarkupExtension, IValueConverter where T : class, new()
 {
-	private static T? _converter;
+	private static T _converter;
 
 	#region MarkupExtension Members
 
@@ -21,7 +21,8 @@ internal abstract class BaseValueConverter<T> : MarkupExtension, IValueConverter
 	/// </summary>
 	/// <param name="serviceProvider"></param>
 	/// <returns></returns>
-	public override object ProvideValue(IServiceProvider serviceProvider) => _converter ?? (_converter = new T());
+	public override object ProvideValue(IServiceProvider serviceProvider)
+		=> _converter ?? (_converter = new T());
 
 	#endregion MarkupExtension Members
 

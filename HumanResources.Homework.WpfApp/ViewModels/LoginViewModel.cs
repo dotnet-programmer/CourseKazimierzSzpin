@@ -13,9 +13,11 @@ internal class LoginViewModel : BaseViewModel
 {
 	private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 	private static readonly string WindowsUserName = $@"{Environment.MachineName}\\{Environment.UserDomainName}\\{Environment.UserName} - {System.Security.Principal.WindowsIdentity.GetCurrent().Name}";
+	
 	private readonly ConnectionStatus _connected = new() { StatusText = "Połączono z bazą danych!", IsValidConnection = true };
 	private readonly ConnectionStatus _disconnected = new() { StatusText = "Błąd połączenia!", IsValidConnection = false };
 	private readonly System.Timers.Timer _checkConnectionTimer = new(5000);
+	private readonly DbRepository _dbRepository = new();
 
 	public LoginViewModel()
 	{
@@ -90,7 +92,7 @@ internal class LoginViewModel : BaseViewModel
 	{
 		LoginParams loginParams = (LoginParams)commandParameter;
 
-		if (DbRepository.LoginToApplication(User, loginParams.PasswordBox.Password))
+		if (_dbRepository.LoginToApplication(User, loginParams.PasswordBox.Password))
 		{
 			MainView mainView = new();
 			loginParams.Window.Close();
@@ -103,13 +105,16 @@ internal class LoginViewModel : BaseViewModel
 		}
 	}
 
-	private bool CanLogin(object commandParameter) => User.IsValid && Status.IsValidConnection;
+	private bool CanLogin(object commandParameter) 
+		=> User.IsValid && Status.IsValidConnection;
 
-	private void CloseApp(object commandParameter) => Application.Current.Shutdown();
+	private void CloseApp(object commandParameter) 
+		=> Application.Current.Shutdown();
 
-	private void SetConnectionStatus() => Status = DbRepository.IsValidConnectionToDataBase() ? _connected : _disconnected;
+	private void SetConnectionStatus() 
+		=> Status = _dbRepository.IsValidConnectionToDataBase() ? _connected : _disconnected;
 
-	private void UnlockRefreshButton(object? sender, ElapsedEventArgs e)
+	private void UnlockRefreshButton(object sender, ElapsedEventArgs e)
 	{
 		IsCheckConnectionEnabled = true;
 		_checkConnectionTimer.Stop();

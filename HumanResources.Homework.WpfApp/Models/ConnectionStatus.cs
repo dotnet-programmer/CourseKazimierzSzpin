@@ -2,6 +2,6 @@
 
 internal class ConnectionStatus
 {
-	public string? StatusText { get; set; }
+	public string StatusText { get; set; }
 	public bool IsValidConnection { get; set; }
 }

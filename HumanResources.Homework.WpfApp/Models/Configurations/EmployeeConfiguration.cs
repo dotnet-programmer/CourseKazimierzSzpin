@@ -32,7 +32,8 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 
 		builder
 			.Property(x => x.Salary)
-			.HasColumnType("money");
+			.HasColumnType("money")
+			.IsRequired(false);
 
 		builder
 			.Property(x => x.Address)
@@ -41,5 +42,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 		builder
 			.Property(x => x.Comments)
 			.HasMaxLength(200);
+
+		builder
+			.Property(x => x.FireDate)
+			.IsRequired(false);
 	}
 }

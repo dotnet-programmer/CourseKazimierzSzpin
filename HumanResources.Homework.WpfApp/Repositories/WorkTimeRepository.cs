@@ -4,17 +4,20 @@ using HumanResources.Homework.WpfApp.Models.Wrappers;
 
 namespace HumanResources.Homework.WpfApp.Repositories;
 
-internal static class WorkTimeRepository
+internal class WorkTimeRepository
 {
-	public static List<WorkTimeWrapper> GetWorkTimes()
+	public List<WorkTimeWrapper> GetWorkTimes()
 	{
 		using (AppDbContext context = new())
 		{
-			return context.WorkTimes.ToList().Select(x => x.ToWrapper()).ToList();
+			return context.WorkTimes
+				.ToList()
+				.Select(x => x.ToWrapper())
+				.ToList();
 		}
 	}
 
-	public static async Task AddWorkTimeAsync(WorkTimeWrapper workTimeWrapper)
+	public async Task AddWorkTimeAsync(WorkTimeWrapper workTimeWrapper)
 	{
 		var workTime = workTimeWrapper.ToDao();
 

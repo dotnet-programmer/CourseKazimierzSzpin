@@ -6,7 +6,10 @@ namespace HumanResources.Homework.WpfApp.ViewModels;
 
 internal class ErrorsViewModel : BaseViewModel
 {
-	public ErrorsViewModel() => _logs = new(LogRepository.GetErrors());
+	private readonly LogRepository _logRepository = new();
+
+	public ErrorsViewModel()
+		=> _logs = new(_logRepository.GetErrors());
 
 	private ObservableCollection<Log> _logs;
 	public ObservableCollection<Log> Logs

@@ -7,14 +7,14 @@ namespace HumanResources.Homework.WpfApp.ViewModels;
 
 internal class SettingsViewModel : BaseViewModel
 {
-	private readonly PasswordBox _passwordBoxSettings;
+	private readonly PasswordBox _passwordBox;
 
-	public SettingsViewModel(PasswordBox passwordBoxSettings)
+	public SettingsViewModel(PasswordBox passwordBox)
 	{
 		SetCommands();
 		_settings = new();
-		_passwordBoxSettings = passwordBoxSettings;
-		_passwordBoxSettings.Password = Settings.Password;
+		_passwordBox = passwordBox;
+		_passwordBox.Password = Settings.Password;
 	}
 
 	#region Property binding
@@ -37,9 +37,12 @@ internal class SettingsViewModel : BaseViewModel
 		ConfirmCommand = new RelayCommand(Confirm, CanConfirm);
 	}
 
-	private void PasswordChanged(object commandParameter) => Settings.Password = _passwordBoxSettings.Password;
+	private void PasswordChanged(object commandParameter)
+		=> Settings.Password = _passwordBox.Password;
 
-	private void Confirm(object commandParameter) => Settings.Save();
+	private void Confirm(object commandParameter)
+		=> Settings.Save();
 
-	private bool CanConfirm(object commandParameter) => Settings.IsValid;
+	private bool CanConfirm(object commandParameter)
+		=> Settings.IsValid;
 }

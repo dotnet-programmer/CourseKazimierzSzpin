@@ -4,13 +4,16 @@ using HumanResources.Homework.WpfApp.Models.Wrappers;
 
 namespace HumanResources.Homework.WpfApp.Repositories;
 
-internal static class UserRepository
+internal class UserRepository
 {
-	public static List<UserWrapper> GetUsers()
+	public List<UserWrapper> GetUsers()
 	{
 		using (AppDbContext context = new())
 		{
-			return context.Users.ToList().Select(x => x.ToWrapper()).ToList();
+			return context.Users
+				.ToList()
+				.Select(x => x.ToWrapper())
+				.ToList();
 		}
 	}
 }

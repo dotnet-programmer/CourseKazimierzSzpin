@@ -11,6 +11,7 @@ internal static class StringCipherHelper
 	public static void EncryptStringFromConfigAndSave(string appSettingName)
 	{
 		var stringToEncrypt = ConfigurationManager.AppSettings[appSettingName];
+
 		if (stringToEncrypt.StartsWith(NOT_ENCRYPTED_PASSWORD_PREFIX))
 		{
 			stringToEncrypt = _stringCipher.Encrypt(stringToEncrypt.Replace(NOT_ENCRYPTED_PASSWORD_PREFIX, string.Empty));
@@ -21,9 +22,12 @@ internal static class StringCipherHelper
 		}
 	}
 
-	public static string EncryptString(string stringToEncrypt) => _stringCipher.Encrypt(stringToEncrypt);
+	public static string EncryptString(string stringToEncrypt)
+		=> _stringCipher.Encrypt(stringToEncrypt);
 
-	public static string DecryptString(string stringToDecrypt) => _stringCipher.Decrypt(stringToDecrypt);
+	public static string DecryptString(string stringToDecrypt)
+		=> _stringCipher.Decrypt(stringToDecrypt);
 
-	public static string DecryptStringFromConfig(string key) => _stringCipher.Decrypt(ConfigurationManager.AppSettings[key]);
+	public static string DecryptStringFromConfig(string key)
+		=> _stringCipher.Decrypt(ConfigurationManager.AppSettings[key]);
 }

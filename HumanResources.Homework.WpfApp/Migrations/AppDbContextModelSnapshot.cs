@@ -17,7 +17,7 @@ namespace HumanResources.Homework.WpfApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -132,13 +132,13 @@ namespace HumanResources.Homework.WpfApp.Migrations
                         {
                             UserId = 1,
                             Name = "admin",
-                            Password = "v5yAvVi7npxHRy0dS22MSWzH2R8b+KYsklVTUuw5b0KZiajWhq2IFCDxmRRFPQwd"
+                            Password = "rEq+RMCUEZHR3z+dTqXITVFuXwILCG1xtxBiyJS2HpmUlJQ0eTcswKu2uakrxdsl"
                         },
                         new
                         {
                             UserId = 2,
                             Name = "user1",
-                            Password = "UH+aIdqpFJthTzntI/4GAPF6VcJKgO/Rk/RLR/2qRgOYRyrKzaFFFWi8F0ByM1iL"
+                            Password = "P6IeENbeaGQea4JnAAVWYJt3hRdde/VvqIEyUj2VDvaTvDmBcvUXh8Hjvcrb7MIS"
                         });
                 });
 

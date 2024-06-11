@@ -20,7 +20,7 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// <summary>
 	/// The key is for the property name, the value is the error list for the property
 	/// </summary>
-	private readonly Dictionary<String, List<String>> _errors = new();
+	private readonly Dictionary<string, List<string>> _errors = [];
 
 	public EmployeeWrapper()
 	{
@@ -31,6 +31,7 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	}
 
 	public int EmployeeId { get; set; }
+
 	public string FirstName
 	{
 		get => _firstName;
@@ -48,6 +49,7 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	public string Phone { get; set; }
 	public decimal? Salary { get; set; }
 	public WorkTimeWrapper WorkTime { get; set; } = new();
+
 	public DateTime HireDate
 	{
 		get => _hireDate;
@@ -63,7 +65,8 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	public string Address { get; set; }
 	public string Comments { get; set; }
 
-	public bool IsValid => !HasErrors && WorkTime.IsValid;
+	public bool IsValid 
+		=> !HasErrors && WorkTime.IsValid;
 
 	/// <summary>
 	/// Validates the FirstName and LastName property, updating the errors collection as needed.
@@ -71,35 +74,35 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// <param name="value">Value to validate</param>
 	/// <param name="requiredField">Displayed name of property field</param>
 	/// <param name="propName">Property name</param>
-	private void IsNameOrLastNameValid(string value, string requiredField, [CallerMemberName] string? propName = null)
+	private void IsNameOrLastNameValid(string value, string requiredField, [CallerMemberName] string propName = null)
 	{
 		string requiredFieldErrorMessage = GetRequiredFieldErrorMessage(requiredField);
 
 		if (string.IsNullOrWhiteSpace(value))
 		{
-			AddError(propName, requiredFieldErrorMessage, false);
+			AddError(propName, requiredFieldErrorMessage);
 		}
 		else
 		{
-			RemoveError(propName, requiredFieldErrorMessage);
+			RemoveErrorOrWarning(propName, requiredFieldErrorMessage);
 		}
 
 		if (value.Length < 3)
 		{
-			AddError(propName, SHORT_TEXT_WARNING, true);
+			AddWarning(propName, SHORT_TEXT_WARNING);
 		}
 		else
 		{
-			RemoveError(propName, SHORT_TEXT_WARNING);
+			RemoveErrorOrWarning(propName, SHORT_TEXT_WARNING);
 		}
 
 		if (!Regex.IsMatch(value, @"^[a-zA-Z]+$"))
 		{
-			AddError(propName, ONLY_LETTERS_WARNING, true);
+			AddWarning(propName, ONLY_LETTERS_WARNING);
 		}
 		else
 		{
-			RemoveError(propName, ONLY_LETTERS_WARNING);
+			RemoveErrorOrWarning(propName, ONLY_LETTERS_WARNING);
 		}
 	}
 
@@ -108,15 +111,15 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// </summary>
 	/// <param name="value">Value to validate</param>
 	/// <param name="propName">Property name</param>
-	private void IsHireDateValid(DateTime value, [CallerMemberName] string? propName = null)
+	private void IsHireDateValid(DateTime value, [CallerMemberName] string propName = null)
 	{
 		if (FireDate != null && value > FireDate)
 		{
-			AddError(propName, HIRE_DATE_ERROR, false);
+			AddError(propName, HIRE_DATE_ERROR);
 		}
 		else
 		{
-			RemoveError(propName, HIRE_DATE_ERROR);
+			RemoveErrorOrWarning(propName, HIRE_DATE_ERROR);
 		}
 	}
 
@@ -125,15 +128,15 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// </summary>
 	/// <param name="value">Value to validate</param>
 	/// <param name="propName">Property name</param>
-	private void IsFireDateValid(DateTime? value, [CallerMemberName] string? propName = null)
+	private void IsFireDateValid(DateTime? value, [CallerMemberName] string propName = null)
 	{
 		if (value != null && value < HireDate)
 		{
-			AddError(propName, FIRE_DATE_ERROR, false);
+			AddError(propName, FIRE_DATE_ERROR);
 		}
 		else
 		{
-			RemoveError(propName, FIRE_DATE_ERROR);
+			RemoveErrorOrWarning(propName, FIRE_DATE_ERROR);
 		}
 	}
 
@@ -143,27 +146,31 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// </summary>
 	/// <param name="propertyName">Property name</param>
 	/// <param name="error">The content of the error</param>
-	/// <param name="isWarning">Specifies whether an error or a warning</param>
-	private void AddError(string propertyName, string error, bool isWarning)
+	/// <param name="isError">Specifies whether an error or a warning</param>
+	private void AddError(string propertyName, string error, bool isError = true)
 	{
-		if (!_errors.ContainsKey(propertyName))
+		if (!_errors.TryGetValue(propertyName, out List<string> listOfErrors))
 		{
-			_errors[propertyName] = new List<string>();
+			listOfErrors = [];
+			_errors[propertyName] = listOfErrors;
 		}
 
-		if (!_errors[propertyName].Contains(error))
+		if (!listOfErrors.Contains(error))
 		{
-			if (isWarning)
+			if (isError)
 			{
-				_errors[propertyName].Add(error);
+				listOfErrors.Insert(0, error);
 			}
 			else
 			{
-				_errors[propertyName].Insert(0, error);
+				listOfErrors.Add(error);
 			}
 			OnErrorsChanged(propertyName);
 		}
 	}
+
+	private void AddWarning(string propertyName, string warning) 
+		=> AddError(propertyName, warning, false);
 
 	/// <summary>
 	/// Removes the specified error from the errors collection if it is present.
@@ -171,12 +178,12 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// </summary>
 	/// <param name="propertyName">Property name</param>
 	/// <param name="error">The content of the error</param>
-	private void RemoveError(string propertyName, string error)
+	private void RemoveErrorOrWarning(string propertyName, string error)
 	{
-		if (_errors.ContainsKey(propertyName) && _errors[propertyName].Contains(error))
+		if (_errors.TryGetValue(propertyName, out List<string> listOfErrors) && listOfErrors.Contains(error))
 		{
-			_errors[propertyName].Remove(error);
-			if (_errors[propertyName].Count == 0)
+			listOfErrors.Remove(error);
+			if (listOfErrors.Count == 0)
 			{
 				_errors.Remove(propertyName);
 			}
@@ -188,22 +195,26 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	/// Raises the ErrorsChanged event
 	/// </summary>
 	/// <param name="propertyName">Property name</param>
-	private void OnErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+	private void OnErrorsChanged(string propertyName) 
+		=> ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 
 	/// <summary>
 	/// Get required field error message
 	/// </summary>
 	/// <param name="fieldName">Name to be used in the error message</param>
 	/// <returns>Error message about a required field with the field name inserted</returns>
-	private string GetRequiredFieldErrorMessage(string fieldName) => $"Pole {fieldName} jest wymagane.";
+	private static string GetRequiredFieldErrorMessage(string fieldName) 
+		=> $"Pole {fieldName} jest wymagane.";
 
 	#region INotifyDataErrorInfo Members
 
-	public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+	public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-	public bool HasErrors => _errors.Any();
+	public bool HasErrors 
+		=> _errors.Any();
 
-	public IEnumerable GetErrors(string? propertyName) => (string.IsNullOrWhiteSpace(propertyName) || !_errors.ContainsKey(propertyName)) ? null : _errors[propertyName];
+	public IEnumerable GetErrors(string propertyName) 
+		=> (string.IsNullOrWhiteSpace(propertyName) || !_errors.ContainsKey(propertyName)) ? null : _errors[propertyName];
 
 	#endregion INotifyDataErrorInfo Members
 }

@@ -6,7 +6,7 @@ namespace HumanResources.Homework.WpfApp.Repositories;
 
 internal class LogRepository
 {
-	public static async Task LogErrorAsync(string user, Exception ex)
+	public async Task LogErrorAsync(string user, Exception ex)
 	{
 		Log logToSave = new()
 		{
@@ -22,7 +22,7 @@ internal class LogRepository
 		}
 	}
 
-	internal static IEnumerable<Log> GetErrors()
+	internal IEnumerable<Log> GetErrors()
 	{
 		using (AppDbContext context = new())
 		{
@@ -30,7 +30,7 @@ internal class LogRepository
 		}
 	}
 
-	internal static async Task<IEnumerable<Log>> GetErrorsAsync()
+	internal async Task<IEnumerable<Log>> GetErrorsAsync()
 	{
 		using (AppDbContext context = new())
 		{

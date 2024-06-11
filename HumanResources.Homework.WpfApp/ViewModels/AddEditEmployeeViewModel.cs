@@ -8,7 +8,10 @@ namespace HumanResources.Homework.WpfApp.ViewModels;
 
 internal class AddEditEmployeeViewModel : BaseViewModel
 {
-	public AddEditEmployeeViewModel(EmployeeWrapper? employeeWrapper = null, bool fireTheEmployee = false)
+	private readonly EmployeeRepository _employeeRepository = new();
+	private readonly WorkTimeRepository _workTimeRepository = new();
+
+	public AddEditEmployeeViewModel(EmployeeWrapper employeeWrapper = null, bool fireTheEmployee = false)
 	{
 		if (employeeWrapper == null)
 		{
@@ -78,7 +81,8 @@ internal class AddEditEmployeeViewModel : BaseViewModel
 
 	public ICommand ConfirmCommand { get; private set; }
 
-	private void SetCommands() => ConfirmCommand = new RelayCommand(Confirm, CanConfirm);
+	private void SetCommands()
+		=> ConfirmCommand = new RelayCommand(Confirm, CanConfirm);
 
 	private void Confirm(object commandParameter)
 	{
@@ -92,17 +96,20 @@ internal class AddEditEmployeeViewModel : BaseViewModel
 		}
 	}
 
-	private bool CanConfirm(object commandParameter) => Employee.IsValid;
+	private bool CanConfirm(object commandParameter)
+		=> Employee.IsValid;
 
 	private void SetWorkTimes()
 	{
-		var workTimes = WorkTimeRepository.GetWorkTimes();
+		var workTimes = _workTimeRepository.GetWorkTimes();
 		workTimes.Insert(0, new WorkTimeWrapper { WorkTimeId = 0, WorkTimeName = "-- brak --" });
 		WorkTimes = new(workTimes);
 		SelectedWorkTimeId = Employee.WorkTime.WorkTimeId;
 	}
 
-	private void AddEmployee() => EmployeeRepository.AddEmployee(Employee);
+	private void AddEmployee()
+		=> _employeeRepository.AddEmployee(Employee);
 
-	private void UpdateEmployee() => EmployeeRepository.UpdateEmployee(Employee);
+	private void UpdateEmployee()
+		=> _employeeRepository.UpdateEmployee(Employee);
 }

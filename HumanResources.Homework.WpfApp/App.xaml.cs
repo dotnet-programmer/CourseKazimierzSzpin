@@ -8,12 +8,15 @@ namespace HumanResources.Homework.WpfApp;
 /// </summary>
 public partial class App : Application
 {
-	private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+	private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
+	private readonly LogRepository _logRepository = new();
+
 
 	private async void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 	{
-		Logger.Error(e.Exception, e.Exception.Message);
-		await LogRepository.LogErrorAsync(System.Security.Principal.WindowsIdentity.GetCurrent().Name, e.Exception);
+		_logger.Error(e.Exception, e.Exception.Message);
+		await _logRepository.LogErrorAsync(System.Security.Principal.WindowsIdentity.GetCurrent().Name, e.Exception);
 		MessageBox.Show($"Wystąpił nieoczekiwany wyjątek{Environment.NewLine}{e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 	}
 }

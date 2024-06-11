@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HumanResources.Homework.WpfApp.Repositories;
 
-internal static class DbRepository
+internal class DbRepository
 {
-	public static bool IsValidConnectionToDataBase()
+	public bool IsValidConnectionToDataBase()
 	{
 		try
 		{
@@ -23,7 +23,7 @@ internal static class DbRepository
 		}
 	}
 
-	public static bool LoginToApplication(UserWrapper userWrapper, string password)
+	public bool LoginToApplication(UserWrapper userWrapper, string password)
 	{
 		try
 		{

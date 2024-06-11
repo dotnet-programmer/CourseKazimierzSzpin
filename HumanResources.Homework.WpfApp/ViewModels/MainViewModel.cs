@@ -12,6 +12,9 @@ namespace HumanResources.Homework.WpfApp.ViewModels;
 
 internal class MainViewModel : BaseViewModel
 {
+	private readonly EmployeeRepository _employeeRepository = new();
+	private readonly WorkTimeRepository _workTimeRepository = new();
+
 	public MainViewModel()
 	{
 		SetCommands();
@@ -85,23 +88,39 @@ internal class MainViewModel : BaseViewModel
 		GetErrorsCommand = new RelayCommand(GetErrors);
 	}
 
-	private void AddEditEmployee(object commandParameter) => ShowAddEditEmployeeView(new((EmployeeWrapper)commandParameter));
-
-	private bool CanEditEmployee(object commandParameter) => SelectedEmployee != null;
-
-	private void FireEmployee(object commandParameter) => ShowAddEditEmployeeView(new((EmployeeWrapper)commandParameter, fireTheEmployee: true));
-
-	private void ShowAddEditEmployeeView(AddEditEmployeeView addEditEmployeeView)
+	private void AddEditEmployee(object commandParameter)
 	{
+        if (commandParameter != null)
+        {
+			ShowAddEditEmployeeView((EmployeeWrapper)commandParameter);
+		}
+        else
+		{
+			ShowAddEditEmployeeView();
+		}
+	}
+
+	private bool CanEditEmployee(object commandParameter) 
+		=> SelectedEmployee != null;
+
+	private void FireEmployee(object commandParameter) 
+		=> ShowAddEditEmployeeView((EmployeeWrapper)commandParameter, fireTheEmployee: true);
+
+	private void ShowAddEditEmployeeView(EmployeeWrapper employeeWrapper = null, bool fireTheEmployee = false)
+	{
+		AddEditEmployeeView addEditEmployeeView = new(employeeWrapper, fireTheEmployee);
 		addEditEmployeeView.ShowDialog();
 		RefreshEmployees(null);
 	}
 
-	private bool CanFireEmployee(object commandParameter) => SelectedEmployee != null && SelectedEmployee.FireDate == null;
+	private bool CanFireEmployee(object commandParameter) 
+		=> SelectedEmployee != null && SelectedEmployee.FireDate == null;
 
-	private void RefreshEmployees(object? commandParameter) => Employees = new(EmployeeRepository.GetEmployees(SelectedWorkTimeId, SelectedEmployment));
+	private void RefreshEmployees(object commandParameter) 
+		=> Employees = new(_employeeRepository.GetEmployees(SelectedWorkTimeId, SelectedEmployment));
 
-	private void SelectionChanged(object commandParameter) => RefreshEmployees(null);
+	private void SelectionChanged(object commandParameter) 
+		=> RefreshEmployees(null);
 
 	private void Logout(object commandParameter)
 	{
@@ -116,11 +135,12 @@ internal class MainViewModel : BaseViewModel
 		errorsView.ShowDialog();
 	}
 
-	private void SetEmployments() => Employments = new(Enum.GetValues<Employment>());
+	private void SetEmployments() 
+		=> Employments = new(Enum.GetValues<Employment>());
 
 	private void SetWorkTimes()
 	{
-		var workTimes = WorkTimeRepository.GetWorkTimes();
+		var workTimes = _workTimeRepository.GetWorkTimes();
 		workTimes.Insert(0, new WorkTimeWrapper { WorkTimeId = 0, WorkTimeName = "Wszyscy" });
 		WorkTimes = new ObservableCollection<WorkTimeWrapper>(workTimes);
 		SelectedWorkTimeId = 0;
