@@ -113,7 +113,7 @@ public partial class AddEditStudent : Form
 	{
 		students.Add(new Student()
 		{
-			Id = _student == null ? GetStudentId(students) : _student.Id,
+			Id = _student == null ? GetMaxStudentId(students) : _student.Id,
 			FirstName = TbFirstName.Text,
 			LastName = TbLastName.Text,
 			Math = TbMath.Text,
@@ -126,7 +126,7 @@ public partial class AddEditStudent : Form
 			Activities = CbActivities.Checked,
 		});
 
-		static int GetStudentId(List<Student> students)
+		static int GetMaxStudentId(List<Student> students)
 			=> students.Any() 
 				? students.Max(x => x.Id) + 1 
 				: 1;

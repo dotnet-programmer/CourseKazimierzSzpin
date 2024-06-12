@@ -87,10 +87,14 @@ public partial class Main : Form
 
 	private void RefreshDiary()
 	{
+		_students = _dataFile.Deserialize();
 		int groupId = (CbGroups.SelectedItem as Group).Id;
-		_students = groupId != 0 
-			? _students.Where(x => x.GroupId == groupId).ToList() 
-			: _dataFile.Deserialize();
+		if (groupId != 0)
+		{
+			_students = _students
+				.Where(x => x.GroupId == groupId)
+				.ToList();
+		}
 		_students.Sort();
 		DgvDiary.DataSource = _students;
 	}
