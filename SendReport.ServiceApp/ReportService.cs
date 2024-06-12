@@ -14,14 +14,15 @@ namespace SendReport.ServiceApp
 	public partial class ReportService : ServiceBase
 	{
 		private const string NotEncryptedPasswordPrefix = "encrypt:";
+
 		private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
 		private readonly int _intervalInMinutes;
 		private readonly int _sendHour;
 		private readonly bool _isReportSend;
+		private readonly string _emailReceiver;
 		private readonly Timer _timer;
 		private readonly Email _email;
-		private readonly string _emailReceiver;
 		private readonly ErrorRepository _errorRepository = new ErrorRepository();
 		private readonly ReportRepository _reportRepository = new ReportRepository();
 		private readonly GenerateHtmlEmail _htmlEmail = new GenerateHtmlEmail();
@@ -64,13 +65,17 @@ namespace SendReport.ServiceApp
 			Logger.Info("Service started...");
 		}
 
-		protected override void OnStop() => Logger.Info("Service stopped...");
+		protected override void OnStop()
+			=> Logger.Info("Service stopped...");
 
-		private static string GetStringValueFromConfig(string key) => ConfigurationManager.AppSettings[key];
+		private static string GetStringValueFromConfig(string key)
+			=> ConfigurationManager.AppSettings[key];
 
-		private static int GetIntValueFromConfig(string key) => int.Parse(ConfigurationManager.AppSettings[key]);
+		private static int GetIntValueFromConfig(string key)
+			=> int.Parse(ConfigurationManager.AppSettings[key]);
 
-		private static bool GetBoolValueFromConfig(string key) => Convert.ToBoolean(ConfigurationManager.AppSettings[key]);
+		private static bool GetBoolValueFromConfig(string key)
+			=> Convert.ToBoolean(ConfigurationManager.AppSettings[key]);
 
 		private string DecryptSenderEmailPassword()
 		{

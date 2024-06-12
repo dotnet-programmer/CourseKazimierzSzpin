@@ -7,12 +7,13 @@ namespace SendReport.Core.NetFramework.Lib.Repositories
 	public class ReportRepository
 	{
 		// pobieranie z bazy danych ostatniego raportu
-		public Report GetLastNotSentReport() => new Report
-		{
-			ReportId = 1,
-			Title = "R/1/2020",
-			Date = new DateTime(2020, 1, 1, 12, 0, 0),
-			Positions = new List<ReportPosition>
+		public Report GetLastNotSentReport()
+			=> new Report
+			{
+				ReportId = 1,
+				Title = "R/1/2020",
+				Date = new DateTime(2020, 1, 1, 12, 0, 0),
+				Positions = new List<ReportPosition>
 				{
 					new ReportPosition
 					{
@@ -35,9 +36,10 @@ namespace SendReport.Core.NetFramework.Lib.Repositories
 						Description = "Descriptopn 3",
 						Value = 33.33M,
 					}
-				 }
-		};
+					}
+			};
 
-		public void ReportSent(Report report) => report.IsSend = true; //zapis w bazie danych
+		public void ReportSent(Report report)
+			=> report.IsSend = true; //zapis w bazie danych
 	}
 }

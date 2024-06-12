@@ -27,11 +27,7 @@ namespace SendReport.ServiceApp
 			}
 			else
 			{
-				ServiceBase[] ServicesToRun;
-				ServicesToRun = new ServiceBase[]
-				{
-					new ReportService()
-				};
+				ServiceBase[] ServicesToRun = new ServiceBase[] { new ReportService() };
 				ServiceBase.Run(ServicesToRun);
 			}
 		}
