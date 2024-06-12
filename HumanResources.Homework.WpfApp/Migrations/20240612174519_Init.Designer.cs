@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanResources.Homework.WpfApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230805105900_InitMigration")]
-    partial class InitMigration
+    [Migration("20240612174519_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -69,7 +69,7 @@ namespace HumanResources.Homework.WpfApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Salary")
+                    b.Property<decimal?>("Salary")
                         .HasColumnType("money");
 
                     b.Property<int>("WorkTimeId")
@@ -135,13 +135,13 @@ namespace HumanResources.Homework.WpfApp.Migrations
                         {
                             UserId = 1,
                             Name = "admin",
-                            Password = "mAExk5kVNnvvI6YniJAKZ7ZVVySgOomkifmCvcevUwecUhOT2oYUYrr+uUGZkMw+"
+                            Password = "PF+wFOWVjuyZkVVGnQGorL5b5vDnFJkIegg5htyLgIvl6KHyGmlS6MHJVBSTGVtJ"
                         },
                         new
                         {
                             UserId = 2,
                             Name = "user1",
-                            Password = "deqQKYMB8lqAN1nO8F6ZnAZXt9oLCgeeUqnsOpuVasqkuONU7hnZk7zRM8YHgRPo"
+                            Password = "+U4yFjYvx0KURriUGRsSPjQN8Y+NuspIWo62/DaNtK8NXB63JE0WFpAW+6olX2Lt"
                         });
                 });
 

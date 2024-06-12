@@ -2,5 +2,5 @@
 
 public enum Employment
 {
-	Zatrudnieni, Zwolnieni, Wszyscy
+	Hired, Fired, Everyone
 }

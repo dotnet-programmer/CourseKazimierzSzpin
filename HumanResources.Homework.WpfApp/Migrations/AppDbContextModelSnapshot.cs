@@ -132,13 +132,13 @@ namespace HumanResources.Homework.WpfApp.Migrations
                         {
                             UserId = 1,
                             Name = "admin",
-                            Password = "rEq+RMCUEZHR3z+dTqXITVFuXwILCG1xtxBiyJS2HpmUlJQ0eTcswKu2uakrxdsl"
+                            Password = "PF+wFOWVjuyZkVVGnQGorL5b5vDnFJkIegg5htyLgIvl6KHyGmlS6MHJVBSTGVtJ"
                         },
                         new
                         {
                             UserId = 2,
                             Name = "user1",
-                            Password = "P6IeENbeaGQea4JnAAVWYJt3hRdde/VvqIEyUj2VDvaTvDmBcvUXh8Hjvcrb7MIS"
+                            Password = "+U4yFjYvx0KURriUGRsSPjQN8Y+NuspIWo62/DaNtK8NXB63JE0WFpAW+6olX2Lt"
                         });
                 });
 

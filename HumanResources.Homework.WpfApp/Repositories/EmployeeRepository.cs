@@ -23,8 +23,10 @@ internal class EmployeeRepository
 
 			employees = employment switch
 			{
-				Employment.Zatrudnieni => employees.Where(x => x.FireDate == null),
-				Employment.Zwolnieni => employees.Where(x => x.FireDate != null)
+				Employment.Hired => employees.Where(x => x.FireDate == null),
+				Employment.Fired => employees.Where(x => x.FireDate != null),
+				Employment.Everyone => employees.AsQueryable(),
+				_ => throw new ArgumentException($"wrong argument value: {nameof(employment)}")
 			};
 
 			return employees

@@ -17,7 +17,8 @@ public class WorkTimeWrapper : IDataErrorInfo
 	public string this[string columnName]
 		=> columnName switch
 		{
-			nameof(WorkTimeId) => Error = WorkTimeId == 0 ? "Pole Wymiar pracy jest wymagane." : string.Empty
+			nameof(WorkTimeId) => Error = WorkTimeId == 0 ? "Pole Wymiar pracy jest wymagane." : string.Empty,
+			_ => string.Empty
 		};
 
 	#endregion IDataErrorInfo Members

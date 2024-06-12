@@ -15,11 +15,12 @@ internal class AppDbContext : DbContext
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		UserSettings userSettings = new();
-		string connectionString = $"Server={userSettings.ServerAddress}\\{userSettings.ServerName};"
-			+ "Database={userSettings.Database};"
-			+ "User Id={userSettings.User};"
-			+ "Password={userSettings.Password};"
-			+ "TrustServerCertificate=True;";
+		string connectionString = 
+			$"Server={userSettings.ServerAddress}\\{userSettings.ServerName};"
+			+ $"Database={userSettings.Database};"
+			+ $"User Id={userSettings.User};"
+			+ $"Password={userSettings.Password};"
+			+ $"TrustServerCertificate=True;";
 
 		optionsBuilder.UseSqlServer(connectionString);
 	}

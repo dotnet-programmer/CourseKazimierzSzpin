@@ -18,7 +18,8 @@ public class UserWrapper : IDataErrorInfo
 	public string this[string columnName]
 		=> columnName switch
 		{
-			nameof(Name) => Error = string.IsNullOrWhiteSpace(Name) ? "Pole Login jest wymagane." : string.Empty
+			nameof(Name) => Error = string.IsNullOrWhiteSpace(Name) ? "Pole Login jest wymagane." : string.Empty,
+			_ => string.Empty
 		};
 
 	#endregion IDataErrorInfo Members
