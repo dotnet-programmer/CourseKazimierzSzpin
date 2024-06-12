@@ -165,7 +165,9 @@ partial class Main
 		Controls.Add(PbPicture);
 		Controls.Add(BottomPanel);
 		Name = "Main";
+		StartPosition = FormStartPosition.CenterScreen;
 		Text = "Przegladarka zdjęć";
+		FormClosing += Main_FormClosing;
 		FormClosed += Main_FormClosed;
 		Shown += Main_Shown;
 		BottomPanel.ResumeLayout(false);

@@ -1,3 +1,4 @@
+using System.IO;
 using PictureViewer.Homework.WinFormsApp.Properties;
 
 namespace PictureViewer.Homework.WinFormsApp;
@@ -11,6 +12,7 @@ public partial class Main : Form
 		InitializeComponent();
 		SetApplicationSettings();
 		SetOpenPictureBoxSettings();
+		SetSaveButtonsEnabled(false);
 	}
 
 	private void BtnOpenPicture_Click(object sender, EventArgs e)
@@ -33,14 +35,22 @@ public partial class Main : Form
 	private void OnSave_Click(object sender, EventArgs e)
 	{
 		string btnName = (sender as Button).Name;
-		string path = btnName == BtnSaveCopy.Name
+
+		string path = 
+			btnName == BtnSaveCopy.Name
 			? Path.Combine(
 				Path.GetDirectoryName(_filePath),
 				$"{Path.GetFileNameWithoutExtension(_filePath)}_edited_{DateTime.Now:dd-MM-yyyy}_{DateTime.Now:HH_mm}{Path.GetExtension(_filePath)}")
 			: _filePath;
+		
+		SaveFile(path);
+	}
 
+	private void SaveFile(string path)
+	{
 		PbPicture.Image.Save(path);
 		MessageBox.Show("Zmiany zosta³y zapisane", "Zapis pliku", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		SetSaveButtonsEnabled(false);
 	}
 
 	private void OnRotation_Click(object sender, EventArgs e)
@@ -109,6 +119,11 @@ public partial class Main : Form
 			PbPicture.Image = image;
 			SetButtonsEnabled(true);
 		}
+		else
+		{
+			SetButtonsEnabled(false);
+			_filePath = string.Empty;
+		}
 	}
 
 	private void RotateImage(RotateDirection direction)
@@ -132,5 +147,16 @@ public partial class Main : Form
 		}
 		SetPictureBoxSizeMode(image);
 		PbPicture.Image = image;
+	}
+
+	private void Main_FormClosing(object sender, FormClosingEventArgs e)
+	{
+		if (BtnSaveCopy.Enabled)
+		{
+			if (MessageBox.Show("Masz niezapisane zmiany, czy chcesz je zapisaæ?", "Zapis zmian", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				SaveFile(_filePath);
+			}
+		}
 	}
 }
