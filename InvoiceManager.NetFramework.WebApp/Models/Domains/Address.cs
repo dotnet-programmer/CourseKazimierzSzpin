@@ -7,6 +7,7 @@ namespace InvoiceManager.NetFramework.WebApp.Models.Domains
 	public class Address
 	{
 		public int Id { get; set; }
+
 		[Required]
 		[Display(Name = "Ulica")]
 		public string Street { get; set; }

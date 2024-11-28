@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StudentsDiary.WpfApp.Models.Domains;
 using StudentsDiary.WpfApp.Models.Wrappers;
@@ -23,6 +24,7 @@ public static class StudentConverter
 			Technology = string.Join(", ", student.Ratings.Where(x => x.SubjectId == (int)Subject.Technology).Select(x => x.Rate)),
 		};
 
+	// obiekty domenowe to tzw. DAO (Data Access Object)
 	public static Student ToDao(this StudentWrapper studentWrapper)
 		=> new()
 		{
@@ -37,47 +39,20 @@ public static class StudentConverter
 	public static List<Rating> ToRatingDao(this StudentWrapper studentWrapper)
 	{
 		List<Rating> ratings = [];
-
-		if (!string.IsNullOrWhiteSpace(studentWrapper.Math))
+		foreach (var subject in Enum.GetValues<Subject>())
 		{
-			studentWrapper.Math
-				.Split(',')
-				.ToList()
-				.ForEach(x => ratings.Add(new Rating { Rate = int.Parse(x), StudentId = studentWrapper.Id, SubjectId = (int)Subject.Math }));
+			FillRatings(studentWrapper, ratings, subject);
 		}
-
-		if (!string.IsNullOrWhiteSpace(studentWrapper.Physics))
-		{
-			studentWrapper.Physics
-				.Split(',')
-				.ToList()
-				.ForEach(x => ratings.Add(new Rating { Rate = int.Parse(x), StudentId = studentWrapper.Id, SubjectId = (int)Subject.Physics }));
-		}
-
-		if (!string.IsNullOrWhiteSpace(studentWrapper.PolishLang))
-		{
-			studentWrapper.PolishLang
-				.Split(',')
-				.ToList()
-				.ForEach(x => ratings.Add(new Rating { Rate = int.Parse(x), StudentId = studentWrapper.Id, SubjectId = (int)Subject.PolishLang }));
-		}
-
-		if (!string.IsNullOrWhiteSpace(studentWrapper.ForeignLang))
-		{
-			studentWrapper.ForeignLang
-				.Split(',')
-				.ToList()
-				.ForEach(x => ratings.Add(new Rating { Rate = int.Parse(x), StudentId = studentWrapper.Id, SubjectId = (int)Subject.ForeignLang }));
-		}
-
-		if (!string.IsNullOrWhiteSpace(studentWrapper.Technology))
-		{
-			studentWrapper.Technology
-				.Split(',')
-				.ToList()
-				.ForEach(x => ratings.Add(new Rating { Rate = int.Parse(x), StudentId = studentWrapper.Id, SubjectId = (int)Subject.Technology }));
-		}
-
 		return ratings;
 	}
+
+	private static void FillRatings(StudentWrapper studentWrapper, List<Rating> ratings, Subject subject)
+		=> studentWrapper
+			.GetType()
+			.GetProperty(subject.ToString())
+			.GetValue(studentWrapper)?
+			.ToString()
+			.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+			.ToList()
+			.ForEach(rate => ratings.Add(new Rating { Rate = int.Parse(rate), StudentId = studentWrapper.Id, SubjectId = (int)subject }));
 }

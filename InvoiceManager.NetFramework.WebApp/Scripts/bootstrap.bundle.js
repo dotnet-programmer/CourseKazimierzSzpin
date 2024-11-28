@@ -1,6 +1,6 @@
 /*!
-  * Bootstrap v5.3.2 (https://getbootstrap.com/)
-  * Copyright 2011-2023 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Bootstrap v5.3.3 (https://getbootstrap.com/)
+  * Copyright 2011-2024 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 (function (global, factory) {
@@ -210,7 +210,6 @@
   const reflow = element => {
     element.offsetHeight; // eslint-disable-line no-unused-expressions
   };
-
   const getjQuery = () => {
     if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
       return window.jQuery;
@@ -310,6 +309,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -589,6 +589,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Class definition
    */
@@ -641,11 +642,12 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
 
-  const VERSION = '5.3.2';
+  const VERSION = '5.3.3';
 
   /**
    * Class definition
@@ -726,9 +728,9 @@
       if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
         hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
       }
-      selector = hrefAttribute && hrefAttribute !== '#' ? parseSelector(hrefAttribute.trim()) : null;
+      selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
     }
-    return selector;
+    return selector ? selector.split(',').map(sel => parseSelector(sel)).join(',') : null;
   };
   const SelectorEngine = {
     find(selector, element = document.documentElement) {
@@ -823,6 +825,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -897,6 +900,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -959,6 +963,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -1078,6 +1083,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -1451,6 +1457,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -1761,6 +1768,7 @@
       // effective way to apply styles to an HTMLElement
       // $FlowFixMe[cannot-write]
 
+
       Object.assign(element.style, style);
       Object.keys(attributes).forEach(function (name) {
         var value = attributes[name];
@@ -1817,6 +1825,7 @@
       });
     };
   } // eslint-disable-next-line import/no-unused-modules
+
 
   const applyStyles$1 = {
     name: 'applyStyles',
@@ -1928,9 +1937,11 @@
             return true;
           } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
+
           next = next.parentNode || next.host;
         } while (next);
       } // Give up, the result is false
+
 
     return false;
   }
@@ -1976,6 +1987,7 @@
   } // `.offsetParent` reports `null` for fixed elements, while absolute elements
   // return the containing block
 
+
   function getContainingBlock(element) {
     var isFirefox = /firefox/i.test(getUAString());
     var isIE = /Trident/i.test(getUAString());
@@ -2010,6 +2022,7 @@
     return null;
   } // Gets the closest ancestor positioned element. Handles some edge cases,
   // such as table ancestors and cross browser bugs.
+
 
   function getOffsetParent(element) {
     var window = getWindow(element);
@@ -2112,6 +2125,7 @@
       return;
     } // CSS selector
 
+
     if (typeof arrowElement === 'string') {
       arrowElement = state.elements.popper.querySelector(arrowElement);
 
@@ -2126,6 +2140,7 @@
 
     state.elements.arrow = arrowElement;
   } // eslint-disable-next-line import/no-unused-modules
+
 
   const arrow$1 = {
     name: 'arrow',
@@ -2207,6 +2222,7 @@
           widthProp = 'scrollWidth';
         }
       } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
 
       offsetParent = offsetParent;
 
@@ -2292,6 +2308,7 @@
     });
   } // eslint-disable-next-line import/no-unused-modules
 
+
   const computeStyles$1 = {
     name: 'computeStyles',
     enabled: true,
@@ -2337,6 +2354,7 @@
       }
     };
   } // eslint-disable-next-line import/no-unused-modules
+
 
   const eventListeners = {
     name: 'eventListeners',
@@ -2517,6 +2535,7 @@
   // clipping (or hiding) overflowing elements with a position different from
   // `initial`
 
+
   function getClippingParents(element) {
     var clippingParents = listScrollParents(getParentNode(element));
     var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
@@ -2526,11 +2545,13 @@
       return [];
     } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
 
+
     return clippingParents.filter(function (clippingParent) {
       return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
     });
   } // Gets the maximum area that the element is visible in due to any number of
   // clipping parents
+
 
   function getClippingRect(element, boundary, rootBoundary, strategy) {
     var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
@@ -2697,6 +2718,7 @@
       allowedPlacements = placements$1;
     } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
 
+
     var overflows = allowedPlacements.reduce(function (acc, placement) {
       acc[placement] = detectOverflow(state, {
         placement: placement,
@@ -2839,6 +2861,7 @@
     }
   } // eslint-disable-next-line import/no-unused-modules
 
+
   const flip$1 = {
     name: 'flip',
     enabled: true,
@@ -2900,6 +2923,7 @@
     });
   } // eslint-disable-next-line import/no-unused-modules
 
+
   const hide$1 = {
     name: 'hide',
     enabled: true,
@@ -2951,6 +2975,7 @@
     state.modifiersData[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
 
+
   const offset$1 = {
     name: 'offset',
     enabled: true,
@@ -2973,6 +2998,7 @@
       placement: state.placement
     });
   } // eslint-disable-next-line import/no-unused-modules
+
 
   const popperOffsets$1 = {
     name: 'popperOffsets',
@@ -3108,6 +3134,7 @@
     state.modifiersData[name] = data;
   } // eslint-disable-next-line import/no-unused-modules
 
+
   const preventOverflow$1 = {
     name: 'preventOverflow',
     enabled: true,
@@ -3138,6 +3165,7 @@
     return scaleX !== 1 || scaleY !== 1;
   } // Returns the composite rect of an element relative to its offsetParent.
   // Composite means it takes into account transforms as well as layout.
+
 
   function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     if (isFixed === void 0) {
@@ -3338,6 +3366,7 @@
             return;
           } // Store the reference and popper rects to be read by modifiers
 
+
           state.rects = {
             reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
             popper: getLayoutRect(popper)
@@ -3500,6 +3529,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -3868,6 +3898,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -3884,7 +3915,6 @@
     // if false, we use the backdrop helper without adding any element to the dom
     rootElement: 'body' // give the choice to place backdrop under different elements
   };
-
   const DefaultType$8 = {
     className: 'string',
     clickCallback: '(function|null)',
@@ -3992,6 +4022,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -4008,7 +4039,6 @@
     autofocus: true,
     trapElement: null // The element to trap focus inside of
   };
-
   const DefaultType$7 = {
     autofocus: 'boolean',
     trapElement: 'element'
@@ -4089,6 +4119,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -4186,6 +4217,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -4491,6 +4523,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -4732,7 +4765,10 @@
     br: [],
     col: [],
     code: [],
+    dd: [],
     div: [],
+    dl: [],
+    dt: [],
     em: [],
     hr: [],
     h1: [],
@@ -4813,6 +4849,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -4948,6 +4985,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -5460,6 +5498,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -5539,6 +5578,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -5798,6 +5838,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Constants
@@ -6068,6 +6109,7 @@
    * --------------------------------------------------------------------------
    */
 
+
   /**
    * Constants
    */
@@ -6267,5 +6309,6 @@
   };
 
   return index_umd;
+
 }));
 //# sourceMappingURL=bootstrap.bundle.js.map

@@ -14,8 +14,8 @@ public class Category
 
     public bool? IsDefault { get; set; }
 
-    public string? UserId { get; set; }
-	public ApplicationUser? User { get; set; }
+    public string UserId { get; set; }
 
+	public ApplicationUser User { get; set; }
 	public ICollection<Task> Tasks { get; set; } = new Collection<Task>();
 }

@@ -17,7 +17,8 @@ namespace InvoiceManager.NetFramework.WebApp.Models
 		public DbSet<MethodOfPayment> MethodOfPayments { get; set; }
 		public DbSet<Product> Products { get; set; }
 
-		public static ApplicationDbContext Create() => new ApplicationDbContext();
+		public static ApplicationDbContext Create() 
+			=> new ApplicationDbContext();
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

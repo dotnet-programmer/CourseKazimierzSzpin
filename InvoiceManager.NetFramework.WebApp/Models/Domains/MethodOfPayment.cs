@@ -7,6 +7,7 @@ namespace InvoiceManager.NetFramework.WebApp.Models.Domains
 	public class MethodOfPayment
 	{
 		public int Id { get; set; }
+
 		[Required]
 		public string Name { get; set; }
 

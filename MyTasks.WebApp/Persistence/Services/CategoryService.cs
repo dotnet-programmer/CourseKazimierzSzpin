@@ -8,13 +8,17 @@ public class CategoryService : ICategoryService
 {
 	private readonly IUnitOfWork _unitOfWork;
 
-	public CategoryService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+	public CategoryService(IUnitOfWork unitOfWork)
+		=> _unitOfWork = unitOfWork;
 
-	public IEnumerable<Category> GetCategories(string userId) => _unitOfWork.CategoryRepository.GetCategories(userId);
+	public IEnumerable<Category> GetCategories(string userId)
+		=> _unitOfWork.CategoryRepository.GetCategories(userId);
 
-	public IEnumerable<Category> GetUserCategories(string userId) => _unitOfWork.CategoryRepository.GetUserCategories(userId);
+	public IEnumerable<Category> GetUserCategories(string userId)
+		=> _unitOfWork.CategoryRepository.GetUserCategories(userId);
 
-	public Category GetCategory(int categoryId, string userId) => _unitOfWork.CategoryRepository.GetCategory(categoryId, userId);
+	public Category GetCategory(int categoryId, string userId)
+		=> _unitOfWork.CategoryRepository.GetCategory(categoryId, userId);
 
 	public void AddCategory(Category category)
 	{

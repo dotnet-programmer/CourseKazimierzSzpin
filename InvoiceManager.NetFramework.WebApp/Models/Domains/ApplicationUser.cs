@@ -15,8 +15,8 @@ namespace InvoiceManager.NetFramework.WebApp.Models.Domains
 		public string Name { get; set; }
 
 		public int AddressId { get; set; }
-		public Address Address { get; set; }
 
+		public Address Address { get; set; }
 		public ICollection<Invoice> Invoices { get; set; } = new Collection<Invoice>();
 		public ICollection<Client> Clients { get; set; } = new Collection<Client>();
 

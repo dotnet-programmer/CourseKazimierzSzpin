@@ -1,6 +1,6 @@
 ﻿namespace FizzBuzz.Homework.ConsoleApp;
 
-internal class FizzBuzzClass
+public class FizzBuzzClass
 {
 	public string CheckNumber(int number)
 	{

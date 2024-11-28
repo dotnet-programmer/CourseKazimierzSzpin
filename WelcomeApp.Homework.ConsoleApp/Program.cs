@@ -32,12 +32,15 @@ static string GetTextInput()
 
 static int GetYear()
 {
-	int year;
-	while (!int.TryParse(Console.ReadLine(), out year) || year < 1850 || year > DateTime.Now.Year)
+	while (true)
 	{
-		ErrorMessage();
+		if ((!int.TryParse(Console.ReadLine(), out int year)) || year < 1850 || year > DateTime.Now.Year)
+		{
+			ErrorMessage();
+			continue;
+		}
+		return year;
 	}
-	return year;
 }
 
 static int GetMonth()

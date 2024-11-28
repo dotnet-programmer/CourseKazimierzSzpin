@@ -14,7 +14,8 @@ public class CategoryController : Controller
 
 	public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
 
-	public IActionResult Categories() => View(_categoryService.GetUserCategories(User.GetUserId()));
+	public IActionResult Categories() 
+		=> View(_categoryService.GetUserCategories(User.GetUserId()));
 
 	public IActionResult Category(int categoryId = 0)
 	{
@@ -38,8 +39,7 @@ public class CategoryController : Controller
 
 		if (!ModelState.IsValid)
 		{
-			CategoryViewModel vm = GetCategoryViewModel(category);
-			return View("Category", vm);
+			return View("Category", GetCategoryViewModel(category));
 		}
 
 		if (category.CategoryId == 0)

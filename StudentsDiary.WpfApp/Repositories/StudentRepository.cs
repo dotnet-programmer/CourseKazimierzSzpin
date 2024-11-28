@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using StudentsDiary.WpfApp.Models;
@@ -33,8 +34,8 @@ internal class StudentRepository
 
 	public void AddStudent(StudentWrapper studentWrapper)
 	{
-		var student = studentWrapper.ToDao();
-		var ratings = studentWrapper.ToRatingDao();
+		Student student = studentWrapper.ToDao();
+		List<Rating> ratings = studentWrapper.ToRatingDao();
 
 		using (AppDbContext context = new())
 		{
@@ -64,32 +65,18 @@ internal class StudentRepository
 
 	public void UpdateStudent(StudentWrapper studentWrapper)
 	{
-		var student = studentWrapper.ToDao();
-		var ratings = studentWrapper.ToRatingDao();
+		Student student = studentWrapper.ToDao();
+		List<Rating> newRatings = studentWrapper.ToRatingDao();
 
 		using (AppDbContext context = new())
 		{
-			UpdateStudentProperties(student, context);
-			context.SaveChanges();
-
-			var studentRatings = GetStudentRatings(student, context);
-
-			UpdateRate(student, ratings, context, studentRatings, Subject.Math);
-			UpdateRate(student, ratings, context, studentRatings, Subject.Technology);
-			UpdateRate(student, ratings, context, studentRatings, Subject.Physics);
-			UpdateRate(student, ratings, context, studentRatings, Subject.PolishLang);
-			UpdateRate(student, ratings, context, studentRatings, Subject.ForeignLang);
-
+			UpdateStudentProperties(context, student);
+			UpdateStudentRatings(context, student, newRatings);
 			context.SaveChanges();
 		}
 	}
 
-	private static List<Rating> GetStudentRatings(Student student, AppDbContext context) 
-		=> context.Ratings
-			.Where(x => x.StudentId == student.Id)
-			.ToList();
-
-	private static void UpdateStudentProperties(Student student, AppDbContext context)
+	private static void UpdateStudentProperties(AppDbContext context, Student student)
 	{
 		var studentToUpdate = context.Students.Find(student.Id);
 		studentToUpdate.FirstName = student.FirstName;
@@ -99,9 +86,21 @@ internal class StudentRepository
 		studentToUpdate.GroupId = student.GroupId;
 	}
 
-	private static void UpdateRate(Student student, List<Rating> newRatings, AppDbContext context, List<Rating> studentRatings, Subject subject)
+	private static void UpdateStudentRatings(AppDbContext context, Student student, List<Rating> newRatings)
 	{
-		var subjectRatings = studentRatings
+		List<Rating> oldRatings = context.Ratings
+			.Where(x => x.StudentId == student.Id)
+			.ToList();
+
+		foreach (var subject in Enum.GetValues<Subject>())
+		{
+			UpdateSubjectRatings(context, student, newRatings, oldRatings, subject);
+		}
+	}
+
+	private static void UpdateSubjectRatings(AppDbContext context, Student student, List<Rating> newRatings, List<Rating> oldRatings, Subject subject)
+	{
+		var oldSubjectRatings = oldRatings
 			.Where(x => x.SubjectId == (int)subject)
 			.Select(x => x.Rate);
 
@@ -109,12 +108,12 @@ internal class StudentRepository
 			.Where(x => x.SubjectId == (int)subject)
 			.Select(x => x.Rate);
 
-		var subjectRatingsToDelete = GetSubjectRatingsToDelete(subjectRatings, newSubjectRatings);
-		var subjectRatingsToAdd = GetSubjectRatingsToAdd(subjectRatings, newSubjectRatings);
+		var subjectRatingsToDelete = GetSubjectRatingsToDelete(oldSubjectRatings, newSubjectRatings);
+		var subjectRatingsToAdd = GetSubjectRatingsToAdd(oldSubjectRatings, newSubjectRatings);
 
 		subjectRatingsToDelete.ForEach(x =>
 		{
-			var ratingToDelete = context.Ratings.First(y => y.Rate == x && y.StudentId == student.Id && y.StudentId == (int)subject);
+			var ratingToDelete = context.Ratings.First(y => y.Rate == x && y.StudentId == student.Id && y.SubjectId == (int)subject);
 			context.Ratings.Remove(ratingToDelete);
 		});
 
@@ -125,11 +124,11 @@ internal class StudentRepository
 		});
 	}
 
-	private static List<int> GetSubjectRatingsToDelete(IEnumerable<int> oldSubRatings, IEnumerable<int> newSubRatings)
+	private static List<int> GetSubjectRatingsToDelete(IEnumerable<int> oldSubjectRatings, IEnumerable<int> newSubjectRatings)
 	{
-		List<int> subRatingsToDelete = [];
-		List<int> newListCopy = new(newSubRatings);
-		foreach (var item in oldSubRatings)
+		List<int> subjectRatingsToDelete = [];
+		List<int> newListCopy = new(newSubjectRatings);
+		foreach (var item in oldSubjectRatings)
 		{
 			var itemInNewList = newListCopy.FirstOrDefault(x => x == item);
 			if (itemInNewList != 0)
@@ -138,17 +137,17 @@ internal class StudentRepository
 			}
 			else
 			{
-				subRatingsToDelete.Add(item);
+				subjectRatingsToDelete.Add(item);
 			}
 		}
-		return subRatingsToDelete;
+		return subjectRatingsToDelete;
 	}
 
-	private static List<int> GetSubjectRatingsToAdd(IEnumerable<int> oldSubRatings, IEnumerable<int> newSubRatings)
+	private static List<int> GetSubjectRatingsToAdd(IEnumerable<int> oldSubjectRatings, IEnumerable<int> newSubjectRatings)
 	{
 		List<int> subRatingsToAdd = [];
-		List<int> oldListCopy = new(oldSubRatings);
-		foreach (var item in newSubRatings)
+		List<int> oldListCopy = new(oldSubjectRatings);
+		foreach (var item in newSubjectRatings)
 		{
 			var itemInOldList = oldListCopy.FirstOrDefault(x => x == item);
 			if (itemInOldList != 0)

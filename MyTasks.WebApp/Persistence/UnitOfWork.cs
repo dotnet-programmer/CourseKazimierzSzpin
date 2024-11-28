@@ -17,8 +17,8 @@ public class UnitOfWork : IUnitOfWork
 
 	// INFO - obiekty repozytoryjne, jeżeli więcej repozytoriów, to więcej takich właściwości
 	public ITaskRepository TaskRepository { get; set; }
-
 	public ICategoryRepository CategoryRepository { get; set; }
 
-	public void Complete() => _context.SaveChanges();
+	public void Complete() 
+		=> _context.SaveChanges();
 }

@@ -26,7 +26,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 		// umożliwia wykonanie akcji niezalogowanym użytkownikom
 		[AllowAnonymous]
-
 		// INFO - własna klasa atrybutu Action Filter
 		[Timer]
 		public ActionResult About()
@@ -72,7 +71,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		}
 
 		[AllowAnonymous]
-
 		// INFO - Cache, czas trwania danych w cache ustawiony na 10s
 		[OutputCache(Duration = 10)]
 		public ActionResult Contact()
@@ -87,7 +85,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View();
 		}
 
-		public ActionResult Index() => View(_invoiceRepository.GetInvoices(GetUserId()));
+		public ActionResult Index() 
+			=> View(_invoiceRepository.GetInvoices(GetUserId()));
 
 		//jeśli id = 0 to dodawanie nowej faktury, a jak jest jakieś id to będzie edycja
 		public ActionResult Invoice(int invoiceId = 0)
@@ -100,10 +99,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 		// oznaczenie metody typu Post
 		[HttpPost]
-
 		// INFO - zabezpieczenie przed atakiem Cross-site request forgery (w skrócie CSRF lub XSRF)
 		[ValidateAntiForgeryToken]
-
 		// parametr używany przez formularz, który dopasowuje nazwy inputów do nazw właściwości obiektu i przypisuje im odpowiednie wartości
 		public ActionResult Invoice(Invoice invoice)
 		{
@@ -211,7 +208,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 		#region Private methods
 
-		private string GetUserId() => User.Identity.GetUserId();
+		private string GetUserId() 
+			=> User.Identity.GetUserId();
 
 		private Invoice GetNewInvoice(string userId)
 			=> new Invoice
@@ -253,10 +251,12 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		// ta metoda będzie zawsze aktualizować sesję o wybranym kluczu o wartość podaną w argumencie
 		// argument - tutaj jest to wartość o jaką będzie aktualizowana sesja
 		// odwołanie do konkretnej sesji, w nawiasach kwadratowych trzeba podać klucz
-		private void UpdateSession(int i) => Session["nr"] = i;
+		private void UpdateSession(int i) 
+			=> Session["nr"] = i;
 
 		// ta metoda pobiera sesję
-		private int GetSession() => Session["nr"] != null ? (int)Session["nr"] : 0;
+		private int GetSession() 
+			=> Session["nr"] != null ? (int)Session["nr"] : 0;
 
 		#endregion Sesja
 
@@ -282,20 +282,24 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 		// pobieranie ciastka; ciastka są wysyłane z każdym żądaniem wysyłanym do serwera
 		// sprawdzenie czy cookie istnieje, request używa się do odczytania ciastka
-		private int GetCookie() => Request.Cookies["nr"] != null ? int.Parse(Request.Cookies["nr"].Value) : 0;
+		private int GetCookie() 
+			=> Request.Cookies["nr"] != null ? int.Parse(Request.Cookies["nr"].Value) : 0;
 
 		#endregion Cookies - ciasteczka
 
 		#region Cache
 
 		// INFO - Cache
-		private void UpdateCache(int i) => HttpRuntime.Cache["nr"] = i;
+		private void UpdateCache(int i) 
+			=> HttpRuntime.Cache["nr"] = i;
 
 		// inny sposób ustawienia wartości cache, argumenty to:
 		// nazwa, wartość, zależność do pliku/tabelki, bezwzględny czas wygasania, czas przedłużający czas wygasania po użyciu cache, prirorytet - kolejność usuwania, delegat wywoływany podczas usuwania cache z pamięci
-		//private void UpdateCache(int i) => HttpRuntime.Cache.Add("nr", i, null, DateTime.Now.AddSeconds(5), TimeSpan.Zero, CacheItemPriority.Default, null);
+		//private void UpdateCache(int i)
+		//    => HttpRuntime.Cache.Add("nr", i, null, DateTime.Now.AddSeconds(5), TimeSpan.Zero, CacheItemPriority.Default, null);
 
-		private int GetCache() => HttpRuntime.Cache["nr"] != null ? (int)HttpRuntime.Cache["nr"] : 0;
+		private int GetCache() 
+			=> HttpRuntime.Cache["nr"] != null ? (int)HttpRuntime.Cache["nr"] : 0;
 
 		#endregion Cache
 
@@ -307,9 +311,11 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View("About");
 		}
 
-		public ActionResult Test1() => PartialView("About");
+		public ActionResult Test1() 
+			=> PartialView("About");
 
-		public ActionResult Test2() => RedirectToAction("About", "Home");
+		public ActionResult Test2() 
+			=> RedirectToAction("About", "Home");
 
 		public ActionResult Test3()
 		{
@@ -317,9 +323,11 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return Json(invoice, JsonRequestBehavior.AllowGet);
 		}
 
-		public ActionResult Test4() => File("../Web.config", "text");
+		public ActionResult Test4() 
+			=> File("../Web.config", "text");
 
-		public ActionResult Test5() => Content("<script>alert('ALERT!')</script>");
+		public ActionResult Test5() 
+			=> Content("<script>alert('ALERT!')</script>");
 
 		[AllowAnonymous]
 		// INFO - pobranie pliku z serwera
@@ -331,7 +339,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		}
 
 		// INFO - własny Action Result
-		public ActionResult GetCsv() => new MyCsvResult("Jan Kowalski" + Environment.NewLine + "Krzysztof Nowak");
+		public ActionResult GetCsv()
+			=> new MyCsvResult("Jan Kowalski" + Environment.NewLine + "Krzysztof Nowak");
 
 		// INFO - ChildActionOnly
 		// oznacza że nie można dostać się do tej akcji poprzez wpisanie adresu URL
@@ -347,7 +356,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 		[ChildActionOnly]
 		[AllowAnonymous]
-		public string GetTime() => DateTime.Now.ToLongTimeString();
+		public string GetTime() 
+			=> DateTime.Now.ToLongTimeString();
 
 		#endregion Test Actions
 	}
