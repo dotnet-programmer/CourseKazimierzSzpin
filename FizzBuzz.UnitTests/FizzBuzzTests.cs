@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace FizzBuzz.UnitTests;
 
-public class FizzBuzzClassTests
+public class FizzBuzzTests
 {
 	//public void MetodaTestowana_Scenariusz_OczekiwaneZachowanie() { }
 
