@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace StudentsDiary.WpfApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,6 +67,17 @@ namespace StudentsDiary.WpfApp.Migrations
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Groups",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "1A" },
+                    { 2, "1B" },
+                    { 3, "2A" },
+                    { 4, "2B" }
                 });
 
             migrationBuilder.CreateIndex(

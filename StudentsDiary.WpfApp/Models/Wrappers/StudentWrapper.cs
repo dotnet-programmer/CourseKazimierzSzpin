@@ -2,13 +2,13 @@
 
 namespace StudentsDiary.WpfApp.Models.Wrappers;
 
-public class StudentWrapper : IDataErrorInfo // INotifyDataErrorInfo
+public class StudentWrapper : IDataErrorInfo
 {
 	private bool _isFirstNameValid;
 	private bool _isLastNameValid;
 
 	public StudentWrapper() 
-		=> Group = new GroupWrapper();
+		=> Group = new();
 
 	public int Id { get; set; }
 	public string FirstName { get; set; }
@@ -22,9 +22,8 @@ public class StudentWrapper : IDataErrorInfo // INotifyDataErrorInfo
 	public bool Activities { get; set; }
 	public GroupWrapper Group { get; set; }
 
-	public bool IsValid 
+	public bool IsValid
 		=> _isFirstNameValid && _isLastNameValid && Group.IsValid;
-	//public bool IsValid => string.IsNullOrWhiteSpace(Error);
 
 	public string Error { get; set; }
 
@@ -35,16 +34,8 @@ public class StudentWrapper : IDataErrorInfo // INotifyDataErrorInfo
 			switch (columnName)
 			{
 				case nameof(FirstName):
-					if (string.IsNullOrWhiteSpace(FirstName))
-					{
-						Error = "Pole Imię jest wymagane.";
-						_isFirstNameValid = false;
-					}
-					else
-					{
-						Error = string.Empty;
-						_isFirstNameValid = true;
-					}
+					_isFirstNameValid = !string.IsNullOrWhiteSpace(FirstName);
+					Error = _isFirstNameValid ? string.Empty : "Pole Imię jest wymagane.";
 					break;
 				case nameof(LastName):
 					if (string.IsNullOrWhiteSpace(LastName))

@@ -17,9 +17,7 @@ public class GroupWrapper : IDataErrorInfo
 			switch (columnName)
 			{
 				case nameof(Id):
-					Error = Id == 0 
-						? "Pole Grupa jest wymagane." 
-						: string.Empty;
+					Error = Id == 0 ? "Pole Grupa jest wymagane." : string.Empty;
 					break;
 				default:
 					break;

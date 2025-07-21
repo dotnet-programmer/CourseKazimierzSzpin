@@ -19,6 +19,10 @@ internal class LoginViewModel : BaseViewModel
 	private readonly System.Timers.Timer _checkConnectionTimer = new(5000);
 	private readonly DbRepository _dbRepository = new();
 
+	private UserWrapper _user;
+	private ConnectionStatus _status;
+	private bool _isCheckConnectionEnabled;
+
 	public LoginViewModel()
 	{
 		StringCipherHelper.EncryptStringFromConfigAndSave("Password");
@@ -29,30 +33,23 @@ internal class LoginViewModel : BaseViewModel
 		_user = new();
 	}
 
-	#region Property binding
-
-	private UserWrapper _user;
 	public UserWrapper User
 	{
 		get => _user;
 		set { _user = value; OnPropertyChanged(); }
 	}
 
-	private ConnectionStatus _status;
 	public ConnectionStatus Status
 	{
 		get => _status;
 		set { _status = value; OnPropertyChanged(); }
 	}
 
-	private bool _isCheckConnectionEnabled;
 	public bool IsCheckConnectionEnabled
 	{
 		get => _isCheckConnectionEnabled;
 		set { _isCheckConnectionEnabled = value; OnPropertyChanged(); }
 	}
-
-	#endregion Property binding
 
 	public ICommand ShowSettingsCommand { get; private set; }
 	public ICommand CheckConnectionCommand { get; private set; }

@@ -8,6 +8,8 @@ namespace HumanResources.Homework.WpfApp.ViewModels;
 internal class SettingsViewModel : BaseViewModel
 {
 	private readonly PasswordBox _passwordBox;
+	
+	private UserSettings _settings;
 
 	public SettingsViewModel(PasswordBox passwordBox)
 	{
@@ -17,16 +19,11 @@ internal class SettingsViewModel : BaseViewModel
 		_passwordBox.Password = Settings.Password;
 	}
 
-	#region Property binding
-
-	private UserSettings _settings;
 	public UserSettings Settings
 	{
 		get => _settings;
 		set { _settings = value; OnPropertyChanged(); }
 	}
-
-	#endregion Property binding
 
 	public ICommand PasswordChangedCommand { get; private set; }
 	public ICommand ConfirmCommand { get; private set; }

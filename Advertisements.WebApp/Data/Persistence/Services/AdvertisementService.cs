@@ -5,38 +5,35 @@ using Advertisements.WebApp.Data.Core.Services;
 
 namespace Advertisements.WebApp.Data.Persistence.Services;
 
-public class AdvertisementService : IAdvertisementService
+public class AdvertisementService(IUnitOfWork unitOfWork) : IAdvertisementService
 {
-	private readonly IUnitOfWork _unitOfWork;
+	public IEnumerable<Advertisement> GetAdvertisements(GetAdvertisementsParams getAdvertisementsParams)
+		=> unitOfWork.AdvertisementRepository.GetAdvertisements(getAdvertisementsParams);
 
-	public AdvertisementService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-
-	public IEnumerable<Advertisement> GetAdvertisements(GetAdvertisementsParams getAdvertisementsParams) => 
-		_unitOfWork.AdvertisementRepository.GetAdvertisements(getAdvertisementsParams);
-
-	public Advertisement GetAdvertisement(int advertisementId, string userId) => _unitOfWork.AdvertisementRepository.GetAdvertisement(advertisementId, userId);
+	public Advertisement GetAdvertisement(int advertisementId, string userId)
+		=> unitOfWork.AdvertisementRepository.GetAdvertisement(advertisementId, userId);
 
 	public void AddAdvertisement(Advertisement advertisement)
 	{
-		_unitOfWork.AdvertisementRepository.AddAdvertisement(advertisement);
-		_unitOfWork.Complete();
+		unitOfWork.AdvertisementRepository.AddAdvertisement(advertisement);
+		unitOfWork.Complete();
 	}
 
 	public void UpdateAdvertisement(Advertisement advertisement)
 	{
-		_unitOfWork.AdvertisementRepository.UpdateAdvertisement(advertisement);
-		_unitOfWork.Complete();
+		unitOfWork.AdvertisementRepository.UpdateAdvertisement(advertisement);
+		unitOfWork.Complete();
 	}
 
 	public void FinishAdvertisement(int advertisementId, string userId)
 	{
-		_unitOfWork.AdvertisementRepository.FinishAdvertisement(advertisementId, userId);
-		_unitOfWork.Complete();
+		unitOfWork.AdvertisementRepository.FinishAdvertisement(advertisementId, userId);
+		unitOfWork.Complete();
 	}
 
 	public void DeleteAdvertisement(int advertisementId, string userId)
 	{
-		_unitOfWork.AdvertisementRepository.DeleteAdvertisement(advertisementId, userId);
-		_unitOfWork.Complete();
+		unitOfWork.AdvertisementRepository.DeleteAdvertisement(advertisementId, userId);
+		unitOfWork.Complete();
 	}
 }

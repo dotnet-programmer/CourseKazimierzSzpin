@@ -4,31 +4,30 @@ using Advertisements.WebApp.Data.Core.Repositories;
 
 namespace Advertisements.WebApp.Data.Persistence.Repositories;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository(IApplicationDbContext context) : ICategoryRepository
 {
-	private readonly IApplicationDbContext _context;
+	public IEnumerable<Category> GetCategories()
+		=> context.Categories
+			.OrderBy(x => x.Name)
+			.ToList();
 
-	public CategoryRepository(IApplicationDbContext context) => _context = context;
-
-	public IEnumerable<Category> GetCategories() =>
-		_context.Categories
-		.OrderBy(x => x.Name)
-		.ToList();
-
-	public IEnumerable<Category> GetUserCategories(string userId) =>
-		_context.Categories
+	public IEnumerable<Category> GetUserCategories(string userId)
+		=> context.Categories
 		//.Where(x => x.UserId == userId)
 		.OrderBy(x => x.Name)
 		.ToList();
 
-	//public Category GetCategory(int categoryId, string userId) => _context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
-	public Category GetCategory(int categoryId, string userId) => _context.Categories.Single(x => x.CategoryId == categoryId);
+	//public Category GetCategory(int categoryId, string userId)
+	//=> _context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
+	public Category GetCategory(int categoryId, string userId)
+		=> context.Categories.Single(x => x.CategoryId == categoryId);
 
-	public void AddCategory(Category category) => _context.Categories.Add(category);
+	public void AddCategory(Category category)
+		=> context.Categories.Add(category);
 
 	public void UpdateCategory(Category category)
 	{
-		var categoryToUpdate = _context.Categories.Single(x => x.CategoryId == category.CategoryId);
+		var categoryToUpdate = context.Categories.Single(x => x.CategoryId == category.CategoryId);
 		categoryToUpdate.Name = category.Name;
 	}
 

@@ -30,6 +30,11 @@ internal class DbRepository
 			using (AppDbContext context = new())
 			{
 				var user = context.Users.First(x => x.Name == userWrapper.Name);
+				if (user.Password.StartsWith(StringCipherHelper.NOT_ENCRYPTED_PASSWORD_PREFIX))
+				{
+					user.Password = StringCipherHelper.EncryptString(user.Password.Replace(StringCipherHelper.NOT_ENCRYPTED_PASSWORD_PREFIX, string.Empty));
+					context.SaveChanges();
+				}
 				return StringCipherHelper.DecryptString(user.Password) == password;
 			}
 		}

@@ -8,14 +8,14 @@
     <Setting Name="ServerName" Type="System.String" Scope="User">
       <Value Profile="(Default)">SQLEXPRESS</Value>
     </Setting>
-    <Setting Name="Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">StudentsDiary</Value>
-    </Setting>
-    <Setting Name="User" Type="System.String" Scope="User">
-      <Value Profile="(Default)">dbuser</Value>
-    </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="User" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DBUser</Value>
+    </Setting>
+    <Setting Name="Database" Type="System.String" Scope="User">
+      <Value Profile="(Default)">StudentsDiary</Value>
     </Setting>
   </Settings>
 </SettingsFile>

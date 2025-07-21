@@ -5,7 +5,7 @@ namespace HumanResources.Homework.WpfApp.Models;
 
 internal static class StringCipherHelper
 {
-	private const string NOT_ENCRYPTED_PASSWORD_PREFIX = "encrypt:";
+	public const string NOT_ENCRYPTED_PASSWORD_PREFIX = "encrypt:";
 	private static readonly StringCipher _stringCipher = new("4838731F-FC44-40B9-9952-EE5CCB6C198E");
 
 	public static void EncryptStringFromConfigAndSave(string appSettingName)

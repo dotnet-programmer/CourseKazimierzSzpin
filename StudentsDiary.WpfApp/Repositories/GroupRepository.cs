@@ -9,9 +9,7 @@ internal class GroupRepository
 {
 	public List<Group> GetGroups()
 	{
-		using (AppDbContext context = new())
-		{
-			return context.Groups.ToList();
-		}
+		using AppDbContext context = new();
+		return context.Groups.ToList();
 	}
 }

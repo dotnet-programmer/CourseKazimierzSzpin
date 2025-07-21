@@ -80,9 +80,9 @@ public partial class Main : Form
 		_groups = GroupHelper.GetGroups("Wszyscy");
 		CbGroups.SelectedIndexChanged -= CbGroups_SelectedIndexChanged;
 		CbGroups.DataSource = _groups;
-		CbGroups.SelectedIndexChanged += CbGroups_SelectedIndexChanged;
 		CbGroups.DisplayMember = nameof(Group.Name);
 		CbGroups.ValueMember = nameof(Group.Id);
+		CbGroups.SelectedIndexChanged += CbGroups_SelectedIndexChanged;
 	}
 
 	private void RefreshDiary()

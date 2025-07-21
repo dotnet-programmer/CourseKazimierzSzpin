@@ -17,11 +17,15 @@ namespace StudentsDiary.WpfApp.ViewModels;
 
 internal class MainViewModel : BaseViewModel
 {
-	// INFO - MahApps 6 - dodanie okien dialogowych zgodnych z MVVM
 	private readonly IDialogCoordinator _dialogCoordinator;
 
 	private readonly GroupRepository _groupRepository = new();
 	private readonly StudentRepository _studentRepository = new();
+
+	private ObservableCollection<StudentWrapper> _students;
+	private StudentWrapper _selectedStudent;
+	private ObservableCollection<Group> _groups;
+	private int _selectedGroupId;
 
 	public MainViewModel(IDialogCoordinator instance)
 	{
@@ -30,43 +34,29 @@ internal class MainViewModel : BaseViewModel
 		SetCommands();
 	}
 
-	#region Property binding
-
-	// INFO - Bindowanie właściwości - pełna właściwość (pole + prop), w set dodać OnPropertyChanged()
-
-	private ObservableCollection<StudentWrapper> _students;
 	public ObservableCollection<StudentWrapper> Students
 	{
 		get => _students;
 		set { _students = value; OnPropertyChanged(); }
 	}
 
-	private StudentWrapper _selectedStudent;
 	public StudentWrapper SelectedStudent
 	{
 		get => _selectedStudent;
 		set { _selectedStudent = value; OnPropertyChanged(); }
 	}
 
-	private ObservableCollection<Group> _groups;
 	public ObservableCollection<Group> Groups
 	{
 		get => _groups;
 		set { _groups = value; OnPropertyChanged(); }
 	}
 
-	private int _selectedGroupId;
 	public int SelectedGroupId
 	{
 		get => _selectedGroupId;
 		set { _selectedGroupId = value; OnPropertyChanged(); }
 	}
-
-	#endregion Property binding
-
-	#region Command binding
-
-	// INFO - Bindowanie metod - właściwość ICommand + new RelayCommand(wymagana metoda, opcjonalna metoda)
 
 	public ICommand AddStudentCommand { get; private set; }
 	public ICommand EditStudentCommand { get; private set; }
@@ -77,7 +67,6 @@ internal class MainViewModel : BaseViewModel
 	public ICommand SetColumnsWidthCommand { get; private set; }
 	public ICommand GridDoubleClickCommand { get; private set; }
 
-	// INFO - Bindowanie metod - właściwość ICommand + new RelayCommand(wymagana metoda, opcjonalna metoda)
 	private void SetCommands()
 	{
 		AddStudentCommand = new RelayCommand(AddEditStudent);
@@ -170,11 +159,9 @@ internal class MainViewModel : BaseViewModel
 	{
 		try
 		{
-			using (AppDbContext context = new())
-			{
-				context.Database.OpenConnection();
-				context.Database.CloseConnection();
-			}
+			using AppDbContext context = new();
+			context.Database.OpenConnection();
+			context.Database.CloseConnection();
 			return true;
 		}
 		catch (Exception)
@@ -208,8 +195,6 @@ internal class MainViewModel : BaseViewModel
 
 	private void RefreshDiary()
 		=> Students = new ObservableCollection<StudentWrapper>(_studentRepository.GetStudents(SelectedGroupId));
-
-	#endregion Command binding
 
 	#region okna dialogowe MahApps
 

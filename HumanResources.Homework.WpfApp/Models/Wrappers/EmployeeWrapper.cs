@@ -211,7 +211,7 @@ public class EmployeeWrapper : INotifyDataErrorInfo
 	public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
 	public bool HasErrors 
-		=> _errors.Any();
+		=> _errors.Count != 0;
 
 	public IEnumerable GetErrors(string propertyName) 
 		=> (string.IsNullOrWhiteSpace(propertyName) || !_errors.ContainsKey(propertyName)) ? null : _errors[propertyName];

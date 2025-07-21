@@ -13,9 +13,8 @@ public static class ModelBuilderExtensions
 
 	private static void SeedUsers(ModelBuilder modelBuilder)
 		=> modelBuilder.Entity<User>().HasData(
-			new User { UserId = 1, Name = "admin", Password = StringCipherHelper.EncryptString("admin") },
-			new User { UserId = 2, Name = "user1", Password = StringCipherHelper.EncryptString("user1") }
-			);
+				new User { UserId = 1, Name = "admin", Password = "encrypt:admin" }
+				);
 
 	private static void SeedWorkTimes(ModelBuilder modelBuilder)
 		=> modelBuilder.Entity<WorkTime>().HasData(

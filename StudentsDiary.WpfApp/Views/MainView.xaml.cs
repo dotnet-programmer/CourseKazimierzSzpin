@@ -5,9 +5,6 @@ using StudentsDiary.WpfApp.ViewModels;
 
 namespace StudentsDiary.WpfApp.Views;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : MetroWindow
 {
 	public MainWindow()

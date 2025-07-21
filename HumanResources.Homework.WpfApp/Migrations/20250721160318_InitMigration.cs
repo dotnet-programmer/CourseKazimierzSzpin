@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HumanResources.Homework.WpfApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,11 +87,7 @@ namespace HumanResources.Homework.WpfApp.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Name", "Password" },
-                values: new object[,]
-                {
-                    { 1, "admin", "PF+wFOWVjuyZkVVGnQGorL5b5vDnFJkIegg5htyLgIvl6KHyGmlS6MHJVBSTGVtJ" },
-                    { 2, "user1", "+U4yFjYvx0KURriUGRsSPjQN8Y+NuspIWo62/DaNtK8NXB63JE0WFpAW+6olX2Lt" }
-                });
+                values: new object[] { 1, "admin", "encrypt:admin" });
 
             migrationBuilder.InsertData(
                 table: "WorkTimes",

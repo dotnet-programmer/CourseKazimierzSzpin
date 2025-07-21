@@ -53,29 +53,24 @@ public class UserSettings : IDataErrorInfo
 			switch (columnName)
 			{
 				case nameof(ServerAddress):
-					bool isErrorServerAddress = string.IsNullOrWhiteSpace(ServerAddress);
-					Error = isErrorServerAddress ? "Pole Adres serwera jest wymagane." : string.Empty;
-					_isServerAddressValid = !isErrorServerAddress;
+					_isServerAddressValid = !string.IsNullOrWhiteSpace(ServerAddress);
+					Error = _isServerAddressValid ? string.Empty : "Pole Adres serwera jest wymagane.";
 					break;
 				case nameof(ServerName):
-					bool isErrorServerName = string.IsNullOrWhiteSpace(ServerName);
-					Error = isErrorServerName ? "Pole Nazwa serwera jest wymagane." : string.Empty;
-					_isServerNameValid = !isErrorServerName;
+					_isServerNameValid = !string.IsNullOrWhiteSpace(ServerName);
+					Error = _isServerNameValid ? string.Empty : "Pole Nazwa serwera jest wymagane.";
 					break;
 				case nameof(Database):
-					bool isErrorDatabase = string.IsNullOrWhiteSpace(Database);
-					Error = isErrorDatabase ? "Pole Baza danych jest wymagane." : string.Empty;
-					_isDatabaseValid = !isErrorDatabase;
+					_isDatabaseValid = !string.IsNullOrWhiteSpace(Database);
+					Error = _isDatabaseValid ? string.Empty : "Pole Baza danych jest wymagane.";
 					break;
 				case nameof(User):
-					bool isErrorUser = string.IsNullOrWhiteSpace(User);
-					Error = isErrorUser ? "Pole Użytkownik jest wymagane." : string.Empty;
-					_isUserValid = !isErrorUser;
+					_isUserValid = !string.IsNullOrWhiteSpace(User);
+					Error = _isUserValid ? string.Empty : "Pole Użytkownik jest wymagane.";
 					break;
 				case nameof(Password):
-					bool isErrorPassword = string.IsNullOrWhiteSpace(Password);
-					Error = isErrorPassword ? "Pole Hasło jest wymagane." : string.Empty;
-					_isPasswordValid = !isErrorPassword;
+					_isPasswordValid = !string.IsNullOrWhiteSpace(Password);
+					Error = _isPasswordValid ? string.Empty : "Pole Hasło jest wymagane.";
 					break;
 				default:
 					break;

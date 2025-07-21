@@ -10,7 +10,6 @@ public class Group
 {
 	public int Id { get; set; }
 
-	// INFO - EF Konfiguracja 3 - atrybuty w klasie domenowej - niezalecane rozwiązanie, uzależnia model domenowy od bazy danych
 	//[Required]
 	public string Name { get; set; }
 

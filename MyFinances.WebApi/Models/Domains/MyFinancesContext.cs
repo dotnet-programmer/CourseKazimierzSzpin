@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MyFinances.WebApi.Models.Domains;
 
@@ -10,13 +8,11 @@ public partial class MyFinancesContext : DbContext
     {
     }
 
-    public MyFinancesContext(DbContextOptions<MyFinancesContext> options)
-        : base(options)
+    public MyFinancesContext(DbContextOptions<MyFinancesContext> options) : base(options)
     {
     }
 
     public virtual DbSet<Category> Categories { get; set; }
-
     public virtual DbSet<Operation> Operations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

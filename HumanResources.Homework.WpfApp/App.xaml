@@ -6,11 +6,11 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Styles/ButtonStyle.xaml" />
-				<ResourceDictionary Source="Styles/ComboBoxStyle.xaml" />
-				<ResourceDictionary Source="Styles/DatePickerStyle.xaml" />
-				<ResourceDictionary Source="Styles/LabelStyle.xaml" />
-				<ResourceDictionary Source="Styles/TextBoxStyle.xaml" />
+				<ResourceDictionary Source="Views/Styles/ButtonStyle.xaml" />
+				<ResourceDictionary Source="Views/Styles/ComboBoxStyle.xaml" />
+				<ResourceDictionary Source="Views/Styles/DatePickerStyle.xaml" />
+				<ResourceDictionary Source="Views/Styles/LabelStyle.xaml" />
+				<ResourceDictionary Source="Views/Styles/TextBoxStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

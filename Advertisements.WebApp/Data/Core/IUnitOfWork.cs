@@ -6,6 +6,5 @@ public interface IUnitOfWork
 {
 	IAdvertisementRepository AdvertisementRepository { get; }
 	ICategoryRepository CategoryRepository { get; }
-
 	void Complete();
 }

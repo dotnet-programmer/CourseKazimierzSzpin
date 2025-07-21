@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanResources.Homework.WpfApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240612174519_Init")]
-    partial class Init
+    [Migration("20250721160318_InitMigration")]
+    partial class InitMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -135,13 +135,7 @@ namespace HumanResources.Homework.WpfApp.Migrations
                         {
                             UserId = 1,
                             Name = "admin",
-                            Password = "PF+wFOWVjuyZkVVGnQGorL5b5vDnFJkIegg5htyLgIvl6KHyGmlS6MHJVBSTGVtJ"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            Name = "user1",
-                            Password = "+U4yFjYvx0KURriUGRsSPjQN8Y+NuspIWo62/DaNtK8NXB63JE0WFpAW+6olX2Lt"
+                            Password = "encrypt:admin"
                         });
                 });
 

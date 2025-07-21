@@ -27,8 +27,7 @@ internal class SerializeToXml<T>(string filePath, string fileName) : SerializeTo
 		using (StreamReader stream = new(path))
 		{
 			XmlSerializer serializer = new(typeof(T));
-			var item = (T)serializer.Deserialize(stream);
-			return item;
+			return (T)serializer.Deserialize(stream);
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace HumanResources.Homework.WpfApp.Views.AttachedProperties;
 
 internal class ButtonHelper
 {
-	// Boilerplate code to register attached property "bool? DialogResult"
+	// Code to register attached property "bool? DialogResult" 
 	public static bool? GetDialogResult(DependencyObject obj)
 		=> (bool?)obj.GetValue(DialogResultProperty);
 

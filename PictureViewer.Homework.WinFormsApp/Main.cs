@@ -1,4 +1,3 @@
-using System.IO;
 using PictureViewer.Homework.WinFormsApp.Properties;
 
 namespace PictureViewer.Homework.WinFormsApp;

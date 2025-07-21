@@ -3,15 +3,11 @@ using HumanResources.Homework.WpfApp.Repositories;
 
 namespace HumanResources.Homework.WpfApp;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
 public partial class App : Application
 {
 	private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
 	private readonly LogRepository _logRepository = new();
-
 
 	private async void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 	{

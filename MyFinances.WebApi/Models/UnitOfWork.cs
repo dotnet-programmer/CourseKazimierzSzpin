@@ -3,20 +3,10 @@ using MyFinances.WebApi.Models.Repositories;
 
 namespace MyFinances.WebApi.Models;
 
-public class UnitOfWork
+public class UnitOfWork(MyFinancesContext context)
 {
-	private readonly MyFinancesContext _context;
-
-	public UnitOfWork(MyFinancesContext context)
-	{
-		_context = context;
-		OperationRepository = new(context);
-	}
-
-    public OperationRepository OperationRepository { get; }
+	public OperationRepository OperationRepository { get; } = new(context);
 
 	public void Complete()
-	{
-		_context.SaveChanges();
-	}
+		=> context.SaveChanges();
 }

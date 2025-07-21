@@ -1,7 +1,7 @@
 ﻿<!--
 	INFO - Wiązanie widoku z ViewModel w czasie projektowania - wyświetlanie podpowiedzi IntelliSense:
-	1. dodać: xmlns do pliku ViewModel
-	2. dodać: d:DataContext="{d:DesignInstance Type=viewmodels:PlikViewModel}"
+	1. dodać: xmlns do pliku ViewModel: xmlns:viewmodels="clr-namespace:StudentsDiary.WpfApp.ViewModels"
+	2. dodać: d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
 -->
 
 <!--

@@ -1,13 +1,7 @@
 ﻿namespace MyFinances.WebApi.Models.Response;
 
-public class Error
+public class Error(string source, string message)
 {
-    public Error(string source, string message)
-    {
-        Source = source;
-		Message = message;
-    }
-
-    public string Source { get; set; }
-    public string Message { get; set; }
+	public string Source { get; set; } = source;
+	public string Message { get; set; } = message;
 }

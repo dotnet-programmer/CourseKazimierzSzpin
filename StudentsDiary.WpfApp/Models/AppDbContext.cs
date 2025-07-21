@@ -25,5 +25,12 @@ internal class AppDbContext : DbContext
     {
         // INFO - EF Konfiguracja 1 - dodanie wszystkich konfiguracji
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
+
+		modelBuilder.Entity<Group>().HasData(
+		   new Group { Id = 1, Name = "1A" },
+		   new Group { Id = 2, Name = "1B" },
+		   new Group { Id = 3, Name = "2A" },
+		   new Group { Id = 4, Name = "2B" }
+		   );
+	}
 }

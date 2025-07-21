@@ -4,7 +4,7 @@ namespace StudentsDiary.WinFormsApp.FileSerialization;
 
 internal class SerializeToJson<T>(string filePath, string fileName) : SerializeToFile<T>(filePath, fileName, ".json") where T : new()
 {
-	private readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true };
+	private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true };
 
 	public override void Serialize(T item)
 	{

@@ -15,6 +15,13 @@ internal class MainViewModel : BaseViewModel
 	private readonly EmployeeRepository _employeeRepository = new();
 	private readonly WorkTimeRepository _workTimeRepository = new();
 
+	private ObservableCollection<EmployeeWrapper> _employees;
+	private EmployeeWrapper _selectedEmployee;
+	private ObservableCollection<WorkTimeWrapper> _workTimes;
+	private int _selectedWorkTimeId;
+	private ObservableCollection<Employment> _employments;
+	private Employment _selectedEmployment;
+
 	public MainViewModel()
 	{
 		SetCommands();
@@ -23,51 +30,40 @@ internal class MainViewModel : BaseViewModel
 		RefreshEmployees(null);
 	}
 
-	#region Property binding
-
-	private ObservableCollection<EmployeeWrapper> _employees;
 	public ObservableCollection<EmployeeWrapper> Employees
 	{
 		get => _employees;
 		set { _employees = value; OnPropertyChanged(); }
 	}
 
-	private EmployeeWrapper _selectedEmployee;
 	public EmployeeWrapper SelectedEmployee
 	{
 		get => _selectedEmployee;
 		set { _selectedEmployee = value; OnPropertyChanged(); }
 	}
 
-	private ObservableCollection<WorkTimeWrapper> _workTimes;
 	public ObservableCollection<WorkTimeWrapper> WorkTimes
 	{
 		get => _workTimes;
 		set { _workTimes = value; OnPropertyChanged(); }
 	}
 
-	private int _selectedWorkTimeId;
 	public int SelectedWorkTimeId
 	{
 		get => _selectedWorkTimeId;
 		set { _selectedWorkTimeId = value; OnPropertyChanged(); }
 	}
 
-	private ObservableCollection<Employment> _employments;
 	public ObservableCollection<Employment> Employments
 	{
 		get => _employments;
 		set { _employments = value; OnPropertyChanged(); }
 	}
-
-	private Employment _selectedEmployment;
 	public Employment SelectedEmployment
 	{
 		get => _selectedEmployment;
 		set { _selectedEmployment = value; OnPropertyChanged(); }
 	}
-
-	#endregion Property binding
 
 	public ICommand AddEmployeeCommand { get; private set; }
 	public ICommand EditEmployeeCommand { get; private set; }
@@ -124,8 +120,7 @@ internal class MainViewModel : BaseViewModel
 
 	private void Logout(object commandParameter)
 	{
-		var appLocation = Application.ResourceAssembly.Location;
-		Process.Start(appLocation.EndsWith(".dll") ? appLocation.Replace(".dll", ".exe") : appLocation);
+		Process.Start(Application.ResourceAssembly.Location.Replace(".dll", ".exe"));
 		Application.Current.Shutdown();
 	}
 

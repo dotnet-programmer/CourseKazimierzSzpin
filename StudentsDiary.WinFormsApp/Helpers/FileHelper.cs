@@ -1,5 +1,4 @@
-﻿//using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Xml.Serialization;
 
 namespace StudentsDiary.WinFormsApp.Helpers;
@@ -9,6 +8,8 @@ internal class FileHelper<T>(string filePath, string fileName) where T : new()
 	private const string XmlExt = ".xml";
 	private const string JsonExt = ".json";
 
+	private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true };
+	
 	private readonly string _filePath = filePath;
 	private readonly string _fileName = fileName;
 
@@ -16,11 +17,8 @@ internal class FileHelper<T>(string filePath, string fileName) where T : new()
 	{
 		string path = GetPathToXml();
 		CreateDirectoryIfNotExist(path);
-		using (StreamWriter stream = new(path))
-		{
-			XmlSerializer serializer = new(typeof(T));
-			serializer.Serialize(stream, item);
-		}
+		using StreamWriter stream = new(path);
+		(new XmlSerializer(typeof(T))).Serialize(stream, item);
 	}
 
 	public T DeserializeFromXML()
@@ -32,26 +30,15 @@ internal class FileHelper<T>(string filePath, string fileName) where T : new()
 			return new T();
 		}
 
-		using (StreamReader stream = new(path))
-		{
-			XmlSerializer serializer = new(typeof(T));
-			var item = (T)serializer.Deserialize(stream);
-			return item;
-		}
+		using StreamReader stream = new(path);
+		return (T)(new XmlSerializer(typeof(T))).Deserialize(stream);
 	}
 
 	public void SerializeToJSON(T item)
 	{
 		string path = GetPathToJson();
 		CreateDirectoryIfNotExist(path);
-
-		// using System.Text.Json;
-		var json = JsonSerializer.Serialize(item, new JsonSerializerOptions { WriteIndented = true });
-
-		// using Newtonsoft.Json;
-		//var json = JsonConvert.SerializeObject(item, Formatting.Indented);
-
-		File.WriteAllText(path, json);
+		File.WriteAllText(path, JsonSerializer.Serialize(item, _jsonSerializerOptions));
 	}
 
 	public T DeserializeFromJSON()
@@ -63,13 +50,7 @@ internal class FileHelper<T>(string filePath, string fileName) where T : new()
 			return new T();
 		}
 
-		var json = File.ReadAllText(path);
-
-		// using System.Text.Json;
-		return JsonSerializer.Deserialize<T>(json);
-
-		// using Newtonsoft.Json;
-		//return JsonConvert.DeserializeObject<T>(json);
+		return JsonSerializer.Deserialize<T>(File.ReadAllText(path));
 	}
 
 	private void CreateDirectoryIfNotExist(string path)

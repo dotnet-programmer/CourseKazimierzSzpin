@@ -9,32 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Advertisements.WebApp.Controllers;
 
 [Authorize]
-public class AdvertisementController : Controller
+public class AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService) : Controller
 {
-	private readonly IAdvertisementService _advertisementService;
-	private readonly ICategoryService _categoryService;
-
-	// TODO - lista zdań:
-	// zarządzanie ogłoszeniami przez usera
-	// dodać dane początkowe przy tworzeniu BD - user admin
-	// zarządzanie kategoriami dla admina
-	// dodać użytkownikom adres przy rejestracji
-	// poprawic walidację ModelState.IsValid
-	// przenieść logikę tworzenia ViewModeli z kontrolera do serwisów
-	// zrobić inny widok do pokazywania ogłoszenia, nie może używać tego samego co dodawanie
-	// przerobić widok strony głównej, żeby ogłoszenie było całym ładnym elementem zapakowanym w jakiś kontener i tabelka wyświetlała te kontenery a nie pojedyncze ogłoszenia (tak jak na allegro czy olx)
-
-	public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService)
-	{
-		_advertisementService = advertisementService;
-		_categoryService = categoryService;
-	}
-
 	[AllowAnonymous]
 	public IActionResult Advertisements()
 	{
-		// TODO - przenieść to gdzieś np. do serwisu, albo wymyślić jakieś ładniejsze rozwiązanie
-		var advertisements = _advertisementService.GetAdvertisements(new());
+		var advertisements = advertisementService.GetAdvertisements(new());
 
 		List<AdvertisementsTableItem> advertisementsTableItems = [];
 		foreach (var item in advertisements)
@@ -45,16 +25,9 @@ public class AdvertisementController : Controller
 		AdvertisementsViewModel vm = new()
 		{
 			Advertisements = advertisementsTableItems,
-			Categories = _categoryService.GetCategories(),
+			Categories = categoryService.GetCategories(),
 			FilterAdvertisements = new()
 		};
-
-		//AdvertisementsViewModel vm = new()
-		//{
-		//	Advertisements = _advertisementService.GetAdvertisements(new()),
-		//	Categories = _categoryService.GetCategories(),
-		//	FilterAdvertisements = new()
-		//};
 
 		return View(vm);
 	}
@@ -62,7 +35,7 @@ public class AdvertisementController : Controller
 	[HttpPost]
 	public IActionResult Advertisements(AdvertisementsViewModel advertisementsViewModel)
 	{
-		var advertisements = _advertisementService.GetAdvertisements(new()
+		var advertisements = advertisementService.GetAdvertisements(new()
 		{
 			Title = advertisementsViewModel.FilterAdvertisements.Title,
 			CategoryId = advertisementsViewModel.FilterAdvertisements.CategoryId,
@@ -80,14 +53,13 @@ public class AdvertisementController : Controller
 		return PartialView("_AdvertisementsTable", advertisementsTableItems);
 	}
 
-	// TODO - zrobić inny widok do pokazywania ogłoszenia, nie może używać tego samego co dodawanie
 	public IActionResult Advertisement(int advertisementId = 0)
 	{
 		var userId = User.GetUserId();
 
 		Advertisement advertisement = advertisementId == 0 ?
 			new Advertisement { AdvertisementId = advertisementId, UserId = userId, Added = DateTime.Today } :
-			_advertisementService.GetAdvertisement(advertisementId, userId);
+			advertisementService.GetAdvertisement(advertisementId, userId);
 
 		return View(GetAdvertisementViewModel(advertisement));
 	}
@@ -96,10 +68,7 @@ public class AdvertisementController : Controller
 	[ValidateAntiForgeryToken]
 	public IActionResult Advertisement(AdvertisementViewModel advertisementViewModel)
 	{
-		if (advertisementViewModel is null)
-		{
-			throw new ArgumentNullException(nameof(advertisementViewModel));
-		}
+		ArgumentNullException.ThrowIfNull(advertisementViewModel);
 
 		advertisementViewModel.Advertisement.UserId = User.GetUserId();
 
@@ -123,28 +92,30 @@ public class AdvertisementController : Controller
 		// The user object is now completed filled, so it can be stored in the database in the normal Entity Framework way.
 		if (advertisementViewModel.Advertisement.AdvertisementId == 0)
 		{
-			_advertisementService.AddAdvertisement(advertisementViewModel.Advertisement);
+			advertisementService.AddAdvertisement(advertisementViewModel.Advertisement);
 		}
 		else
 		{
-			_advertisementService.UpdateAdvertisement(advertisementViewModel.Advertisement);
+			advertisementService.UpdateAdvertisement(advertisementViewModel.Advertisement);
 		}
 
 		return RedirectToAction("Advertisements");
 	}
 
-	private AdvertisementViewModel GetAdvertisementViewModel(Advertisement advertisement) => new()
+	private AdvertisementViewModel GetAdvertisementViewModel(Advertisement advertisement)
+		=> new()
 		{
 			Advertisement = advertisement,
 			Heading = advertisement.AdvertisementId == 0 ? "Dodawanie nowego ogłoszenia" : "Edytowanie ogłoszenia",
-			Categories = _categoryService.GetCategories(),
+			Categories = categoryService.GetCategories(),
 		};
 
-	private AdvertisementViewModel GetAdvertisementViewModel(AdvertisementViewModel advertisementViewModel) => new()
-	{
-		Advertisement = advertisementViewModel.Advertisement,
-		Heading = advertisementViewModel.Advertisement.AdvertisementId == 0 ? "Dodawanie nowego ogłoszenia" : "Edytowanie ogłoszenia",
-		Categories = _categoryService.GetCategories(),
-		Picture = advertisementViewModel.Picture
-	};
+	private AdvertisementViewModel GetAdvertisementViewModel(AdvertisementViewModel advertisementViewModel)
+		=> new()
+		{
+			Advertisement = advertisementViewModel.Advertisement,
+			Heading = advertisementViewModel.Advertisement.AdvertisementId == 0 ? "Dodawanie nowego ogłoszenia" : "Edytowanie ogłoszenia",
+			Categories = categoryService.GetCategories(),
+			Picture = advertisementViewModel.Picture
+		};
 }

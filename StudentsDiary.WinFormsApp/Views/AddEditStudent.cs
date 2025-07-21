@@ -21,10 +21,6 @@ public partial class AddEditStudent : Form
 
 	public AddEditStudent(Student student) : this()
 	{
-		//if (student is null)
-		//{
-		//	throw new ArgumentNullException(nameof(student));
-		//}
 		ArgumentNullException.ThrowIfNull(student);
 		_student = student;
 		Text = "Edytowanie danych ucznia";
@@ -127,7 +123,7 @@ public partial class AddEditStudent : Form
 		});
 
 		static int GetMaxStudentId(List<Student> students)
-			=> students.Any() 
+			=> students.Count != 0
 				? students.Max(x => x.Id) + 1 
 				: 1;
 	}

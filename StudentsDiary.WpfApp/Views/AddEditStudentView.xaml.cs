@@ -4,9 +4,6 @@ using StudentsDiary.WpfApp.ViewModels;
 
 namespace StudentsDiary.WpfApp.Views;
 
-/// <summary>
-/// Interaction logic for AddEditStudentView.xaml
-/// </summary>
 public partial class AddEditStudentView : MetroWindow
 {
 	public AddEditStudentView(StudentWrapper student = null)

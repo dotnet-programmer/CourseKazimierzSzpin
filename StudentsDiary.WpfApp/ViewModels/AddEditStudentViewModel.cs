@@ -13,6 +13,11 @@ internal class AddEditStudentViewModel : BaseViewModel
 	private readonly GroupRepository _groupRepository = new();
 	private readonly StudentRepository _studentRepository = new();
 
+	private ObservableCollection<Group> _groups;
+	private int _selectedGroupId;
+	private StudentWrapper _student;
+	private bool _isUpdate;
+
 	public AddEditStudentViewModel(StudentWrapper student = null)
 	{
 		if (student is null)
@@ -35,40 +40,29 @@ internal class AddEditStudentViewModel : BaseViewModel
 
 	// INFO - MVVM Zamykanie okna 4 - użycie eventa
 	//public event Action CloseAction;
-
-	#region Property binding
-
-	private ObservableCollection<Group> _groups;
 	public ObservableCollection<Group> Groups
 	{
 		get => _groups;
 		set { _groups = value; OnPropertyChanged(); }
 	}
 
-	private int _selectedGroupId;
 	public int SelectedGroupId
 	{
 		get => _selectedGroupId;
 		set { _selectedGroupId = value; OnPropertyChanged(); }
 	}
 
-	private StudentWrapper _student;
 	public StudentWrapper Student
 	{
 		get => _student;
 		set { _student = value; OnPropertyChanged(); }
 	}
 
-	private bool _isUpdate;
 	public bool IsUpdate
 	{
 		get => _isUpdate;
 		set { _isUpdate = value; OnPropertyChanged(); }
 	}
-
-	#endregion Property binding
-
-	#region Command binding
 
 	public ICommand ConfirmCommand { get; private set; }
 	public ICommand CloseWindowCommand { get; private set; }
@@ -118,8 +112,6 @@ internal class AddEditStudentViewModel : BaseViewModel
 
 	private void UpdateStudent()
 		=> _studentRepository.UpdateStudent(Student);
-
-	#endregion Command binding
 
 	private void SetGroups()
 	{

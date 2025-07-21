@@ -11,6 +11,14 @@ internal class AddEditEmployeeViewModel : BaseViewModel
 	private readonly EmployeeRepository _employeeRepository = new();
 	private readonly WorkTimeRepository _workTimeRepository = new();
 
+	private EmployeeWrapper _employeeWrapper;
+
+	private bool _isUpdate;
+	private bool _isFireDateVisible;
+	private bool _isFireTheEmployee;
+	private ObservableCollection<WorkTimeWrapper> _workTimes;
+	private int _selectedWorkTimeId;
+
 	public AddEditEmployeeViewModel(EmployeeWrapper employeeWrapper = null, bool fireTheEmployee = false)
 	{
 		if (employeeWrapper == null)
@@ -33,51 +41,41 @@ internal class AddEditEmployeeViewModel : BaseViewModel
 		SetWorkTimes();
 	}
 
-	#region Property binding
-
-	private EmployeeWrapper _employeeWrapper;
 	public EmployeeWrapper Employee
 	{
 		get => _employeeWrapper;
 		set { _employeeWrapper = value; OnPropertyChanged(); }
 	}
 
-	private bool _isUpdate;
 	public bool IsUpdate
 	{
 		get => _isUpdate;
 		set { _isUpdate = value; OnPropertyChanged(); }
 	}
 
-	private bool _isFireDateVisible;
 	public bool IsFireDateVisible
 	{
 		get => _isFireDateVisible;
 		set { _isFireDateVisible = value; OnPropertyChanged(); }
 	}
 
-	private bool _isFireTheEmployee;
 	public bool IsFireTheEmployee
 	{
 		get => !_isFireTheEmployee;
 		set { _isFireTheEmployee = value; OnPropertyChanged(); }
 	}
 
-	private ObservableCollection<WorkTimeWrapper> _workTimes;
 	public ObservableCollection<WorkTimeWrapper> WorkTimes
 	{
 		get => _workTimes;
 		set { _workTimes = value; OnPropertyChanged(); }
 	}
 
-	private int _selectedWorkTimeId;
 	public int SelectedWorkTimeId
 	{
 		get => _selectedWorkTimeId;
 		set { _selectedWorkTimeId = value; OnPropertyChanged(); }
 	}
-
-	#endregion Property binding
 
 	public ICommand ConfirmCommand { get; private set; }
 

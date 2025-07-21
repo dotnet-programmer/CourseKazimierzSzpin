@@ -7,7 +7,5 @@ namespace Advertisements.WebApp.Controllers;
 public class CategoryController : Controller
 {
 	public IActionResult Categories()
-	{
-		return View();
-	}
+		=> View();
 }

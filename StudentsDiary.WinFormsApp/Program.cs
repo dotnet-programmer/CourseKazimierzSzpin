@@ -7,9 +7,6 @@ internal static class Program
 
 	public static readonly string DataFilePath = Path.Combine(Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%"), "StudentsDiary");
 
-	/// <summary>
-	///  The main entry point for the application.
-	/// </summary>
 	[STAThread]
 	private static void Main()
 	{

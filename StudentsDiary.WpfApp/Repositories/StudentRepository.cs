@@ -13,23 +13,21 @@ internal class StudentRepository
 {
 	public List<StudentWrapper> GetStudents(int groupId)
 	{
-		using (AppDbContext context = new())
+		using AppDbContext context = new();
+		var students = context.Students
+			.Include(x => x.Group)
+			.Include(x => x.Ratings)
+			.AsQueryable();
+
+		if (groupId != 0)
 		{
-			var students = context.Students
-				.Include(x => x.Group)
-				.Include(x => x.Ratings)
-				.AsQueryable();
-
-			if (groupId != 0)
-			{
-				students = students.Where(x => x.GroupId == groupId);
-			}
-
-			return students
-				.ToList()
-				.Select(x => x.ToWrapper())
-				.ToList();
+			students = students.Where(x => x.GroupId == groupId);
 		}
+
+		return students
+			.ToList()
+			.Select(x => x.ToWrapper())
+			.ToList();
 	}
 
 	public void AddStudent(StudentWrapper studentWrapper)
@@ -37,30 +35,25 @@ internal class StudentRepository
 		Student student = studentWrapper.ToDao();
 		List<Rating> ratings = studentWrapper.ToRatingDao();
 
-		using (AppDbContext context = new())
+		using AppDbContext context = new();
+		var dbStudent = context.Students.Add(student);
+		context.SaveChanges();
+
+		ratings.ForEach(x =>
 		{
-			var dbStudent = context.Students.Add(student);
+			x.StudentId = dbStudent.Entity.Id;
+			context.Ratings.Add(x);
+		});
 
-			context.SaveChanges();
-
-			ratings.ForEach(x =>
-			{
-				x.StudentId = dbStudent.Entity.Id;
-				context.Ratings.Add(x);
-			});
-
-			context.SaveChanges();
-		}
+		context.SaveChanges();
 	}
 
 	public void DeleteStudent(int id)
 	{
-		using (AppDbContext context = new())
-		{
-			var studentToDelete = context.Students.Find(id);
-			context.Students.Remove(studentToDelete);
-			context.SaveChanges();
-		}
+		using AppDbContext context = new();
+		var studentToDelete = context.Students.Find(id);
+		context.Students.Remove(studentToDelete);
+		context.SaveChanges();
 	}
 
 	public void UpdateStudent(StudentWrapper studentWrapper)
@@ -68,12 +61,10 @@ internal class StudentRepository
 		Student student = studentWrapper.ToDao();
 		List<Rating> newRatings = studentWrapper.ToRatingDao();
 
-		using (AppDbContext context = new())
-		{
-			UpdateStudentProperties(context, student);
-			UpdateStudentRatings(context, student, newRatings);
-			context.SaveChanges();
-		}
+		using AppDbContext context = new();
+		UpdateStudentProperties(context, student);
+		UpdateStudentRatings(context, student, newRatings);
+		context.SaveChanges();
 	}
 
 	private static void UpdateStudentProperties(AppDbContext context, Student student)

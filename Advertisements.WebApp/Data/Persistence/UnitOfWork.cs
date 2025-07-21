@@ -4,19 +4,11 @@ using Advertisements.WebApp.Data.Persistence.Repositories;
 
 namespace Advertisements.WebApp.Data.Persistence;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(IApplicationDbContext context) : IUnitOfWork
 {
-	private readonly IApplicationDbContext _context;
+	public IAdvertisementRepository AdvertisementRepository { get; } = new AdvertisementRepository(context);
+	public ICategoryRepository CategoryRepository { get; } = new CategoryRepository(context);
 
-	public UnitOfWork(IApplicationDbContext context)
-	{
-		_context = context;
-		AdvertisementRepository = new AdvertisementRepository(context);
-		CategoryRepository = new CategoryRepository(context);
-	}
-
-	public IAdvertisementRepository AdvertisementRepository { get; }
-	public ICategoryRepository CategoryRepository { get; }
-
-	public void Complete() => _context.SaveChanges();
+	public void Complete()
+		=> context.SaveChanges();
 }

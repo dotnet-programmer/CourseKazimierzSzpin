@@ -10,6 +10,8 @@ internal class SettingsViewModel : BaseViewModel
 {
 	private readonly bool _canCloseWindow;
 
+	private UserSettings _userSettings;
+
 	public SettingsViewModel(bool canCloseWindow)
 	{
 		SetCommands();
@@ -17,7 +19,6 @@ internal class SettingsViewModel : BaseViewModel
 		_canCloseWindow = canCloseWindow;
 	}
 
-	private UserSettings _userSettings;
 	public UserSettings UserSettings
 	{
 		get => _userSettings;
@@ -56,10 +57,7 @@ internal class SettingsViewModel : BaseViewModel
 
 	private static void RestartApplication()
 	{
-		var appLocation = Application.ResourceAssembly.Location;
-		Process.Start(appLocation.EndsWith(".dll")
-			? appLocation.Replace(".dll", ".exe")
-			: appLocation);
+		Process.Start(Application.ResourceAssembly.Location.Replace(".dll", ".exe"));
 		Application.Current.Shutdown();
 	}
 }

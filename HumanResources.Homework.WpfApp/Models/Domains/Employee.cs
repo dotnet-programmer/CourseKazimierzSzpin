@@ -14,8 +14,6 @@ public class Employee
 	public string Address { get; set; }
 	public string Comments { get; set; }
 
-	// ****************************************************************
-
 	public int WorkTimeId { get; set; }
 	public WorkTime WorkTime { get; set; }
 }
