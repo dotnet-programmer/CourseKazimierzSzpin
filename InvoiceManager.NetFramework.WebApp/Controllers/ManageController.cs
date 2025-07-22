@@ -38,7 +38,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			private set => _userManager = value;
 		}
 
-		//
 		// GET: /Manage/Index
 		public async Task<ActionResult> Index(ManageMessageId? message)
 		{
@@ -63,7 +62,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(model);
 		}
 
-		//
 		// POST: /Manage/RemoveLogin
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -87,11 +85,9 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return RedirectToAction("ManageLogins", new { Message = message });
 		}
 
-		//
 		// GET: /Manage/AddPhoneNumber
 		public ActionResult AddPhoneNumber() => View();
 
-		//
 		// POST: /Manage/AddPhoneNumber
 		[HttpPost]
 		[ValidateAntiForgeryToken]

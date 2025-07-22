@@ -13,16 +13,16 @@ namespace InvoiceManager.NetFramework.WebApp
 {
 	public class EmailService : IIdentityMessageService
 	{
-		public Task SendAsync(IdentityMessage message) =>
-			// Plug in your email service here to send an email.
-			Task.FromResult(0);
+		// Plug in your email service here to send an email.
+		public Task SendAsync(IdentityMessage message)
+			=> Task.FromResult(0);
 	}
 
 	public class SmsService : IIdentityMessageService
 	{
-		public Task SendAsync(IdentityMessage message) =>
-			// Plug in your SMS service here to send a text message.
-			Task.FromResult(0);
+		// Plug in your SMS service here to send a text message.
+		public Task SendAsync(IdentityMessage message)
+			=> Task.FromResult(0);
 	}
 
 	// Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
@@ -74,8 +74,7 @@ namespace InvoiceManager.NetFramework.WebApp
 			var dataProtectionProvider = options.DataProtectionProvider;
 			if (dataProtectionProvider != null)
 			{
-				manager.UserTokenProvider =
-					new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+				manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
 			}
 			return manager;
 		}
@@ -89,8 +88,10 @@ namespace InvoiceManager.NetFramework.WebApp
 		{
 		}
 
-		public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user) => user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+		public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+			=> user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
 
-		public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context) => new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+		public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+			=> new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
 	}
 }

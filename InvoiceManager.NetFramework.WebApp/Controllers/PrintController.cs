@@ -13,13 +13,15 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 	{
 		private readonly InvoiceRepository _invoiceRepository = new InvoiceRepository();
 
+		// Generowanie PDF za pomocą NuGet: Rotativa
+
 		// kod testowy, do wyświetlenia w przeglądarce podglądu
-		//public ActionResult InvoiceTemplate(int id)
-		//{
-		//	var userId = User.Identity.GetUserId();
-		//	Invoice invoice = _invoiceRepository.GetInvoice(id, userId);
-		//	return View(invoice);
-		//}
+		public ActionResult InvoiceTemplate(int id)
+		{
+			var userId = User.Identity.GetUserId();
+			Invoice invoice = _invoiceRepository.GetInvoice(id, userId);
+			return View(invoice);
+		}
 
 		// pierwsza akcja, na podstawie przekazanego id konwertuje fakturę do tablicy bajtów
 		public ActionResult InvoiceToPdf(int invoiceId)
@@ -42,7 +44,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return Json(new { FileGuid = handle, FileName = $@"Faktura_{invoice.Id}.pdf" });
 		}
 
-		// druga akcja
 		public ActionResult DownloadInvoicePdf(string fileGuid, string fileName)
 		{
 			// na podstawie wygenerowanego wcześniej Guid oraz nazwy pliku sprawdzenie czy po stronie serwera znajduje się tymczasowy plik
@@ -53,6 +54,7 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 			// jeśli jest plik w tymczasowym zapisie TempData to odczyt, rzutowanie na tablicę bajtów i zwrócenie gotowego pliku
 			var data = TempData[fileGuid] as byte[];
+
 			// parametry - tablica bajtów, jaki to jest plik, nazwa pliku
 			return File(data, "application/pdf", fileName);
 		}

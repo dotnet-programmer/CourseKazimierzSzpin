@@ -17,6 +17,7 @@ namespace InvoiceManager.NetFramework.WebApp.Models.Domains
 
 		public int AddressId { get; set; }
 
+		// każdy użytkownik ma swoich klientów
 		[Required]
 		[ForeignKey(nameof(User))]
 		public string UserId { get; set; }

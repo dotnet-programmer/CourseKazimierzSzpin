@@ -12,6 +12,7 @@
 
 	@if (!isNewInvoice)
 	{
+		@*przekazanie invoiceId żeby w ontrolerze wiedzieć, do której faktury dodać tą pozycję*@
 		<button class="btn btn-primary mb-3"
 				onclick='window.location.href="@Url.Action("InvoicePosition", "Home", new { invoiceId = Model.Invoice.Id })"'>
 			Dodaj pozycję
@@ -63,9 +64,17 @@
 
 				<div class="mb-3">
 					@Html.LabelFor(x => x.Invoice.ClientId)
-					@* new SelectList(Model.Clients, "Id", "Name") - Model.Clients to źródło danych, "Id" określa klucz, a "Name" określa co będzie wyświetlane
-						"-- Wybierz klienta --" - określa domyślną wyświetlaną wartość *@
-					@Html.DropDownListFor(x => x.Invoice.ClientId, new SelectList(Model.Clients, "Id", "Name"), "-- Wybierz klienta --", new { @class = "form-control" })
+
+					@* new SelectList(Model.Clients, "Id", "Name") 
+						Model.Clients to źródło danych, 
+						"Id" określa klucz, 
+						"Name" określa co będzie wyświetlane
+						"-- Wybierz klienta --" określa domyślną wyświetlaną wartość *@
+					@Html.DropDownListFor(
+						x => x.Invoice.ClientId,
+						new SelectList(Model.Clients, "Id", "Name"),
+						"-- Wybierz klienta --", 
+						new { @class = "form-control" })
 					@Html.ValidationMessageFor(x => x.Invoice.ClientId)
 				</div>
 
@@ -79,7 +88,11 @@
 
 				<div class="mb-3">
 					@Html.LabelFor(x => x.Invoice.MethodOfPaymentId)
-					@Html.DropDownListFor(x => x.Invoice.MethodOfPaymentId, new SelectList(Model.MethodOfPayments, "Id", "Name"), "-- Wybierz sposób płatności --", new { @class = "form-control" })
+					@Html.DropDownListFor(
+						x => x.Invoice.MethodOfPaymentId,
+						new SelectList(Model.MethodOfPayments, "Id", "Name"),
+						"-- Wybierz sposób płatności --",
+						new { @class = "form-control" })
 					@Html.ValidationMessageFor(x => x.Invoice.MethodOfPaymentId)
 				</div>
 
@@ -147,6 +160,7 @@
 			};
 		}
 
+		@*skrypty i funkcje nie mogą być definiowane w widoku częściowym (partial), tylko poziom wyżej*@
         function deleteInvoicePosition(positionId, invoiceId, btn) {
             if (!confirm("Czy na pewno chcesz usunąć pozycję?")) {
                 return;

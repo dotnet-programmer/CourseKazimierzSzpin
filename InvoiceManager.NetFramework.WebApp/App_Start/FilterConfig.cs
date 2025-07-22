@@ -9,6 +9,8 @@ namespace InvoiceManager.NetFramework.WebApp
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new HandleErrorAttribute());
+
+			// INFO - globalna obsługa wyjątków - klasa implementująca IExceptionFilter
 			filters.Add(new CustomExceptionFilter());
 
 			// INFO - własna klasa atrybutu Action Filter zastosowana dla wszystkich akcji we wszystkich kontrolerach

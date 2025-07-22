@@ -6,6 +6,7 @@
 
 <h1 class="mb-3">@Model.Heading</h1>
 
+@* zapis za pomocą @using (Html.BeginForm("", "")) bo po kliknięciu Submit cały widok będzie odświeżony *@
 @using (Html.BeginForm("Task", "Task"))
 {
 	<p class="alert alert-info mt-4 mb-4">
@@ -61,16 +62,29 @@
 
 @section Scripts
 {
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$('#Term').datepicker({
-				format: "dd-mm-yyyy",
-				language: "pl",
-				multidate: false,
-				autoclose: true,
-				todayHighlight: true,
-				forceParse: false
-			});
-		});
-	</script>
+    @* konfiguracja przeniesiona do osobnego pliku *@
+    @* <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Term').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+        });
+    </script> *@
+
+    @* Korzyści: 
+    - Reużywalność: możesz wywołać initDatepicker z innym selektorem.
+    - Czytelność: czystsze widoki.
+    - Testowalność: łatwiej przetestować osobno logikę inicjalizacji.
+    Jeśli chcesz zainicjalizować wiele pól, możesz np. przekazać klasę zamiast ID i użyć: initDatepicker('.datepicker'); *@
+    <script src="~/js/datepicker-init.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            initDatepicker('#Term');
+        });
+    </script>
 }

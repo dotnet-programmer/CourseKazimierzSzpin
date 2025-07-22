@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyTasks.WebApp.Core.Models;
 using MyTasks.WebApp.Core.Services;
 using MyTasks.WebApp.Core.ViewModels;
 using MyTasks.WebApp.Persistence.Extensions;
@@ -8,34 +9,21 @@ using Task = MyTasks.WebApp.Core.Models.Domains.Task;
 namespace MyTasks.WebApp.Controllers;
 
 [Authorize]
-public class TaskController : Controller
+public class TaskController(ITaskService taskService, ICategoryService categoryService) : Controller
 {
-	private readonly ITaskService _taskService;
-	private readonly ICategoryService _categoryService;
-
-	// context jest przekazywany przez Dependency Injection
-	public TaskController(ITaskService taskService, ICategoryService categoryService)
-	{
-		_taskService = taskService;
-		_categoryService = categoryService;
-	}
-
+	// akcja wyświetlana jako strona główna ze wszystkimi zadaniami
 	public IActionResult Tasks()
-	{
-		TasksViewModel vm = new()
+		=> View(new TasksViewModel()
 		{
-			Tasks = _taskService.GetTasks(new() { UserId = User.GetUserId() }),
-			Categories = _categoryService.GetCategories(User.GetUserId()),
+			Tasks = taskService.GetTasks(new GetTasksParams() { UserId = User.GetUserId() }),
+			Categories = categoryService.GetCategories(User.GetUserId()),
 			FilterTasks = new(),
-		};
-
-		return View(vm);
-	}
+		});
 
 	[HttpPost]
 	public IActionResult Tasks(TasksViewModel tasksViewModel)
 	{
-		var tasks = _taskService.GetTasks(new()
+		var tasks = taskService.GetTasks(new GetTasksParams()
 		{
 			UserId = User.GetUserId(),
 			IsExecuted = tasksViewModel.FilterTasks.IsExecuted,
@@ -43,16 +31,18 @@ public class TaskController : Controller
 			Title = tasksViewModel.FilterTasks.Title,
 		});
 
+		// PartialView bo zwracany widok częściowy, czyli sam HTML
 		return PartialView("_TasksTable", tasks);
 	}
 
 	public IActionResult Task(int taskId = 0)
 	{
+		// TODO: przenieść całość do GetTaskViewModel(taskId)
 		var userId = User.GetUserId();
 
 		Task task = taskId == 0 ?
 			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } :
-			_taskService.GetTask(taskId, userId);
+			taskService.GetTask(taskId, userId);
 
 		return View(GetTaskViewModel(task));
 	}
@@ -71,11 +61,11 @@ public class TaskController : Controller
 
 		if (task.TaskId == 0)
 		{
-			_taskService.AddTask(task);
+			taskService.AddTask(task);
 		}
 		else
 		{
-			_taskService.UpdateTask(task);
+			taskService.UpdateTask(task);
 		}
 
 		return RedirectToAction("Tasks");
@@ -86,8 +76,7 @@ public class TaskController : Controller
 	{
 		try
 		{
-			var userId = User.GetUserId();
-			_taskService.DeleteTask(taskId, userId);
+			taskService.DeleteTask(taskId, User.GetUserId());
 		}
 		catch (Exception ex)
 		{
@@ -103,8 +92,7 @@ public class TaskController : Controller
 	{
 		try
 		{
-			var userId = User.GetUserId();
-			_taskService.FinishTask(taskId, userId);
+			taskService.FinishTask(taskId, User.GetUserId());
 		}
 		catch (Exception ex)
 		{
@@ -115,10 +103,11 @@ public class TaskController : Controller
 		return Json(new { success = true });
 	}
 
-	private TaskViewModel GetTaskViewModel(Task task) => new()
-	{
-		Task = task,
-		Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
-		Categories = _categoryService.GetCategories(User.GetUserId())
-	};
+	private TaskViewModel GetTaskViewModel(Task task)
+		=> new()
+		{
+			Task = task,
+			Heading = task.TaskId == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania",
+			Categories = categoryService.GetCategories(User.GetUserId())
+		};
 }

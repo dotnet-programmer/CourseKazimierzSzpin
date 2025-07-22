@@ -10,3 +10,6 @@ namespace InvoiceManager.NetFramework.WebApp
 		public void Configuration(IAppBuilder app) => ConfigureAuth(app);
 	}
 }
+
+// Szablon aplikacji: ASP.NET Web Application (.NET Framework)
+// MVC + Authentication - Individual User Accounts + HTTPS

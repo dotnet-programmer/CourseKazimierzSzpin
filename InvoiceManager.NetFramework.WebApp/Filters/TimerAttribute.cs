@@ -8,9 +8,9 @@ namespace InvoiceManager.NetFramework.WebApp.Filters
 	{
 		private Stopwatch _stopWatch;
 
-		public TimerAttribute() =>
-			// Powinniśmy być ostatnim filtrem – tuż przed akcją
-			this.Order = int.MaxValue;
+		// Powinniśmy być ostatnim filtrem – tuż przed akcją
+		public TimerAttribute()
+			=>	Order = int.MaxValue;
 
 		// zawsze wywoływana przed wywołaniem określonej akcji na której został zastosowany atrybut
 		public override void OnActionExecuting(ActionExecutingContext filterContext)

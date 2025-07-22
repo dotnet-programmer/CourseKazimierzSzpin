@@ -9,6 +9,7 @@ namespace InvoiceManager.NetFramework.WebApp
 {
 	public class MvcApplication : System.Web.HttpApplication
 	{
+		// INFO - Global.asax - przy starcie aplikacji wywo³uje ró¿ne metody konfiguracyjne
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
@@ -17,7 +18,7 @@ namespace InvoiceManager.NetFramework.WebApp
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 		}
 
-		// INFO - Ustawienia regionalne - strona serwera
+		// INFO - Ustawienia regionalne - strona serwera (ta metoda jest wywo³ywana przed ka¿dym requestem)
 		protected void Application_BeginRequest(object sender, EventArgs e)
 		{
 			CultureInfo cultureInfo = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();

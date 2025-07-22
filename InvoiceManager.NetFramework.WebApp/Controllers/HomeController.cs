@@ -34,38 +34,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 
 			// przekazanie danych jako model z kontrolera do widoku
 			string test = "testy 123";
-
+			
 			ViewBag.MyNumber = test;
-
-			// INFO - Sesja
-			// pobranie wartości sesji
-			int sessionValue = GetSession();
-			// zwiększenie wartości sesji
-			sessionValue++;
-			// aktualizacja wartości sesji
-			UpdateSession(sessionValue);
-			// wyświetlenie wartości sesji w widoku za pomocą ViewBag
-			ViewBag.SessionValue = sessionValue;
-
-			// INFO - Cookie
-			// pobranie wartości cookie
-			int cookieValue = GetCookie();
-			// zwiększenie wartości cookie
-			cookieValue++;
-			// aktualizacja wartości cookie
-			UpdateCookie(cookieValue);
-			// wyświetlenie wartości cookie w widoku za pomocą ViewBag
-			ViewBag.CookieValue = cookieValue;
-
-			// INFO - Cache
-			// pobranie wartości cache
-			int cacheValue = GetCache();
-			// zwiększenie wartości cache
-			cacheValue++;
-			// aktualizacja wartości cache
-			UpdateCache(cacheValue);
-			// wyświetlenie wartości cache w widoku za pomocą ViewBag
-			ViewBag.CacheValue = cacheValue;
 
 			return View((object)test);
 		}
@@ -92,6 +62,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		public ActionResult Invoice(int invoiceId = 0)
 		{
 			var userId = GetUserId();
+			// przenieść logikę do GetInvoice(int invoiceId) =>  (invoiceId == 0) ? GetNewInvoice(userId) : _invoiceRepository.GetInvoice(invoiceId, userId);
+			// GetUserId i Invoice przenieść do Prepare..... żeby nic poza tym tuaj nie było, wywołanie bezpośrenido w return View()
 			Invoice invoice = (invoiceId == 0) ? GetNewInvoice(userId) : _invoiceRepository.GetInvoice(invoiceId, userId);
 			EditInvoiceViewModel viewModel = PrepareEditInvoiceViewModel(invoice, userId);
 			return View(viewModel);
@@ -153,7 +125,7 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			}
 
 			Product product = _productRepository.GetProduct(invoicePosition.ProductId);
-			invoicePosition.Value = invoicePosition.Quantity + product.Value;
+			invoicePosition.Value = invoicePosition.Quantity * product.Value;
 
 			var userId = GetUserId();
 			if (invoicePosition.Id == 0)
@@ -165,6 +137,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 				_invoiceRepository.UpdatePosition(invoicePosition, userId);
 			}
 			_invoiceRepository.UpdateInvoiceValue(invoicePosition.InvoiceId, userId);
+			
+			// powrót do faktury, która była edytowana
 			return RedirectToAction("Invoice", new { invoiceId = invoicePosition.InvoiceId });
 		}
 
@@ -255,7 +229,7 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			=> Session["nr"] = i;
 
 		// ta metoda pobiera sesję
-		private int GetSession() 
+		private int GetSession()
 			=> Session["nr"] != null ? (int)Session["nr"] : 0;
 
 		#endregion Sesja
@@ -304,6 +278,47 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		#endregion Cache
 
 		#region Test Actions
+
+		public ActionResult SessionCookiesCache()
+		{
+			// INFO - Sesja
+			// zapisywana jest po stronie serwera, moze przechowywać informacje dla użytkownika albo przeglądarki,
+			// np. koszyk z zakupami w sklepie, który jest zapamiętany na serwerze dla konkretnego użytkownika przez pewien czas, dopóki sesja nie wygaśnie
+			// czas sesji można samemu zdefiniować
+			// pobranie wartości sesji
+			int sessionValue = GetSession();
+			// zwiększenie wartości sesji
+			sessionValue++;
+			// aktualizacja wartości sesji
+			UpdateSession(sessionValue);
+			// wyświetlenie wartości sesji w widoku za pomocą ViewBag
+			ViewBag.SessionValue = sessionValue;
+
+			// INFO - Cookie
+			// przechowywane w przeglądarce, zapisywane na określony czas i mogą mieć do 4kb wielkości
+			// pobranie wartości cookie
+			int cookieValue = GetCookie();
+			// zwiększenie wartości cookie
+			cookieValue++;
+			// aktualizacja wartości cookie
+			UpdateCookie(cookieValue);
+			// wyświetlenie wartości cookie w widoku za pomocą ViewBag
+			ViewBag.CookieValue = cookieValue;
+
+			// INFO - Cache
+			// cache jest udostępniany między użytkownikami w aplikacji, jest to przechowywanie danych po stronie serwera w celu odciążenia tego serwera
+			// można oznaczyć całą akcję w kontrolerze atrybutem OutputCache i ustawić czas, przez jaki dane będą pobierane z cache
+			// pobranie wartości cache
+			int cacheValue = GetCache();
+			// zwiększenie wartości cache
+			cacheValue++;
+			// aktualizacja wartości cache
+			UpdateCache(cacheValue);
+			// wyświetlenie wartości cache w widoku za pomocą ViewBag
+			ViewBag.CacheValue = cacheValue;
+
+			return View("About");
+		}
 
 		public ActionResult Test()
 		{
@@ -358,6 +373,13 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		[AllowAnonymous]
 		public string GetTime() 
 			=> DateTime.Now.ToLongTimeString();
+
+		// taka publiczna metoda może zostać wywołana jak każda inna akcja
+		// żeby to zablokować, trzeba dodać atrybut [NonAction]
+		public void PublicMethod()
+		{
+			// jakaś logika...
+		}
 
 		#endregion Test Actions
 	}

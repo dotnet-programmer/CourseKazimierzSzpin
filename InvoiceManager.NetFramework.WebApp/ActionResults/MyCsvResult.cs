@@ -14,7 +14,8 @@ namespace InvoiceManager.NetFramework.WebApp.ActionResults
 		public string Content { get; set; }
 		public string Name { get; set; }
 
-		public MyCsvResult(string content) => this.Content = content;
+		public MyCsvResult(string content)
+			=> Content = content;
 
 		public override void ExecuteResult(ControllerContext context)
 		{

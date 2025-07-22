@@ -5,6 +5,8 @@ using MyTasks.WebApp.Core.Services;
 using MyTasks.WebApp.Persistence;
 using MyTasks.WebApp.Persistence.Services;
 
+// ASP.NET Core Web Application - MVC + Authentication - Individual User Accounts (Store user accounts in-app)
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

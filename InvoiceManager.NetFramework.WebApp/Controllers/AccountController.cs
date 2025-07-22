@@ -41,7 +41,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			private set => _userManager = value;
 		}
 
-		//
 		// GET: /Account/Login
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
@@ -50,7 +49,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View();
 		}
 
-		//
 		// POST: /Account/Login
 		[HttpPost]
 		[AllowAnonymous]
@@ -80,7 +78,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			}
 		}
 
-		//
 		// GET: /Account/VerifyCode
 		[AllowAnonymous]
 		public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -93,7 +90,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
 		}
 
-		//
 		// POST: /Account/VerifyCode
 		[HttpPost]
 		[AllowAnonymous]
@@ -131,7 +127,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		[AllowAnonymous]
 		// INFO - wymuszenie połączenia przez HTTPS
 		[RequireHttps]
-		public ActionResult Register() => View();
+		public ActionResult Register()
+			=> View();
 
 		// INFO - typ metody Post - musi być oznaczona atrybutem [HttpPost],
 		// Metody POST używamy gdy chcemy wysłać dane na serwer w bardziej bezpieczny sposób by utworzyć lub zaktualizować jakiś zasób.
@@ -173,7 +170,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(model);
 		}
 
-		//
 		// GET: /Account/ConfirmEmail
 		[AllowAnonymous]
 		public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -186,12 +182,11 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(result.Succeeded ? "ConfirmEmail" : "Error");
 		}
 
-		//
 		// GET: /Account/ForgotPassword
 		[AllowAnonymous]
-		public ActionResult ForgotPassword() => View();
+		public ActionResult ForgotPassword()
+			=> View();
 
-		//
 		// POST: /Account/ForgotPassword
 		[HttpPost]
 		[AllowAnonymous]
@@ -219,17 +214,16 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(model);
 		}
 
-		//
 		// GET: /Account/ForgotPasswordConfirmation
 		[AllowAnonymous]
-		public ActionResult ForgotPasswordConfirmation() => View();
+		public ActionResult ForgotPasswordConfirmation()
+			=> View();
 
-		//
 		// GET: /Account/ResetPassword
 		[AllowAnonymous]
-		public ActionResult ResetPassword(string code) => code == null ? View("Error") : View();
+		public ActionResult ResetPassword(string code)
+			=> code == null ? View("Error") : View();
 
-		//
 		// POST: /Account/ResetPassword
 		[HttpPost]
 		[AllowAnonymous]
@@ -255,21 +249,18 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View();
 		}
 
-		//
 		// GET: /Account/ResetPasswordConfirmation
 		[AllowAnonymous]
 		public ActionResult ResetPasswordConfirmation() => View();
 
-		//
 		// POST: /Account/ExternalLogin
+		// Request a redirect to the external login provider
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
-		public ActionResult ExternalLogin(string provider, string returnUrl) =>
-			// Request a redirect to the external login provider
-			new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+		public ActionResult ExternalLogin(string provider, string returnUrl)
+			=> new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
 
-		//
 		// GET: /Account/SendCode
 		[AllowAnonymous]
 		public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -284,7 +275,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
 		}
 
-		//
 		// POST: /Account/SendCode
 		[HttpPost]
 		[AllowAnonymous]
@@ -304,7 +294,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
 		}
 
-		//
 		// GET: /Account/ExternalLoginCallback
 		[AllowAnonymous]
 		public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -334,7 +323,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			}
 		}
 
-		//
 		// POST: /Account/ExternalLoginConfirmation
 		[HttpPost]
 		[AllowAnonymous]
@@ -372,7 +360,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return View(model);
 		}
 
-		//
 		// POST: /Account/LogOff
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -382,7 +369,6 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		//
 		// GET: /Account/ExternalLoginFailure
 		[AllowAnonymous]
 		public ActionResult ExternalLoginFailure() => View();
@@ -412,7 +398,8 @@ namespace InvoiceManager.NetFramework.WebApp.Controllers
 		// Used for XSRF protection when adding external logins
 		private const string XsrfKey = "XsrfId";
 
-		private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
+		private IAuthenticationManager AuthenticationManager
+			=> HttpContext.GetOwinContext().Authentication;
 
 		private void AddErrors(IdentityResult result)
 		{

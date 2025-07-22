@@ -1,7 +1,7 @@
 ﻿@model TasksViewModel
 
 @{
-	ViewData["Title"] = "Zadania";
+    ViewData["Title"] = "Zadania";
 }
 
 <h1 class="mb-4">Moje zadania</h1>
@@ -9,115 +9,53 @@
 @* formularz filtrowania *@
 @* zrobiony jako zwykły folmularz HTML a nie używając C# @Html.BeginForm bo nie będzie odświeżania strony tylko poniższej tabelki za pomocą ajaxa *@
 <form id="filterForm" class="row gy-2 gx-3 align-items-center">
-	<div class="col-auto form-floating">
-		@Html.TextBoxFor(x => x.FilterTasks.Title, new { @class = "form-control", placeholder = "t" })
-		@Html.LabelFor(x => x.FilterTasks.Title)
-	</div>
-	<div class="col-auto form-floating">
-		@Html.DropDownListFor(
-					x => x.FilterTasks.CategoryId,
-					new SelectList(Model.Categories, "CategoryId", "Name"),
-					"-- wybierz kategorię --",
-					new { @class = "form-select" })
-		@Html.LabelFor(x => x.FilterTasks.CategoryId)
-	</div>
-	<div class="col-auto">
-		<div class="form-check">
-			@Html.CheckBoxFor(x => x.FilterTasks.IsExecuted, new { @class = "form-check-input" })
-			@Html.LabelFor(x => x.FilterTasks.IsExecuted, new { @class = "form-check-label" })
-		</div>
-	</div>
-	<div class="col-auto">
-		<button type="submit" class="btn btn-primary">Szukaj</button>
-	</div>
+    <div class="col-auto form-floating">
+        @Html.TextBoxFor(x => x.FilterTasks.Title, new { @class = "form-control", placeholder = "t" })
+        @Html.LabelFor(x => x.FilterTasks.Title)
+    </div>
+    <div class="col-auto form-floating">
+        @Html.DropDownListFor(
+        x => x.FilterTasks.CategoryId,
+                new SelectList(Model.Categories, "CategoryId", "Name"),
+                "-- wybierz kategorię --",
+                new { @class = "form-select" })
+        @Html.LabelFor(x => x.FilterTasks.CategoryId)
+    </div>
+    <div class="col-auto">
+        <div class="form-check">
+            @Html.CheckBoxFor(x => x.FilterTasks.IsExecuted, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.FilterTasks.IsExecuted, new { @class = "form-check-label" })
+        </div>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+    </div>
 </form>
 
 @* tabela z zadaniami *@
 @* INFO - zrobione jako widok częściowy bo tylko ta część jest odświeżana po kliknięciu Submit *@
 <div>
-	@await Html.PartialAsync("_TasksTable", Model.Tasks)
+    @await Html.PartialAsync("_TasksTable", Model.Tasks)
 </div>
 
 @section Scripts
 {
-	<script type="text/javascript">
-		// po załadowaniu strony wywołaj funkcję, która dla formularza o Id=filterForm podłącza pod zdarzenie submit funkcję, w której wykonywany jest ajax
-		$(document).ready(function () {
-			$('#filterForm').submit(function () {
-				$.ajax({
-					type: "POST",
-					url: "@Url.Action("Tasks", "Task")",
-					// przekazanie danych - zserializowane dane z formularza (this oznacza tutaj właśnie formularz)
-					data: $(this).serialize(),
-					// typ argumentu funkcji - "data" określony jest na końcu jako "dataType"
-					success: function (data) {
-						// to id tasksTable to jest tabela w partial view _TasksTable
-						$('#tasksTable').html(data);
-					},
-					error: function (data) {
-						alert(data.message);
-					},
-					// typ trzeba określić jako html, bo ten ajax zwróci cały widok html
-					// typ zwracany jest używany jako argument "data" w wywołaniu funkcji jeśli success albo error
-					dataType: "html"
-				});
-				// to jest potrzebne żeby nie wywoływała sie akcja submit, a dokładnie żeby tylko wykonał się ajax i koniec, 
-				// bo domyślnie każdy submit ma ustawione jakieś akcje, które bez dodania tego zostały by dodatkowo wywołane
-				return false;
-			});
-		});
+    <script src="~/js/task-actions.js"></script>
 
-		function deleteTask(taskId, btn) {
-			if (!confirm("Czy na pewno chcesz usunąć zadanie?")) {
-				return;
-			}
+    <script type="text/javascript">
 
-			$.ajax({
-				type: "POST",
-				url: "@Url.Action("DeleteTask", "Task")",
-				data: {
-					// pierwsze taskId to nazwa parametru w akcji kontrolera, drugie taskId to argument przekazany do ajaxa w funkcji deleteTask
-					taskId: taskId
-				},
-				success: function (data) {
-					if (data.success) {
-						var row = btn.parentNode.parentNode;
-						row.parentNode.removeChild(row);
-					} else {
-						alert(data.message)
-					}
-				},
-				error: function (data) {
-					alert(data.message);
-				},
-				dataType: "json"
-			});
-		}
+        // po załadowaniu strony wywołaj funkcję, która dla formularza o Id=filterForm podłącza pod zdarzenie submit funkcję, w której wykonywany jest ajax
+        $(document).ready( function () {
+            handleSubmit('#filterForm', '#tasksTable', '@Url.Action("Tasks", "Task")');
+        });
 
-		function finishTask(taskId, btn) {
-			if (!confirm("Czy na pewno chcesz oznaczyć zadanie jako zrealizowane?")) {
-				return;
-			}
+        function deleteTask(taskId, btn) {
+            deleteOrFinishTask(true, taskId, btn, '@Url.Action("DeleteTask", "Task")');
+        }
 
-			$.ajax({
-				type: "POST",
-				url: "@Url.Action("FinishTask", "Task")",
-				data: {
-					taskId: taskId
-				},
-				success: function (data) {
-					if (data.success) {
-						var row = btn.parentNode.parentNode;
-						row.parentNode.removeChild(row);
-					} else {
-						alert(data.message)
-					}
-				},
-				error: function (data) {
-					alert(data.message);
-				},
-				dataType: "json"
-			});
-		}
-	</script>
+        function finishTask(taskId, btn) {
+            deleteOrFinishTask(false, taskId, btn, '@Url.Action("FinishTask", "Task")');
+        }
+
+    </script>
 }
