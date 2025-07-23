@@ -20,7 +20,7 @@ public class PrintController(IApplicationDbContext context) : Controller
 	public IActionResult InvoiceTemplate(int id)
 		=> View(_invoiceRepository.GetInvoice(id, User.GetUserId()));
 
-	// pierwsza akcja, na podstawie przekazanego id konwertuje fakturę do tablicy bajtów
+	// na podstawie przekazanego id konwertuje fakturę do tablicy bajtów
 	public IActionResult InvoiceToPdf(int invoiceId)
 	{
 		// unikalny losowy ciąg znaków

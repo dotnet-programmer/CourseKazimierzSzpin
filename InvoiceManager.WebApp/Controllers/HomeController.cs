@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceManager.WebApp.Controllers;
 
-// INFO - metody kontrolera nazywa siê akcjami, odpowiadaj¹ za wyœwietlenie odpowiedniego widoku
-
 [Authorize]
 public class HomeController(IApplicationDbContext context) : Controller
 {
@@ -20,17 +18,12 @@ public class HomeController(IApplicationDbContext context) : Controller
 
 	#region Actions
 
-	// umo¿liwia wykonanie akcji niezalogowanym u¿ytkownikom
 	[AllowAnonymous]
 	public IActionResult About()
 	{
 		ViewBag.Message = "Your application description page.";
-
-		// przekazanie danych jako model z kontrolera do widoku
 		string test = "testy 123";
-
 		ViewBag.MyNumber = test;
-
 		return View((object)test);
 	}
 
@@ -38,30 +31,18 @@ public class HomeController(IApplicationDbContext context) : Controller
 	public IActionResult Contact()
 	{
 		ViewBag.Message = "Your contact page.";
-
-		// zmiana domyœlnego widoku zwraacnego przez kontroler - trzeba podaæ nazwê widoku który ma zostaæ wyœwietlony
-		//return View("About");
-
 		return View();
 	}
 
 	public IActionResult Index()
 		=> View(_invoiceRepository.GetInvoices(GetUserId()));
 
-	//jeœli id = 0 to dodawanie nowej faktury, a jak jest jakieœ id to bêdzie edycja
 	public IActionResult Invoice(int invoiceId = 0)
-	{
-		var userId = GetUserId();
-		Invoice invoice = (invoiceId == 0) ? GetNewInvoice(userId) : _invoiceRepository.GetInvoice(invoiceId, userId);
-		EditInvoiceViewModel viewModel = PrepareEditInvoiceViewModel(invoice, userId);
-		return View(viewModel);
-	}
+		=> View(GetEditInvoiceViewModel(invoiceId));
 
-	// oznaczenie metody typu Post
 	[HttpPost]
 	// INFO - zabezpieczenie przed atakiem Cross-site request forgery (w skrócie CSRF lub XSRF)
 	[ValidateAntiForgeryToken]
-	// parametr u¿ywany przez formularz, który dopasowuje nazwy inputów do nazw w³aœciwoœci obiektu i przypisuje im odpowiednie wartoœci
 	public IActionResult Invoice(Invoice invoice)
 	{
 		var userId = GetUserId();
@@ -71,8 +52,7 @@ public class HomeController(IApplicationDbContext context) : Controller
 		// ModelState.IsValid sprawdza poprawnoœæ pól na podstawie danych wpisanych w atrybutach modeli, np czy jest wymagany, jaka d³ugoœæ itp.
 		if (!ModelState.IsValid)
 		{
-			EditInvoiceViewModel viewModel = PrepareEditInvoiceViewModel(invoice, userId);
-			return View("Invoice", viewModel);
+			return View("Invoice", GetEditInvoiceViewModel(invoice, userId));
 		}
 
 		if (invoice.Id == 0)
@@ -87,12 +67,7 @@ public class HomeController(IApplicationDbContext context) : Controller
 	}
 
 	public IActionResult InvoicePosition(int invoiceId, int invoicePositionId = 0)
-	{
-		var userId = GetUserId();
-		InvoicePosition invoicePosition = (invoicePositionId == 0) ? GetNewInvoicePosition(invoiceId, invoicePositionId) : _invoiceRepository.GetInvoicePosition(invoicePositionId, userId);
-		EditInvoicePositionViewModel viewModel = PrepareEditInvoicePositionViewModel(invoicePosition);
-		return View(viewModel);
-	}
+		=> View(GetEditInvoicePositionViewModel(invoiceId, invoicePositionId));
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
@@ -100,8 +75,7 @@ public class HomeController(IApplicationDbContext context) : Controller
 	{
 		if (!ModelState.IsValid)
 		{
-			var vm = PrepareEditInvoicePositionViewModel(invoicePosition);
-			return View("InvoicePosition", vm);
+			return View("InvoicePosition", GetEditInvoicePositionViewModel(invoicePosition));
 		}
 
 		Product product = _productRepository.GetProduct(invoicePosition.ProductId);
@@ -128,8 +102,7 @@ public class HomeController(IApplicationDbContext context) : Controller
 	{
 		try
 		{
-			var userId = GetUserId();
-			_invoiceRepository.Delete(invoiceId, userId);
+			_invoiceRepository.Delete(invoiceId, GetUserId());
 		}
 		catch (Exception ex)
 		{
@@ -181,7 +154,14 @@ public class HomeController(IApplicationDbContext context) : Controller
 			PaymentDate = DateTime.Now.AddDays(7)
 		};
 
-	private EditInvoiceViewModel PrepareEditInvoiceViewModel(Invoice invoice, string userId)
+	private EditInvoiceViewModel GetEditInvoiceViewModel(int invoiceId)
+	{
+		var userId = GetUserId();
+		Invoice invoice = (invoiceId == 0) ? GetNewInvoice(userId) : _invoiceRepository.GetInvoice(invoiceId, userId);
+		return GetEditInvoiceViewModel(invoice, userId);
+	}
+
+	private EditInvoiceViewModel GetEditInvoiceViewModel(Invoice invoice, string userId)
 		=> new EditInvoiceViewModel
 		{
 			Invoice = invoice,
@@ -190,19 +170,25 @@ public class HomeController(IApplicationDbContext context) : Controller
 			MethodOfPayments = _invoiceRepository.GetMethodOfPayments()
 		};
 
-	private InvoicePosition GetNewInvoicePosition(int invoiceId, int invoicePositionId)
-		=> new InvoicePosition
-		{
-			InvoiceId = invoiceId,
-			Id = invoicePositionId,
-		};
+	private EditInvoicePositionViewModel GetEditInvoicePositionViewModel(int invoiceId, int invoicePositionId)
+	{
+		InvoicePosition invoicePosition = (invoicePositionId == 0) ? GetNewInvoicePosition(invoiceId, invoicePositionId) : _invoiceRepository.GetInvoicePosition(invoicePositionId, GetUserId());
+		return GetEditInvoicePositionViewModel(invoicePosition);
+	}
 
-	private EditInvoicePositionViewModel PrepareEditInvoicePositionViewModel(InvoicePosition invoicePosition)
+	private EditInvoicePositionViewModel GetEditInvoicePositionViewModel(InvoicePosition invoicePosition)
 		=> new EditInvoicePositionViewModel
 		{
 			InvoicePosition = invoicePosition,
 			Heading = (invoicePosition.Id == 0) ? "Dodawanie nowej pozycji" : "Pozycja",
 			Products = _productRepository.GetProducts(),
+		};
+
+	private InvoicePosition GetNewInvoicePosition(int invoiceId, int invoicePositionId)
+		=> new InvoicePosition
+		{
+			InvoiceId = invoiceId,
+			Id = invoicePositionId,
 		};
 
 	#endregion Private methods

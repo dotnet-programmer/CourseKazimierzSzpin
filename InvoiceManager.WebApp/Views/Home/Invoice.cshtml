@@ -12,13 +12,13 @@
 
     @if (!isNewInvoice)
     {
-        @*przekazanie invoiceId żeby w ontrolerze wiedzieć, do której faktury dodać tą pozycję*@
+        @*przekazanie invoiceId żeby w controlerze wiedzieć, do której faktury dodać tą pozycję*@
         <button class="btn btn-primary mb-3"
                 onclick='window.location.href="@Url.Action("InvoicePosition", "Home", new { invoiceId = Model.Invoice.Id })"'>
             Dodaj pozycję
         </button>
 
-        //JavaScript w onclick bo ma sie tylko wykonac jakaś funkcja, bez przeładowania strony
+        //JavaScript w onclick bo ma sie tylko wykonać jakaś funkcja, bez przeładowania strony
         <button class="btn btn-secondary mb-3"
                 onclick="generatePdf()">
             Generuj PDF

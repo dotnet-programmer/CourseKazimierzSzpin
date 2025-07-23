@@ -14,8 +14,6 @@
     @*window.location.href - kod przekierowujący na akcję,
 		musi to być dodane w miejscach, gdzie nie ma przekierowania linka tak jak np w znaczniku <a href="">
 		jeśli w środku jest cudzysłów, to na zewnątrz powinny być apostrofy
-
-		Sprawdzić czy nie lepiej zwykły link z klasą Button
 	*@
     <button class="btn btn-primary mb-3"
             onclick='window.location.href="@Url.Action("Invoice", "Home")"'>
@@ -46,7 +44,7 @@
                             @*to samo, tylko przy użyciu helpera z Html*@
                             @*@Html.ActionLink(@invoice.Title, "Invoice", "Home", new { id = invoice.Id }, null)*@
                         </td>
-                        <td>@invoice.Client.Name</td>
+                        <td>@invoice.Client?.Name</td>
                         <td>@invoice.Value zł</td>
                         <td>@invoice.CreatedDate.ToString("dd-MM-yyyy")</td>
                         <td>@invoice.PaymentDate.ToString("dd-MM-yyyy")</td>

@@ -15,9 +15,9 @@
     <p>Mój tekst przekazany z kontrolera za pomocą ViewBag -> @ViewBag.MyNumber</p>
 
     @*INFO - Sesja*@
-    <p>Wartość obecnej sesji: @contextAccessor.HttpContext.Session.GetString("MySessionKey")</p>
+    <p>Wartość obecnej sesji: @contextAccessor.HttpContext?.Session.GetString("MySessionKey")</p>
 
     @*INFO - Cookie*@
-    <p>Wartość cookie: @contextAccessor.HttpContext.Request.Cookies["MyCookieKey"]</p>
+    <p>Wartość cookie: @contextAccessor.HttpContext?.Request.Cookies["MyCookieKey"]</p>
 
 </main>
