@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.WebApi", "MyFina
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advertisements.WebApp", "Advertisements.WebApp\Advertisements.WebApp.csproj", "{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleApps.UnitTests", "FizzBuzz.UnitTests\SimpleConsoleApps.UnitTests.csproj", "{31D06AB3-13CA-4E44-A282-5EE9D89F671C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleApps.UnitTests", "SimpleConsoleApps.UnitTests\SimpleConsoleApps.UnitTests.csproj", "{31D06AB3-13CA-4E44-A282-5EE9D89F671C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManager.WebApp", "InvoiceManager.WebApp\InvoiceManager.WebApp.csproj", "{2EF2FA42-9AB3-4121-AC6E-1F707FE68F83}"
 EndProject
