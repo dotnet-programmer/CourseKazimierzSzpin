@@ -179,17 +179,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202310241421087_Init.cs" />
-    <Compile Include="Migrations\202310241421087_Init.designer.cs">
-      <DependentUpon>202310241421087_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202310251138157_NewTableContacts.cs" />
-    <Compile Include="Migrations\202310251138157_NewTableContacts.designer.cs">
-      <DependentUpon>202310251138157_NewTableContacts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202310251343146_ChangeInEmailSent.cs" />
-    <Compile Include="Migrations\202310251343146_ChangeInEmailSent.designer.cs">
-      <DependentUpon>202310251343146_ChangeInEmailSent.cs</DependentUpon>
+    <Compile Include="Migrations\202507231952105_InitMigration.cs" />
+    <Compile Include="Migrations\202507231952105_InitMigration.Designer.cs">
+      <DependentUpon>202507231952105_InitMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domains\Contact.cs" />
@@ -328,14 +320,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202310241421087_Init.resx">
-      <DependentUpon>202310241421087_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202310251138157_NewTableContacts.resx">
-      <DependentUpon>202310251138157_NewTableContacts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202310251343146_ChangeInEmailSent.resx">
-      <DependentUpon>202310251343146_ChangeInEmailSent.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202507231952105_InitMigration.resx">
+      <DependentUpon>202507231952105_InitMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
