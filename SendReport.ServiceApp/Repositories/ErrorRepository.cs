@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using SendReport.Core.NetFramework.Lib.Models.Domains;
+using SendReport.ServiceApp.Models.Domain;
 
-namespace SendReport.Core.NetFramework.Lib.Repositories
+namespace SendReport.ServiceApp.Repositories
 {
 	public class ErrorRepository
 	{

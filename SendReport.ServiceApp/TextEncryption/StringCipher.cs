@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TextEncryption.NetFramework.Lib
+namespace SendReport.ServiceApp.TextEncryption
 {
 	public class StringCipher
 	{

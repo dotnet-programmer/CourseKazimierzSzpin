@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SendReport.Core.NetFramework.Lib.Models.Domains;
+using SendReport.ServiceApp.Models.Domain;
 
-namespace SendReport.Core.NetFramework.Lib
+namespace SendReport.ServiceApp
 {
 	public class GenerateHtmlEmail
 	{

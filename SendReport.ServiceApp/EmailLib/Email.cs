@@ -3,9 +3,8 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using EmailSender.NetFramework.Lib.Extensions;
 
-namespace EmailSender.NetFramework.Lib
+namespace SendReport.ServiceApp.EmailLib
 {
 	public class Email
 	{

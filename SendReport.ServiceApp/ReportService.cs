@@ -4,10 +4,9 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Timers;
-using EmailSender.NetFramework.Lib;
-using SendReport.Core.NetFramework.Lib;
-using SendReport.Core.NetFramework.Lib.Repositories;
-using TextEncryption.NetFramework.Lib;
+using SendReport.ServiceApp.Repositories;
+using SendReport.ServiceApp.EmailLib;
+using SendReport.ServiceApp.TextEncryption;
 
 namespace SendReport.ServiceApp
 {

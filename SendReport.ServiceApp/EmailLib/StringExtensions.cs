@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace EmailSender.NetFramework.Lib.Extensions
+namespace SendReport.ServiceApp.EmailLib
 {
 	public static class StringExtensions
 	{

@@ -1,4 +1,4 @@
-﻿namespace SendReport.Core.NetFramework.Lib.Models.Domains
+﻿namespace SendReport.ServiceApp.Models.Domain
 {
 	public class ReportPosition
 	{

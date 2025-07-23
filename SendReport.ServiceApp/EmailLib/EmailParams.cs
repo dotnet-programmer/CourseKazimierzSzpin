@@ -1,4 +1,4 @@
-﻿namespace EmailSender.NetFramework.Lib
+﻿namespace SendReport.ServiceApp.EmailLib
 {
 	public class EmailParams
 	{
