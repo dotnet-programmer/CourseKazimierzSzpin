@@ -1,0 +1,57 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* styl dla komunikatu o b³êdnie wype³nionym polu */
+.field-validation-error {
+	color: #ff3333;
+}
+
+/* styl dla pola input o b³êdnie wype³nionym polu */
+.input-validation-error {
+	background: #ff7d7d;
+	border: 1px solid #ff3333;
+}
+
+.privacyPolicyInfo {
+	font-size: 10px;
+	position: fixed;
+	bottom: 0;
+	background-color: #464646;
+	width: 100%;
+	color: lightgray;
+	text-align: center;
+	padding: 5px 0;
+}
+
+.privacyPolicyBtn {
+	font-size: 11px;
+}
