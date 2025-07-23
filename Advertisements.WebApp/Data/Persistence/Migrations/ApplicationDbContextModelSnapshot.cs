@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Advertisements.WebApp.Data.Migrations.Persistence
+namespace Advertisements.WebApp.Data.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -82,11 +82,9 @@ namespace Advertisements.WebApp.Data.Migrations.Persistence
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("Picture")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PictureFormat")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
