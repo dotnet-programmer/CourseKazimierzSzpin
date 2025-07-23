@@ -42,7 +42,7 @@
 			{
 				<tr>
 					<td>
-						Brak moich kategorii!
+						Brak kategorii!
 					</td>
 					<td></td>
 				</tr>
@@ -51,35 +51,11 @@
 	</table>
 </div>
 
-@section Scripts
-{
+@section Scripts {
+    <script src="~/js/delete-from-table.js"></script>
 	<script type="text/javascript">
-
-		function deleteCategory(categoryId, btn) {
-			if (!confirm("Czy na pewno chcesz usunąć kategorię?")) {
-				return;
-			}
-
-			$.ajax({
-				type: "POST",
-				url: "@Url.Action("DeleteCategory", "Category")",
-				data: {
-					categoryId: categoryId
-				},
-				success: function (data) {
-					if (data.success) {
-						var row = btn.parentNode.parentNode;
-						row.parentNode.removeChild(row);
-					} else {
-						alert(data.message)
-					}
-				},
-				error: function (data) {
-					alert(data.message);
-				},
-				dataType: "json"
-			});
-		}
-
+        function deleteCategory(categoryId, btn) {
+            deleteRowFromTable(categoryId, btn, '@Url.Action("DeleteCategory", "Category")', 'Czy na pewno chcesz usunąć kategorię?');
+        }
 	</script>
 }

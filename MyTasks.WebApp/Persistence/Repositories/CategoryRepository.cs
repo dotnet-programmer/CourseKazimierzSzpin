@@ -4,53 +4,26 @@ using MyTasks.WebApp.Core.Repositories;
 
 namespace MyTasks.WebApp.Persistence.Repositories;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository(IApplicationDbContext context) : ICategoryRepository
 {
-	private readonly IApplicationDbContext _context;
+	public IEnumerable<Category> GetCategories(string userId)
+		=> context.Categories
+			.Where(x => x.UserId == userId)
+			.OrderBy(x => x.Name)
+			.ToList();
 
-	public CategoryRepository(IApplicationDbContext context) => _context = context;
+	public Category GetCategory(int categoryId, string userId)
+		=> context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
 
-	public IEnumerable<Category> GetCategories(string userId) =>
-		_context.Categories
-		.Where(x => x.IsDefault == true || x.UserId == userId)
-		.OrderBy(x => x.Name)
-		.ToList();
-
-	public IEnumerable<Category> GetUserCategories(string userId) =>
-		_context.Categories
-		.Where(x => x.UserId == userId)
-		.OrderBy(x => x.Name)
-		.ToList();
-
-	public Category GetCategory(int categoryId, string userId) => _context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
-
-	public void AddCategory(Category category) => _context.Categories.Add(category);
+	public void AddCategory(Category category)
+		=> context.Categories.Add(category);
 
 	public void UpdateCategory(Category category)
 	{
-		var categoryToUpdate = _context.Categories.Single(x => x.CategoryId == category.CategoryId);
+		var categoryToUpdate = context.Categories.Single(x => x.CategoryId == category.CategoryId);
 		categoryToUpdate.Name = category.Name;
 	}
 
 	public void DeleteCategory(int categoryId, string userId)
-	{
-		var tasksToChange = _context.Tasks
-			.Where(x => x.CategoryId == categoryId && x.UserId == userId)
-			.ToList();
-
-		var defaultCategoryId = _context.Categories
-			.Where(x => x.IsDefault == true)
-			.OrderBy(x => x.CategoryId)
-			.First()
-			.CategoryId;
-
-		foreach (var task in tasksToChange)
-		{
-			task.CategoryId = defaultCategoryId;
-		}
-
-		var categoryToDelete = _context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId);
-
-		_context.Categories.Remove(categoryToDelete);
-	}
+		=> context.Categories.Remove(context.Categories.Single(x => x.CategoryId == categoryId && x.UserId == userId));
 }

@@ -8,25 +8,13 @@ using MyTasks.WebApp.Persistence.Extensions;
 namespace MyTasks.WebApp.Controllers;
 
 [Authorize]
-public class CategoryController : Controller
+public class CategoryController(ICategoryService categoryService) : Controller
 {
-	private readonly ICategoryService _categoryService;
-
-	public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
-
-	public IActionResult Categories() 
-		=> View(_categoryService.GetUserCategories(User.GetUserId()));
+	public IActionResult Categories()
+		=> View(categoryService.GetCategories(User.GetUserId()));
 
 	public IActionResult Category(int categoryId = 0)
-	{
-		var userId = User.GetUserId();
-
-		Category category = categoryId == 0 ?
-			new Category { CategoryId = categoryId, UserId = userId } :
-			_categoryService.GetCategory(categoryId, userId);
-
-		return View(GetCategoryViewModel(category));
-	}
+		=> View(GetCategoryViewModel(categoryId));
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
@@ -35,7 +23,8 @@ public class CategoryController : Controller
 		category.UserId = User.GetUserId();
 
 		// INFO - walidacja ModelState - usunięcie pola z elementów sprawdzanych przez ModelState.IsValid
-		ModelState.Remove("Category.UserId");
+		// dodanie wartości tutaj w kodzie nie powoduje zmiany stanu, jeśli z widoku przyszła wartość null
+		ModelState.Remove("category.UserId");
 
 		if (!ModelState.IsValid)
 		{
@@ -44,23 +33,22 @@ public class CategoryController : Controller
 
 		if (category.CategoryId == 0)
 		{
-			_categoryService.AddCategory(category);
+			categoryService.AddCategory(category);
 		}
 		else
 		{
-			_categoryService.UpdateCategory(category);
+			categoryService.UpdateCategory(category);
 		}
 
 		return RedirectToAction("Categories");
 	}
 
 	[HttpPost]
-	public IActionResult DeleteCategory(int categoryId)
+	public IActionResult DeleteCategory(int id)
 	{
 		try
 		{
-			var userId = User.GetUserId();
-			_categoryService.DeleteCategory(categoryId, userId);
+			categoryService.DeleteCategory(id, User.GetUserId());
 		}
 		catch (Exception ex)
 		{
@@ -70,9 +58,22 @@ public class CategoryController : Controller
 		return Json(new { success = true });
 	}
 
-	private CategoryViewModel GetCategoryViewModel(Category category) => new()
+
+	private CategoryViewModel GetCategoryViewModel(int categoryId)
 	{
-		Category = category,
-		Heading = category.CategoryId == 0 ? "Dodawanie nowej kategorii" : "Edytowanie kategorii",
-	};
+		var userId = User.GetUserId();
+
+		Category category = categoryId == 0 ?
+			new Category { UserId = userId } :
+			categoryService.GetCategory(categoryId, userId);
+
+		return GetCategoryViewModel(category);
+	}
+
+	private CategoryViewModel GetCategoryViewModel(Category category)
+		=> new()
+		{
+			Category = category,
+			Heading = category.CategoryId == 0 ? "Dodawanie nowej kategorii" : "Edytowanie kategorii",
+		};
 }

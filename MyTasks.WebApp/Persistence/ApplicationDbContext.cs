@@ -2,16 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using MyTasks.WebApp.Core;
 using MyTasks.WebApp.Core.Models.Domains;
-using MyTasks.WebApp.Persistence.Extensions;
 
 namespace MyTasks.WebApp.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options), IApplicationDbContext
 {
-	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-	{
-	}
-
 	public DbSet<Core.Models.Domains.Task> Tasks { get; set; }
 	public DbSet<Category> Categories { get; set; }
 
@@ -21,8 +16,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 			.HasMany(x => x.Categories)
 			.WithOne(x => x.User)
 			.OnDelete(DeleteBehavior.Restrict);
-
-		builder.SeedCategories();
 
 		base.OnModelCreating(builder);
 	}

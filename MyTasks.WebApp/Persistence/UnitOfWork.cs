@@ -4,21 +4,12 @@ using MyTasks.WebApp.Persistence.Repositories;
 
 namespace MyTasks.WebApp.Persistence;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(IApplicationDbContext context) : IUnitOfWork
 {
-	private readonly IApplicationDbContext _context;
-
-	public UnitOfWork(IApplicationDbContext context)
-	{
-		_context = context;
-		TaskRepository = new TaskRepository(context);
-		CategoryRepository = new CategoryRepository(context);
-	}
-
 	// INFO - obiekty repozytoryjne, jeżeli więcej repozytoriów, to więcej takich właściwości
-	public ITaskRepository TaskRepository { get; set; }
-	public ICategoryRepository CategoryRepository { get; set; }
+	public ITaskRepository TaskRepository { get; } = new TaskRepository(context);
+	public ICategoryRepository CategoryRepository { get; } = new CategoryRepository(context);
 
 	public void Complete() 
-		=> _context.SaveChanges();
+		=> context.SaveChanges();
 }

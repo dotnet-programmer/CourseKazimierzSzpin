@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace MyTasks.WebApp.Persistence.Migrations
 {
     /// <inheritdoc />
@@ -165,8 +163,7 @@ namespace MyTasks.WebApp.Persistence.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,16 +203,6 @@ namespace MyTasks.WebApp.Persistence.Migrations
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "CategoryId", "IsDefault", "Name", "UserId" },
-                values: new object[,]
-                {
-                    { 1, true, "Ogólne", null },
-                    { 2, true, "Praca", null },
-                    { 3, true, "Dom", null }
                 });
 
             migrationBuilder.CreateIndex(

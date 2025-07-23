@@ -8,20 +8,20 @@ namespace MyTasks.WebApp.Persistence.Repositories;
 
 public class TaskRepository(IApplicationDbContext context) : ITaskRepository
 {
-	public IEnumerable<Task> GetTasks(GetTasksParams getTasksParams)
+	public IEnumerable<Task> GetTasks(GetTasksParams tasksParams)
 	{
 		var tasks = context.Tasks
 			.Include(x => x.Category)
-			.Where(x => x.UserId == getTasksParams.UserId && x.IsExecuted == getTasksParams.IsExecuted);
+			.Where(x => x.UserId == tasksParams.UserId && x.IsExecuted == tasksParams.FilterTasks.IsExecuted);
 
-		if (getTasksParams.CategoryId != 0)
+		if (tasksParams.FilterTasks.CategoryId != 0)
 		{
-			tasks = tasks.Where(x => x.CategoryId == getTasksParams.CategoryId);
+			tasks = tasks.Where(x => x.CategoryId == tasksParams.FilterTasks.CategoryId);
 		}
 
-		if (!string.IsNullOrWhiteSpace(getTasksParams.Title))
+		if (!string.IsNullOrWhiteSpace(tasksParams.FilterTasks.Title))
 		{
-			tasks = tasks.Where(x => x.Title.Contains(getTasksParams.Title));
+			tasks = tasks.Where(x => x.Title.Contains(tasksParams.FilterTasks.Title));
 		}
 
 		return tasks.OrderBy(x => x.Term).ToList();
@@ -44,10 +44,7 @@ public class TaskRepository(IApplicationDbContext context) : ITaskRepository
 	}
 
 	public void DeleteTask(int taskId, string userId)
-	{
-		var taskToDelete = context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId);
-		context.Tasks.Remove(taskToDelete);
-	}
+		=> context.Tasks.Remove(context.Tasks.Single(x => x.TaskId == taskId && x.UserId == userId));
 
 	public void FinishTask(int taskId, string userId)
 	{

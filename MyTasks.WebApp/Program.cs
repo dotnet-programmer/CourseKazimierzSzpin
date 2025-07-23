@@ -11,17 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // INFO - Dependency Injection
-// s¹ 3 mo¿liwoœci w jaki sposób mo¿na wstrzykn¹æ ten serwis:
-//   - AddScoped - w ka¿dym jednych requeœcie danego klienta bêdzie u¿ywana 1 instancja, czyli bêdzie tworzony jeden nowy obiekt tej klasy
-//   - AddSingleton - w ca³ej aplikacji bêdzie tylko 1 instancja tego obiektu, która bêdzie u¿ywana za ka¿dym razem
-//   - AddTransient - ka¿de u¿ycie (tutaj TaskService) powoduje stworzenie nowej instancji
-// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest ITaskService, podstaw implementacjê TaskService
+// sÄ… 3 moÅ¼liwoÅ›ci w jaki sposÃ³b moÅ¼na wstrzyknÄ…Ä‡ ten serwis:
+//   - AddScoped - w kaÅ¼dym jednych requeÅ›cie danego klienta bÄ™dzie uÅ¼ywana 1 instancja, czyli bÄ™dzie tworzony jeden nowy obiekt tej klasy
+//   - AddSingleton - w caÅ‚ej aplikacji bÄ™dzie tylko 1 instancja tego obiektu, ktÃ³ra bÄ™dzie uÅ¼ywana za kaÅ¼dym razem
+//   - AddTransient - kaÅ¼de uÅ¼ycie (tutaj TaskService) powoduje stworzenie nowej instancji
+// w kaÅ¼dym miejscu w aplikacji gdzie uÅ¼ywane jest ITaskService, podstaw implementacjÄ™ TaskService
 builder.Services.AddScoped<ITaskService, TaskService>();
-// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest IApplicationDbContext, podstaw implementacjê ApplicationDbContext
-builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-// w ka¿dym miejscu w aplikacji gdzie u¿ywane jest IUnitOfWork, podstaw implementacjê UnitOfWork
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
@@ -33,7 +31,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// INFO - mo¿liwoœæ skonfigurowania potoku ¿¹dañ HTTP, na pocz¹tku skonfigurowana jest reakcja na wyj¹tki w aplikacji
+// INFO - moÅ¼liwoÅ›Ä‡ skonfigurowania potoku Å¼Ä…daÅ„ HTTP, na poczÄ…tku skonfigurowana jest reakcja na wyjÄ…tki w aplikacji
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -48,14 +46,14 @@ else
 
 app.UseHttpsRedirection();
 
-// INFO - udostêpnianie plików statycznych zawartych w wwwroot
+// INFO - udostÄ™pnianie plikÃ³w statycznych zawartych w wwwroot
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 
-// INFO - konfiguracja domyœlnego rutingu
+// INFO - konfiguracja domyÅ›lnego rutingu
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Task}/{action=Tasks}/{id?}");

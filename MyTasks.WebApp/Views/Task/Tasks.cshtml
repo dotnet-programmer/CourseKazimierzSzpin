@@ -38,24 +38,19 @@
     @await Html.PartialAsync("_TasksTable", Model.Tasks)
 </div>
 
-@section Scripts
-{
+@section Scripts {
     <script src="~/js/task-actions.js"></script>
-
+    <script src="~/js/delete-from-table.js"></script>
     <script type="text/javascript">
-
         // po załadowaniu strony wywołaj funkcję, która dla formularza o Id=filterForm podłącza pod zdarzenie submit funkcję, w której wykonywany jest ajax
         $(document).ready( function () {
             handleSubmit('#filterForm', '#tasksTable', '@Url.Action("Tasks", "Task")');
         });
-
         function deleteTask(taskId, btn) {
-            deleteOrFinishTask(true, taskId, btn, '@Url.Action("DeleteTask", "Task")');
+            deleteRowFromTable(taskId, btn, '@Url.Action("DeleteTask", "Task")', 'Czy na pewno chcesz usunąć zadanie?');
         }
-
         function finishTask(taskId, btn) {
-            deleteOrFinishTask(false, taskId, btn, '@Url.Action("FinishTask", "Task")');
+            deleteRowFromTable(taskId, btn, '@Url.Action("FinishTask", "Task")', 'Czy na pewno chcesz oznaczyć zadanie jako zrealizowane?');
         }
-
     </script>
 }

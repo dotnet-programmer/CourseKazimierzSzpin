@@ -232,15 +232,13 @@ namespace MyTasks.WebApp.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<bool?>("IsDefault")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CategoryId");
@@ -248,26 +246,6 @@ namespace MyTasks.WebApp.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            IsDefault = true,
-                            Name = "Ogólne"
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            IsDefault = true,
-                            Name = "Praca"
-                        },
-                        new
-                        {
-                            CategoryId = 3,
-                            IsDefault = true,
-                            Name = "Dom"
-                        });
                 });
 
             modelBuilder.Entity("MyTasks.WebApp.Core.Models.Domains.Task", b =>
@@ -365,7 +343,8 @@ namespace MyTasks.WebApp.Persistence.Migrations
                     b.HasOne("MyTasks.WebApp.Core.Models.Domains.ApplicationUser", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

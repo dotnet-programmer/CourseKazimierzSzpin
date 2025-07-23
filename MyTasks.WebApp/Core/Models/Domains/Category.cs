@@ -12,9 +12,8 @@ public class Category
 	[MaxLength(250)]
 	public string Name { get; set; }
 
-    public bool? IsDefault { get; set; }
-
-    public string UserId { get; set; }
+	[Required]
+	public string UserId { get; set; }
 
 	public ApplicationUser User { get; set; }
 	public ICollection<Task> Tasks { get; set; } = new Collection<Task>();

@@ -13,39 +13,16 @@ public class TaskController(ITaskService taskService, ICategoryService categoryS
 {
 	// akcja wyświetlana jako strona główna ze wszystkimi zadaniami
 	public IActionResult Tasks()
-		=> View(new TasksViewModel()
-		{
-			Tasks = taskService.GetTasks(new GetTasksParams() { UserId = User.GetUserId() }),
-			Categories = categoryService.GetCategories(User.GetUserId()),
-			FilterTasks = new(),
-		});
+		=> View(GetTasksViewModel());
 
+	// akcja wyświetlająca filtrowane zadania, czyli wynik wyszukiwania 
+	// PartialView bo zwracany widok częściowy, czyli sam HTML
 	[HttpPost]
 	public IActionResult Tasks(TasksViewModel tasksViewModel)
-	{
-		var tasks = taskService.GetTasks(new GetTasksParams()
-		{
-			UserId = User.GetUserId(),
-			IsExecuted = tasksViewModel.FilterTasks.IsExecuted,
-			CategoryId = tasksViewModel.FilterTasks.CategoryId,
-			Title = tasksViewModel.FilterTasks.Title,
-		});
-
-		// PartialView bo zwracany widok częściowy, czyli sam HTML
-		return PartialView("_TasksTable", tasks);
-	}
+		=> PartialView("_TasksTable", GetFilteredTasks(tasksViewModel));
 
 	public IActionResult Task(int taskId = 0)
-	{
-		// TODO: przenieść całość do GetTaskViewModel(taskId)
-		var userId = User.GetUserId();
-
-		Task task = taskId == 0 ?
-			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } :
-			taskService.GetTask(taskId, userId);
-
-		return View(GetTaskViewModel(task));
-	}
+		=> View(GetTaskViewModel(taskId));
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
@@ -55,8 +32,7 @@ public class TaskController(ITaskService taskService, ICategoryService categoryS
 
 		if (!ModelState.IsValid)
 		{
-			TaskViewModel vm = GetTaskViewModel(task);
-			return View("Task", vm);
+			return View("Task", GetTaskViewModel(task));
 		}
 
 		if (task.TaskId == 0)
@@ -72,11 +48,11 @@ public class TaskController(ITaskService taskService, ICategoryService categoryS
 	}
 
 	[HttpPost]
-	public IActionResult DeleteTask(int taskId)
+	public IActionResult DeleteTask(int id)
 	{
 		try
 		{
-			taskService.DeleteTask(taskId, User.GetUserId());
+			taskService.DeleteTask(id, User.GetUserId());
 		}
 		catch (Exception ex)
 		{
@@ -88,11 +64,11 @@ public class TaskController(ITaskService taskService, ICategoryService categoryS
 	}
 
 	[HttpPost]
-	public IActionResult FinishTask(int taskId)
+	public IActionResult FinishTask(int id)
 	{
 		try
 		{
-			taskService.FinishTask(taskId, User.GetUserId());
+			taskService.FinishTask(id, User.GetUserId());
 		}
 		catch (Exception ex)
 		{
@@ -101,6 +77,32 @@ public class TaskController(ITaskService taskService, ICategoryService categoryS
 		}
 
 		return Json(new { success = true });
+	}
+
+	private TasksViewModel GetTasksViewModel()
+		=> new()
+		{
+			Tasks = taskService.GetTasks(new GetTasksParams() { UserId = User.GetUserId() }),
+			Categories = categoryService.GetCategories(User.GetUserId()),
+			FilterTasks = new(),
+		};
+
+	private IEnumerable<Task> GetFilteredTasks(TasksViewModel tasksViewModel)
+		=> taskService.GetTasks(new GetTasksParams()
+		{
+			UserId = User.GetUserId(),
+			FilterTasks = tasksViewModel.FilterTasks
+		});
+
+	private TaskViewModel GetTaskViewModel(int taskId)
+	{
+		var userId = User.GetUserId();
+
+		Task task = taskId == 0 ?
+			new Task { TaskId = taskId, UserId = userId, Term = DateTime.Today } :
+			taskService.GetTask(taskId, userId);
+
+		return GetTaskViewModel(task);
 	}
 
 	private TaskViewModel GetTaskViewModel(Task task)
