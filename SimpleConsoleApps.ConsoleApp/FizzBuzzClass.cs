@@ -1,4 +1,4 @@
-﻿namespace FizzBuzz.Homework.ConsoleApp;
+﻿namespace SimpleConsoleApps.ConsoleApp;
 
 public class FizzBuzzClass
 {

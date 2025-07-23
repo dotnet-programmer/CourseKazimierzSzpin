@@ -3,16 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.ConsoleApp", "Calculator.ConsoleApp\Calculator.ConsoleApp.csproj", "{45F9DFD5-7278-44E9-8EE8-CAA2997A487A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WelcomeApp.Homework.ConsoleApp", "WelcomeApp.Homework.ConsoleApp\WelcomeApp.Homework.ConsoleApp.csproj", "{B9320DB2-21D1-4692-ADAD-1371AEB9F407}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomNumber.Homework.ConsoleApp", "RandomNumber.Homework.ConsoleApp\RandomNumber.Homework.ConsoleApp.csproj", "{43627555-E534-4B48-A830-AA664ACF81C4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvenOrOdd.Homework.ConsoleApp", "EvenOrOdd.Homework.ConsoleApp\EvenOrOdd.Homework.ConsoleApp.csproj", "{0BD31662-5CDA-455D-9523-F7D92685A0FE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FizzBuzz.Homework.ConsoleApp", "FizzBuzz.Homework.ConsoleApp\FizzBuzz.Homework.ConsoleApp.csproj", "{4E73B596-73D1-403A-9122-1C459F1F420E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsDiary.WinFormsApp", "StudentsDiary.WinFormsApp\StudentsDiary.WinFormsApp.csproj", "{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PictureViewer.Homework.WinFormsApp", "PictureViewer.Homework.WinFormsApp\PictureViewer.Homework.WinFormsApp.csproj", "{F149AF7D-5CD2-4F58-94C7-A501DC900E75}"
@@ -37,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.WebApi", "MyFina
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advertisements.WebApp", "Advertisements.WebApp\Advertisements.WebApp.csproj", "{3FBD324A-ACB3-4574-8426-CC2CB40AC1B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz.UnitTests", "FizzBuzz.UnitTests\FizzBuzz.UnitTests.csproj", "{31D06AB3-13CA-4E44-A282-5EE9D89F671C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleApps.UnitTests", "FizzBuzz.UnitTests\SimpleConsoleApps.UnitTests.csproj", "{31D06AB3-13CA-4E44-A282-5EE9D89F671C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManager.WebApp", "InvoiceManager.WebApp\InvoiceManager.WebApp.csproj", "{2EF2FA42-9AB3-4121-AC6E-1F707FE68F83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleApps.ConsoleApp", "SimpleConsoleApps.ConsoleApp\SimpleConsoleApps.ConsoleApp.csproj", "{6BD30E5E-0BE3-4C45-BA12-10B6799A9FAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,26 +39,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{45F9DFD5-7278-44E9-8EE8-CAA2997A487A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45F9DFD5-7278-44E9-8EE8-CAA2997A487A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45F9DFD5-7278-44E9-8EE8-CAA2997A487A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45F9DFD5-7278-44E9-8EE8-CAA2997A487A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9320DB2-21D1-4692-ADAD-1371AEB9F407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9320DB2-21D1-4692-ADAD-1371AEB9F407}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9320DB2-21D1-4692-ADAD-1371AEB9F407}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9320DB2-21D1-4692-ADAD-1371AEB9F407}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43627555-E534-4B48-A830-AA664ACF81C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43627555-E534-4B48-A830-AA664ACF81C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43627555-E534-4B48-A830-AA664ACF81C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43627555-E534-4B48-A830-AA664ACF81C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BD31662-5CDA-455D-9523-F7D92685A0FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E73B596-73D1-403A-9122-1C459F1F420E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E73B596-73D1-403A-9122-1C459F1F420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E73B596-73D1-403A-9122-1C459F1F420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E73B596-73D1-403A-9122-1C459F1F420E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0C2FB2E-01C2-4EAE-A829-6CE83BDC4A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -123,6 +95,10 @@ Global
 		{2EF2FA42-9AB3-4121-AC6E-1F707FE68F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EF2FA42-9AB3-4121-AC6E-1F707FE68F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EF2FA42-9AB3-4121-AC6E-1F707FE68F83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD30E5E-0BE3-4C45-BA12-10B6799A9FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD30E5E-0BE3-4C45-BA12-10B6799A9FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD30E5E-0BE3-4C45-BA12-10B6799A9FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD30E5E-0BE3-4C45-BA12-10B6799A9FAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

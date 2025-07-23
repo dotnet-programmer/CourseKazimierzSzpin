@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FizzBuzz.Homework.ConsoleApp\FizzBuzz.Homework.ConsoleApp.csproj" />
+    <ProjectReference Include="..\SimpleConsoleApps.ConsoleApp\SimpleConsoleApps.ConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>

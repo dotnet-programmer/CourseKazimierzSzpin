@@ -1,7 +1,7 @@
-﻿using FizzBuzz.Homework.ConsoleApp;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using SimpleConsoleApps.ConsoleApp;
 
-namespace FizzBuzz.UnitTests;
+namespace SimpleConsoleApps.UnitTests;
 
 public class FizzBuzzTests
 {
