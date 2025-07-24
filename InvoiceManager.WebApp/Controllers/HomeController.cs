@@ -107,7 +107,7 @@ public class HomeController(IApplicationDbContext context) : Controller
 		catch (Exception ex)
 		{
 			// logowanie b³êdów
-			return Json(new { Success = false, Message = ex.Message });
+			return Json(new { Success = false, ex.Message });
 		}
 		return Json(new { Success = true });
 	}
@@ -126,7 +126,7 @@ public class HomeController(IApplicationDbContext context) : Controller
 		catch (Exception ex)
 		{
 			// logowanie b³êdów
-			return Json(new { Success = false, Message = ex.Message });
+			return Json(new { Success = false, ex.Message });
 		}
 		return Json(new { Success = true, InvoiceValue = invoiceValue });
 	}
@@ -240,8 +240,11 @@ public class HomeController(IApplicationDbContext context) : Controller
 
 		// INFO - Cookie
 		string? cookieValue = GetCookie();
-		int newCookieValue = int.Parse(cookieValue) + 1;
-		UpdateCookie(newCookieValue.ToString());
+		if (!string.IsNullOrWhiteSpace(cookieValue))
+		{
+			int newCookieValue = int.Parse(cookieValue) + 1;
+			UpdateCookie(newCookieValue.ToString());
+		}
 
 		return View("About");
 	}

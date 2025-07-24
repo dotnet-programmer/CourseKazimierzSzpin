@@ -7,8 +7,8 @@ namespace InvoiceManager.WebApp.Core.Models.Domains;
 public class ApplicationUser : IdentityUser
 {
 	[Required]
-	public string Name { get; set; }
-	
+	public string Name { get; set; } = default!;
+
 	public int AddressId { get; set; }
 
 	public Address? Address { get; set; }

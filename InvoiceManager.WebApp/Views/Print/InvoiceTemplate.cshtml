@@ -40,7 +40,7 @@
                     Sposób zapłaty:
                 </div>
                 <div>
-                    @Model.MethodOfPayment.Name
+                    @Model.MethodOfPayment?.Name
                 </div>
             </div>
         </div>
@@ -52,10 +52,10 @@
                 <div class="top-small-caption">
                     Sprzedawca:
                 </div>
-                <div>@Model.User.Name</div>
-                <div>ul. @Model.User.Address.Street @Model.User.Address.Number</div>
-                <div>@Model.User.Address.PostalCode @Model.User.Address.City</div>
-                <div>E-mail: @Model.User.Email</div>
+                <div>@Model.User?.Name</div>
+                <div>ul. @Model.User?.Address?.Street @Model.User?.Address?.Number</div>
+                <div>@Model.User?.Address?.PostalCode @Model.User?.Address?.City</div>
+                <div>E-mail: @Model.User?.Email</div>
             </div>
         </div>
         <div class="col-5 offset-2">
@@ -63,10 +63,10 @@
                 <div class="top-small-caption">
                     Nabywca:
                 </div>
-                <div>@Model.Client.Name</div>
-                <div>ul. @Model.Client.Address.Street @Model.Client.Address.Number</div>
-                <div>@Model.Client.Address.PostalCode @Model.Client.Address.City</div>
-                <div>E-mail: @Model.Client.Email</div>
+                <div>@Model.Client?.Name</div>
+                <div>ul. @Model.Client?.Address?.Street @Model.Client?.Address?.Number</div>
+                <div>@Model.Client?.Address?.PostalCode @Model.Client?.Address?.City</div>
+                <div>E-mail: @Model.Client?.Email</div>
             </div>
         </div>
     </div>
@@ -85,7 +85,7 @@
             {
                 <tr>
                     <td>@position.Lp</td>
-                    <td>@position.Product.Name</td>
+                    <td>@position.Product?.Name</td>
                     <td>@position.Quantity</td>
                     <td>@position.Value zł</td>
                 </tr>
@@ -108,12 +108,12 @@
     <div class="row mt-5">
         <div class="col-5">
             <div>Wystawił:</div>
-            <div>@Model.User.Name</div>
+            <div>@Model.User?.Name</div>
             <div>...............................</div>
         </div>
         <div class="col-5 offset-2">
             <div>Odebrał:</div>
-            <div>@Model.Client.Name</div>
+            <div>@Model.Client?.Name</div>
             <div>...............................</div>
         </div>
     </div>

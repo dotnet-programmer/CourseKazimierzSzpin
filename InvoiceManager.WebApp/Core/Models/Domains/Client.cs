@@ -9,17 +9,16 @@ public class Client
 	public int Id { get; set; }
 
 	[Required]
-	public string Name { get; set; }
+	public string Name { get; set; } = default!;
 
 	[Required]
-	public string Email { get; set; }
+	public string Email { get; set; } = default!;
 
 	public int AddressId { get; set; }
 
-	// każdy użytkownik ma swoich klientów
 	[Required]
 	[ForeignKey(nameof(User))]
-	public string UserId { get; set; }
+	public string UserId { get; set; } = default!;
 
 	public Address? Address { get; set; }
 	public ApplicationUser? User { get; set; }

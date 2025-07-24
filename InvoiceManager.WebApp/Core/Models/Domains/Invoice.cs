@@ -9,7 +9,7 @@ public class Invoice
 
 	[Required(ErrorMessage = "Pole Tytuł jest wymagane")]
 	[Display(Name = "Tytuł")]
-	public string Title { get; set; }
+	public string Title { get; set; } = default!;
 
 	[Display(Name = "Wartość")]
 	public decimal Value { get; set; }
@@ -21,7 +21,7 @@ public class Invoice
 	public DateTime CreatedDate { get; set; }
 
 	[Display(Name = "Uwagi")]
-	public string Comments { get; set; }
+	public string? Comments { get; set; }
 
 	[Display(Name = "Sposób płatności")]
 	public int MethodOfPaymentId { get; set; }
@@ -30,7 +30,7 @@ public class Invoice
 	public int ClientId { get; set; }
 
 	[Required]
-	public string UserId { get; set; }
+	public string UserId { get; set; } = default!;
 
 	public MethodOfPayment? MethodOfPayment { get; set; }
 	public Client? Client { get; set; }

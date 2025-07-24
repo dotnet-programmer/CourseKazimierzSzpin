@@ -30,7 +30,7 @@ public class InvoiceRepository(IApplicationDbContext context)
 	{
 		var positionToDelete = context.InvoicePositions
 			.Include(x => x.Invoice)
-			.Single(x => x.Id == positionId && x.Invoice.UserId == userId);
+			.Single(x => x.Id == positionId && x.Invoice!.UserId == userId);
 		context.InvoicePositions.Remove(positionToDelete);
 		context.SaveChanges();
 	}
@@ -41,15 +41,15 @@ public class InvoiceRepository(IApplicationDbContext context)
 			.ThenInclude(x => x.Product)
 			.Include(x => x.MethodOfPayment)
 			.Include(x => x.User)
-			.ThenInclude(x => x.Address)
+			.ThenInclude(x => x!.Address)
 			.Include(x => x.Client)
-			.ThenInclude(x => x.Address)
+			.ThenInclude(x => x!.Address)
 			.Single(x => x.Id == invoiceId && x.UserId == userId);
 
 	internal InvoicePosition GetInvoicePosition(int invoicePositionId, string userId)
 		=> context.InvoicePositions
 			.Include(x => x.Invoice)
-			.Single(x => x.Id == invoicePositionId && x.Invoice.UserId == userId);
+			.Single(x => x.Id == invoicePositionId && x.Invoice!.UserId == userId);
 
 	internal List<Invoice> GetInvoices(string userId)
 		=> context.Invoices
@@ -86,11 +86,11 @@ public class InvoiceRepository(IApplicationDbContext context)
 		var positionToUpdate = context.InvoicePositions
 			.Include(x => x.Product)
 			.Include(x => x.Invoice)
-			.Single(x => x.Id == invoicePosition.Id && x.Invoice.UserId == userId);
+			.Single(x => x.Id == invoicePosition.Id && x.Invoice!.UserId == userId);
 		positionToUpdate.Lp = invoicePosition.Lp;
 		positionToUpdate.ProductId = invoicePosition.ProductId;
 		positionToUpdate.Quantity = invoicePosition.Quantity;
-		positionToUpdate.Value = invoicePosition.Product.Value * invoicePosition.Value;
+		positionToUpdate.Value = invoicePosition.Product!.Value * invoicePosition.Value;
 		context.SaveChanges();
 	}
 }

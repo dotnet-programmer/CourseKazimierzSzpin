@@ -8,7 +8,7 @@ public class MethodOfPayment
 	public int Id { get; set; }
 
 	[Required]
-	public string Name { get; set; }
+	public string Name { get; set; } = default!;
 
 	public ICollection<Invoice> Invoices { get; set; } = new Collection<Invoice>();
 }
