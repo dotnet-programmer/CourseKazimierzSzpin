@@ -3,7 +3,6 @@ using InvoiceManager.WebApp.Core.Models.Domains;
 using InvoiceManager.WebApp.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +17,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 
 // Sesja
-builder.Services.AddDistributedMemoryCache(); // U�yj pami�ci podr�cznej, np. InMemoryCache
+builder.Services.AddDistributedMemoryCache(); // Użyj pamięci podręcznej, np. InMemoryCache
 builder.Services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromMinutes(30); // Czas wyga�ni�cia sesji
-	options.Cookie.HttpOnly = true; // Dost�p tylko przez HTTP
-	options.Cookie.IsEssential = true; // Wymagane dla zgodno�ci z RODO
+	options.IdleTimeout = TimeSpan.FromMinutes(30); // Czas wygaśnięcia sesji
+	options.Cookie.HttpOnly = true; // Dostęp tylko przez HTTP
+	options.Cookie.IsEssential = true; // Wymagane dla zgodności z RODO
 });
 
 var app = builder.Build();
@@ -39,10 +38,11 @@ else
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
-// Sesja - dodaj middleware sesji przed middleware obs�uguj�cym routing:
+// Sesja - dodaj middleware sesji przed middleware obsługującym routing:
 app.UseSession();
 
 // Rotativa - do PDF
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 app.UseRotativa();
 
 app.UseHttpsRedirection();

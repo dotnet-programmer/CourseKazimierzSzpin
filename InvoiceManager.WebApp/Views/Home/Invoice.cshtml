@@ -127,22 +127,31 @@
 {
     <script type="text/javascript">
 
+        // function generatePdf() {
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "@Url.Action("InvoiceToPdf", "Print")",
+        //         data: {
+        //             invoiceId: '@Model.Invoice.Id'
+        //         },
+        //         success: function (data) {
+        //             if (!data.FileGuid || !data.FileName) {
+        //                 alert("Błąd generowania PDF.");
+        //                 return;
+        //             }
+        //             window.location = '@Url.Action("DownloadInvoicePdf", "Print")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+        //         },
+        //         error: function (xhr) {
+        //             alert("Błąd serwera: " + xhr.statusText);
+        //         },
+        //         dataType: 'json',
+        //         cache: false
+        //     });
+        // }
+
         function generatePdf() {
-            $.ajax({
-                type: 'POST',
-                url: "@Url.Action("InvoiceToPdf", "Print")",
-                data: {
-                    invoiceId: '@Model.Invoice.Id'
-                },
-                success: function (data) {
-                    window.location = '@Url.Action("DownloadInvoicePdf", "Print")' + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
-                },
-                error: function (data) {
-                    alert(data.Message);
-                },
-                dataType: 'json',
-                cache: false
-            });
+            // This will trigger a direct download of the PDF file
+            window.location = '@Url.Action("DownloadInvoiceDirect", "Print")' + '?invoiceId=@Model.Invoice.Id';
         }
 
         function printPdf() {

@@ -4,7 +4,7 @@ namespace InvoiceManager.WebApp.Core.ViewModels;
 
 public class EditInvoicePositionViewModel
 {
-	public InvoicePosition InvoicePosition { get; set; }
-	public string Heading { get; set; }
-	public List<Product> Products { get; set; }
+	public InvoicePosition? InvoicePosition { get; set; }
+	public string? Heading { get; set; }
+	public List<Product>? Products { get; set; }
 }

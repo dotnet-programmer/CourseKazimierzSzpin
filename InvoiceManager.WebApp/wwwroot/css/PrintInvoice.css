@@ -9,6 +9,10 @@ nav, footer {
 	display: none !important;
 }
 
+.privacyPolicyInfo {
+	display: none !important;
+}
+
 .row {
 	display: -webkit-box;
 	display: -webkit-flex;
