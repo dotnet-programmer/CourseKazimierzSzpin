@@ -1,0 +1,11 @@
+﻿@model SendEmail.WebApp.Core.Models.Domains.Settings
+
+@{
+    ViewBag.Title = "Ustawienia";
+}
+
+@if (Model.SettingsId == 0)
+{
+    <p class="alert alert-info mt-4 mb-4 text-center">Przed wysłaniem maili musisz ustawić parametry wysyłki.</p>
+}
+

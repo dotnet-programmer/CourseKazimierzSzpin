@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SendEmail.WebApp.Core.ViewModels;
 
 namespace SendEmail.WebApp.Controllers;
+
 public class HomeController(ILogger<HomeController> logger) : Controller
 {
 	public IActionResult Index()
