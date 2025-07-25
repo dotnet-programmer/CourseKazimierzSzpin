@@ -6,6 +6,48 @@
 
 @if (Model.SettingsId == 0)
 {
-    <p class="alert alert-info mt-4 mb-4 text-center">Przed wysłaniem maili musisz ustawić parametry wysyłki.</p>
+    <p class="alert alert-info mt-5 mb-3 text-center">Przed wysłaniem maili musisz ustawić parametry wysyłki.</p>
 }
 
+<div class="row">
+    <div class="col-6 offset-3">
+        <form asp-controller="Settings" asp-action="Settings" method="post">
+            @Html.HiddenFor(x => x.UserId)
+            <h2>Wprowadź ustawienia.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger mt-2" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.SenderName" class="form-control" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="@Model.SenderName" class="form-label"></label>
+                <span asp-validation-for="@Model.SenderName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.SenderEmail" class="form-control" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="@Model.SenderEmail" class="form-label"></label>
+                <span asp-validation-for="@Model.SenderEmail" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.SenderEmailPassword" class="form-control" aria-required="true" placeholder="password" />
+                <label asp-for="@Model.SenderEmailPassword" class="form-label"></label>
+                <span asp-validation-for="@Model.SenderEmailPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.HostSmtp" class="form-control" aria-required="true" />
+                <label asp-for="@Model.HostSmtp" class="form-label"></label>
+                <span asp-validation-for="@Model.HostSmtp" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="@Model.Port" class="form-control" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="@Model.Port" class="form-label"></label>
+                <span asp-validation-for="@Model.Port" class="text-danger"></span>
+            </div>
+            <div class="checkbox mb-3">
+                <label asp-for="@Model.EnableSsl" class="form-label">
+                    <input class="form-check-input" asp-for="@Model.EnableSsl" />
+                    @Html.DisplayNameFor(m => m.EnableSsl)
+                </label>
+            </div>
+            <button type="submit" class="btn btn-outline-primary w-100">Zapisz</button>
+        </form>
+    </div>
+</div>

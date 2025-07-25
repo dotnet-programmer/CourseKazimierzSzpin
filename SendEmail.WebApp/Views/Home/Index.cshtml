@@ -1,8 +1,36 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using SendEmail.WebApp.Core.Models.Domains
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>DASHBOARD</p>
+    <h1 class="mt-5 text-center">Statystyki użytkownika</h1>
+    <div class="px-5">
+        <table class="table table-hover table-striped mt-5 mb-5 text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Wysłanych emaili</th>
+                    <th scope="col">Zapisanych kontaktów</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@ViewBag.NumberOfEmails</td>
+                    <td>@ViewBag.NumberOfContacts</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+}

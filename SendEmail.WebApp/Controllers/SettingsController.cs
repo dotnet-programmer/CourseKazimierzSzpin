@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SendEmail.WebApp.Core.Models.Domains;
 using SendEmail.WebApp.Core.Services;
 using SendEmail.WebApp.Persistence.Extensions;
 
@@ -11,8 +12,24 @@ public class SettingsController(ISettingsService settingsService) : Controller
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
-	public IActionResult Settings()
+	public IActionResult Settings(Settings settings)
 	{
-		return View();
+		settings.UserId = User.GetUserId();
+
+		if (!ModelState.IsValid)
+		{
+			return View(settings);
+		}
+
+		if (settings.SettingsId == 0)
+		{
+			settingsService.AddSettings(settings);
+		}
+		else
+		{
+			settingsService.UpdateSettings(settings);
+		}
+
+		return RedirectToAction("Index", "Home");
 	}
 }

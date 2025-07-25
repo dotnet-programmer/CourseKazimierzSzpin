@@ -19,15 +19,16 @@ public class Settings
 	public string SenderEmailPassword { get; set; } = default!;
 
 	[Required]
-	[Display(Name = "Host SMTP")]
+	[Display(Name = "Serwer poczty wychodzącej SMTP")]
 	public string HostSmtp { get; set; } = default!;
 
 	[Required]
-	[Display(Name = "SSL")]
-	public bool EnableSsl { get; set; }
+	[Display(Name = "Port serwera poczty wychodzącej")]
+	public int Port { get; set; }
 
 	[Required]
-	public int Port { get; set; }
+	[Display(Name = "Tryb zabezpieczenia SSL")]
+	public bool EnableSsl { get; set; }
 
 	[Required]
 	public string UserId { get; set; } = default!;
