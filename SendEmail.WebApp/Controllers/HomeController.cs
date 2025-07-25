@@ -1,17 +1,10 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SendEmail.WebApp.Models;
+using SendEmail.WebApp.Core.ViewModels;
 
 namespace SendEmail.WebApp.Controllers;
-public class HomeController : Controller
+public class HomeController(ILogger<HomeController> logger) : Controller
 {
-	private readonly ILogger<HomeController> _logger;
-
-	public HomeController(ILogger<HomeController> logger)
-	{
-		_logger = logger;
-	}
-
 	public IActionResult Index()
 		=> View();
 

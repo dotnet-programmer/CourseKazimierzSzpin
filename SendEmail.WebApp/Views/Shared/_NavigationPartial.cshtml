@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
+@using SendEmail.WebApp.Core.Models.Domains
+@inject SignInManager<ApplicationUser> SignInManager
 
 <ul class="navbar-nav flex-grow-1">
     @if (SignInManager.IsSignedIn(User))

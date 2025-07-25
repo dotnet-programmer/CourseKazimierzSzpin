@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SendEmail.WebApp.Data;
+using SendEmail.WebApp.Persistence;
 
 namespace SendEmail.WebApp.Data.Migrations;
 [DbContext(typeof(ApplicationDbContext))]

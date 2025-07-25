@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EmailSender.Lib\EmailSender.Lib.csproj" />
+    <ProjectReference Include="..\TextEncryption.Lib\TextEncryption.Lib.csproj" />
+  </ItemGroup>
+
 </Project>
