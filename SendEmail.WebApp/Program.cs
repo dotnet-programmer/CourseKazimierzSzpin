@@ -1,19 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using SendEmail.WebApp.Core;
 using SendEmail.WebApp.Core.Models.Domains;
+using SendEmail.WebApp.Core.Services;
 using SendEmail.WebApp.Persistence;
+using SendEmail.WebApp.Persistence.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+EncryptionService encryptionService = new("4838731F-FC44-40B9-9952-EE5CCB6C198E");
+builder.Services.AddSingleton<IEncryptionService>(encryptionService);
+
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+var connectionString = encryptionService.Decrypt(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found."));
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
 var app = builder.Build();
 
