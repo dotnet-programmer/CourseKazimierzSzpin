@@ -1,6 +1,9 @@
 ﻿<!--
 	INFO - Globalna obsługa wyjątków
 	dodać: DispatcherUnhandledException="Application_DispatcherUnhandledException"
+	
+	INFO - ustawienie stylu Fluent Win11 dla całej aplikacji
+	dodać: ThemeMode="Light / Dark / System / None"
 -->
 <Application x:Class="StudentsDiary.WpfApp.App"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -34,5 +37,13 @@
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
+
+		<!--Another way to set a theme mode - referencing the Fluent Win11 theme resource dictionary-->
+		<!--<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>-->
+
 	</Application.Resources>
 </Application>

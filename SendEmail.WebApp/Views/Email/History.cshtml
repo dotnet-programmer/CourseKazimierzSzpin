@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SendEmail.WebApp.Core.Models.Domains.EmailSent>
+
+@{
+    ViewData["Title"] = "Historia";
+}
+
+<div id="categoriesTable">
+    <table class="table table-bordered table-striped mt-3 text-center">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Data wysłania</th>
+                <th scope="col">Nadawca</th>
+                <th scope="col">Email nadawcy</th>
+                <th scope="col">Odbiorca</th>
+                <th scope="col">Temat</th>
+                <th scope="col">Wiadomość</th>
+                <th scope="col">Wyślij ponownie</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var email in Model)
+                {
+                    <tr>
+                        <td>@email.DateSent.ToString("g")</td>
+                        <td>@email.SenderName</td>
+                        <td>@email.SenderEmail</td>
+                        <td>@email.RecipientEmail</td>
+                        <td>@email.Subject</td>
+                        <td>@email.Message</td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteCategory('@email.EmailSentId', this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        Brak maili do wyświetlenia!
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/delete-from-table.js"></script>
+    <script type="text/javascript">
+        function deleteCategory(emailId, btn) {
+            deleteRowFromTable(emailId, btn, '@Url.Action("DeleteEmail", "Email")', 'Czy na pewno chcesz usunąć emaila?');
+        }
+    </script>
+}

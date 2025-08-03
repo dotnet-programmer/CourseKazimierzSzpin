@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyFinances.WebApi.Models.Domains;
 
-namespace MyFinances.WebApi.Models.Domains;
+namespace MyFinances.WebApi.Models;
 
 public partial class MyFinancesContext : DbContext
 {

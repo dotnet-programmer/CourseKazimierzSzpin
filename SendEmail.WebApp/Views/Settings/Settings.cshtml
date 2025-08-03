@@ -13,6 +13,7 @@
     <div class="col-6 offset-3">
         <form asp-controller="Settings" asp-action="Settings" method="post">
             @Html.HiddenFor(x => x.UserId)
+            @Html.HiddenFor(x => x.SettingsId)
             <h2>Wprowadź ustawienia.</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger mt-2" role="alert"></div>
@@ -27,7 +28,7 @@
                 <span asp-validation-for="@Model.SenderEmail" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="@Model.SenderEmailPassword" class="form-control" aria-required="true" placeholder="password" />
+                <input asp-for="@Model.SenderEmailPassword" class="form-control" aria-required="true" placeholder="password" type="password" value="@Model.SenderEmailPassword" />
                 <label asp-for="@Model.SenderEmailPassword" class="form-label"></label>
                 <span asp-validation-for="@Model.SenderEmailPassword" class="text-danger"></span>
             </div>

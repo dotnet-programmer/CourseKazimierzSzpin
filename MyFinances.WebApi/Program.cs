@@ -1,7 +1,5 @@
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MyFinances.WebApi.Models;
-using MyFinances.WebApi.Models.Domains;
 
 var builder = WebApplication.CreateBuilder(args);
 

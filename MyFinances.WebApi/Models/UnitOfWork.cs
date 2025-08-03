@@ -1,5 +1,4 @@
-﻿using MyFinances.WebApi.Models.Domains;
-using MyFinances.WebApi.Models.Repositories;
+﻿using MyFinances.WebApi.Models.Repositories;
 
 namespace MyFinances.WebApi.Models;
 
