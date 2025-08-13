@@ -6,9 +6,9 @@ namespace SendEmail.WebApp.Persistence.Services;
 
 public class SettingsService(IUnitOfWork unitOfWork, IEncryptionService encryptionService) : ISettingsService
 {
-	public Settings GetSettings(string userId)
+	public async Task<Settings> GetSettingsAsync(string userId)
 	{
-		var settings = unitOfWork.SettingsRepository.GetSettings(userId);
+		var settings = await unitOfWork.SettingsRepository.GetSettingsAsync(userId);
 		if (settings != null && !string.IsNullOrWhiteSpace(settings.SenderEmailPassword))
 		{
 			settings.SenderEmailPassword = encryptionService.Decrypt(settings.SenderEmailPassword);
@@ -20,17 +20,17 @@ public class SettingsService(IUnitOfWork unitOfWork, IEncryptionService encrypti
 		return settings;
 	}
 
-	public void AddSettings(Settings settings)
+	public async Task AddSettingsAsync(Settings settings)
 	{
 		settings.SenderEmailPassword = encryptionService.Encrypt(settings.SenderEmailPassword);
 		unitOfWork.SettingsRepository.AddSettings(settings);
-		unitOfWork.Complete();
+		await unitOfWork.CompleteAsync();
 	}
 
-	public void UpdateSettings(Settings settings)
+	public async Task UpdateSettingsAsync(Settings settings)
 	{
 		settings.SenderEmailPassword = encryptionService.Encrypt(settings.SenderEmailPassword);
-		unitOfWork.SettingsRepository.UpdateSettings(settings);
-		unitOfWork.Complete();
+		await unitOfWork.SettingsRepository.UpdateSettingsAsync(settings);
+		await unitOfWork.CompleteAsync();
 	}
 }

@@ -1,0 +1,24 @@
+﻿@model bool
+
+@{
+	ViewBag.Title = "Wysyłanie maila";
+}
+
+@if (Model)
+{
+	<p class="alert alert-info mt-4 mb-4 text-center">Wysłano email.</p>
+}
+else
+{
+	<p class="alert alert-danger mt-4 mb-4 text-center">
+		Nie udało się wysłać emaila!
+		<br />
+		<br />
+		@ViewBag.ErrorMessage
+	</p>
+}
+
+<div class="row justify-content-around">
+	<a class="btn btn-primary col-5" asp-controller="Home" asp-action="Index">Strona główna</a>
+	<a class="btn btn-secondary col-5" asp-controller="Home" asp-action="NewEmail">Nowy email</a>
+</div>

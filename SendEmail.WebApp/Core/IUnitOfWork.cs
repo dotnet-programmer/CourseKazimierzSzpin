@@ -4,7 +4,9 @@ namespace SendEmail.WebApp.Core;
 
 public interface IUnitOfWork
 {
+	IContactRepository ContactRepository { get; }
 	IEmailRepository EmailRepository { get; }
 	ISettingsRepository SettingsRepository { get; }
-	void Complete();
+
+	Task CompleteAsync();
 }

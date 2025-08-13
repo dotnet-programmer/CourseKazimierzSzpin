@@ -5,8 +5,9 @@ namespace SendEmail.WebApp.Core;
 
 public interface IApplicationDbContext
 {
+	DbSet<Contact> Contacts { get; set; }
 	DbSet<EmailSent> Emails { get; set; }
 	DbSet<Settings> Settings { get; set; }
-	DbSet<Contact> Contacts { get; set; }
-	int SaveChanges();
+
+	Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

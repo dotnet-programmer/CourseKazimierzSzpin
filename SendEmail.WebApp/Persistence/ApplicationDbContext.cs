@@ -7,7 +7,7 @@ namespace SendEmail.WebApp.Persistence;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options), IApplicationDbContext
 {
+	public DbSet<Contact> Contacts { get; set; }
 	public DbSet<EmailSent> Emails { get; set; }
 	public DbSet<Settings> Settings { get; set; }
-	public DbSet<Contact> Contacts { get; set; }
 }

@@ -1,0 +1,37 @@
+﻿@model NewEmailViewModel
+
+@{
+	ViewBag.Title = "Wysyłanie emaili";
+}
+
+@if (Model.SettingsId == 0)
+{
+	<p class="alert alert-info mt-5 mb-3 text-center">Przed wysłaniem maili musisz ustawić parametry wysyłki.</p>
+	<a class="btn btn-outline-primary w-100" asp-controller="Home" asp-action="Settings">Ustawienia</a>
+}
+else
+{
+	<div class="row mt-5">
+		<div class="col-8 offset-2">
+			<form asp-controller="Home" asp-action="NewEmail" method="post">
+				@Html.AntiForgeryToken()
+				<div asp-validation-summary="ModelOnly" class="text-danger mt-2" role="alert"></div>
+				<div class="form-floating mb-3">
+					<input asp-for="@Model.RecipientEmail" class="form-control" aria-required="true" placeholder="name@example.com" />
+					<label asp-for="@Model.RecipientEmail" class="form-label"></label>
+					<span asp-validation-for="@Model.RecipientEmail" class="text-danger"></span>
+				</div>
+				<div class="form-floating mb-3">
+					<input asp-for="@Model.Subject" class="form-control" aria-required="true" placeholder="Temat" />
+					<label asp-for="@Model.Subject" class="form-label"></label>
+					<span asp-validation-for="@Model.Subject" class="text-danger"></span>
+				</div>
+				<div class="form-floating mb-3">
+					<textarea asp-for="@Model.Message" class="form-control" placeholder="Wiadomość" style="height: 600px"></textarea>
+					<label asp-for="@Model.Message" class="form-label"></label>
+				</div>
+				<button type="submit" class="btn btn-primary w-100">Wyślij</button>
+			</form>
+		</div>
+	</div>
+}

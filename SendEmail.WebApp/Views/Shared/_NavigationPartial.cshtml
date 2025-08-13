@@ -6,16 +6,16 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="NewEmail">Nowy email</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NewEmail">Nowy email</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Contacts">Kontakty</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Kontakty</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="History">Historia</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="History">Historia</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Settings">Ustawienia</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Settings">Ustawienia</a>
         </li>
     }
 </ul>

@@ -4,7 +4,7 @@ namespace SendEmail.WebApp.Core.Repositories;
 
 public interface ISettingsRepository
 {
-	Settings? GetSettings(string userId);
+	Task<Settings?> GetSettingsAsync(string userId);
 	void AddSettings(Settings settings);
-	void UpdateSettings(Settings settings);
+	Task UpdateSettingsAsync(Settings settings);
 }

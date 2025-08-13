@@ -4,7 +4,7 @@
     ViewData["Title"] = "Historia";
 }
 
-<div id="categoriesTable">
+<div id="categoriesTable" class="mt-5">
     <table class="table table-bordered table-striped mt-3 text-center">
         <thead class="table-dark">
             <tr>
@@ -14,7 +14,6 @@
                 <th scope="col">Odbiorca</th>
                 <th scope="col">Temat</th>
                 <th scope="col">Wiadomość</th>
-                <th scope="col">Wyślij ponownie</th>
                 <th></th>
             </tr>
         </thead>
@@ -30,7 +29,6 @@
                         <td>@email.RecipientEmail</td>
                         <td>@email.Subject</td>
                         <td>@email.Message</td>
-                        <td></td>
                         <td>
                             <button class="btn btn-danger btn-sm"
                                     onclick="deleteCategory('@email.EmailSentId', this)">
@@ -43,7 +41,7 @@
             else
             {
                 <tr>
-                    <td>
+                    <td colspan="7">
                         Brak maili do wyświetlenia!
                     </td>
                 </tr>

@@ -38,8 +38,16 @@ public class Email(EmailParams emailParams)
 			_smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 			_smtp.UseDefaultCredentials = false;
 			_smtp.Credentials = new NetworkCredential(_senderEmail, _senderEmailPassword);
+			_smtp.Timeout = 10000;
 
-			await _smtp.SendMailAsync(_mail);
+			try
+			{
+				await _smtp.SendMailAsync(_mail);
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Failed to send email.", ex);
+			}
 		}
 	}
 }
