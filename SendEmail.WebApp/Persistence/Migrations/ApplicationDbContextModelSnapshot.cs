@@ -247,7 +247,7 @@ namespace SendEmail.WebApp.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("SendEmail.WebApp.Core.Models.Domains.EmailSent", b =>
@@ -288,7 +288,7 @@ namespace SendEmail.WebApp.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Emails");
+                    b.ToTable("Emails", (string)null);
                 });
 
             modelBuilder.Entity("SendEmail.WebApp.Core.Models.Domains.Settings", b =>
@@ -329,7 +329,7 @@ namespace SendEmail.WebApp.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

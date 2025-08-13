@@ -3,12 +3,13 @@ using SendEmail.WebApp.Core.Services;
 using SendEmail.WebApp.Persistence.Extensions;
 
 namespace SendEmail.WebApp.Controllers;
+
 public class EmailController(IEmailService emailService) : Controller
 {
-	public IActionResult Index()
-	{
-		return View();
-	}
+	//public IActionResult Index()
+	//{
+	//	return View();
+	//}
 
 	public IActionResult NewEmail()
 	{
