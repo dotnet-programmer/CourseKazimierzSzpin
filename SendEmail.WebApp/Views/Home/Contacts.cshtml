@@ -1,5 +1,59 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<SendEmail.WebApp.Core.Models.Domains.Contact>
+
 @{
+	ViewData["Title"] = "Kontakty";
+}
+
+<div id="categoriesTable" class="mt-5">
+	<table class="table table-bordered table-striped mt-3 text-center">
+		<thead class="table-dark">
+			<tr>
+				<th scope="col">Lp</th>
+				<th scope="col">Odbiorca</th>
+				<th scope="col">Nowa wiadomość do</th>
+				<th scope="col">Usuń kontakt</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model != null && Model.Any())
+			{
+				@for (int i = 0; i < Model.Count(); i++)
+				{
+					<tr>
+						<td>@(i + 1)</td>
+						<td>@Model.ElementAt(i).Email</td>
+						<td>
+							<button class="btn btn-primary btn-sm"
+									onclick='window.location.href="@Url.Action("NewEmail", "Home", new { recipientEmail = Model.ElementAt(i).Email })"'>
+								Nowa wiadomość
+							</button>
+						</td>
+						<td>
+							<button class="btn btn-danger btn-sm"
+									onclick="deleteContact('@Model.ElementAt(i).ContactId', this)">
+								Usuń
+							</button>
+						</td>
+					</tr>
+				}
+			}
+			else
+			{
+				<tr>
+					<td colspan="7">
+						Brak kontaktów do wyświetlenia!
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@section Scripts {
+	<script src="~/js/delete-from-table.js"></script>
+	<script type="text/javascript">
+		function deleteContact(emailId, btn) {
+			deleteRowFromTable(emailId, btn, '@Url.Action("DeleteContact", "Email")', 'Czy na pewno chcesz usunąć kontakt?');
+		}
+	</script>
 }

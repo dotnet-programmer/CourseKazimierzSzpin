@@ -45,6 +45,21 @@ public class HomeController(IContactService contactService, IEmailService emailS
 		return View();
 	}
 
+	[HttpPost]
+	public async Task<IActionResult> DeleteContact(int id)
+	{
+		try
+		{
+			await contactService.RemoveContactAsync(id, User.GetUserId());
+		}
+		catch (Exception ex)
+		{
+			return Json(new { success = false, message = ex.Message });
+		}
+
+		return Json(new { success = true });
+	}
+
 	public async Task<IActionResult> History()
 		=> View(await emailService.GetEmailsAsync());
 

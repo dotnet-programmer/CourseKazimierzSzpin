@@ -7,4 +7,5 @@ public interface IContactRepository
 	void AddNewContact(Contact contact);
 	Task<bool> CheckIfContactExistsAsync(string recipientEmail, string userId);
 	Task<int> GetContactCountAsync(string userId);
+	void RemoveContact(int id, string userId);
 }

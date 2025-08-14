@@ -31,7 +31,7 @@
                         <td>@email.Message</td>
                         <td>
                             <button class="btn btn-danger btn-sm"
-                                    onclick="deleteCategory('@email.EmailSentId', this)">
+									onclick="deleteEmail('@email.EmailSentId', this)">
                                 Usuń
                             </button>
                         </td>
@@ -53,7 +53,7 @@
 @section Scripts {
     <script src="~/js/delete-from-table.js"></script>
     <script type="text/javascript">
-        function deleteCategory(emailId, btn) {
+		function deleteEmail(emailId, btn) {
             deleteRowFromTable(emailId, btn, '@Url.Action("DeleteEmail", "Email")', 'Czy na pewno chcesz usunąć emaila?');
         }
     </script>
